@@ -6,54 +6,63 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function search(element) {
-    if (event.key === 'Enter') {
-      getData(element.value);
-    }
+  if (event.key === 'Enter') {
+    getData(element.value);
   }
+}
 
 async function getData(modName) {
-    // send mod name to back-end
-    let str = modName // what the user entered into the text field
-    const data = { str }
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    };
-    window.history.pushState({}, null, '?mod=' + modName);
-    
-    var response = await fetch('/api', options);
-    let modData = await response.json();
-    console.log(modData);
+  // send mod name to back-end
+  let str = modName // what the user entered into the text field
+  const data = { str }
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  };
+  window.history.pushState({}, null, '?mod=' + modName);
 
-    if (modData != undefined && modData != null) {
-      document.getElementById("content").style.display = "block";
-      document.getElementById('oopsText').style.display = "none";
-      document.getElementById("title").innerHTML = '<a href="index.html">Mod Statistics</a> // ' + modData.displayname;
+  var response = await fetch('/api', options);
+  let modData = await response.json();
+  console.log(modData);
 
-      document.getElementById("icon").src = `https://mirror.sgkoi.dev/direct/${modData.name}.png`
-      document.getElementById("displayName").innerHTML = "Display Name: " + modData.displayname
-      document.getElementById("internalName").innerHTML = "Internal Name: " + modData.name;
-      document.getElementById("version").innerHTML = "Version: " + modData.version + ` (tML version: ${modData.modloaderversion})`;
-      document.getElementById("author").innerHTML = "Author: " + modData.author;
-      document.getElementById("homepage").innerHTML = "Homepage: " + "http://javid.ddns.net/tModLoader/tools/querymodhomepage.php?modname=" + modData.name;
-      document.getElementById("updated").innerHTML = "Last updated: " + modData.updateTimeStamp;
-      document.getElementById("widget").innerHTML = "Widget url: " + "https://bettermodwidget.javidpack.repl.co/?mod=" + modData.name
-      document.getElementById("dl-total").innerHTML = "Downloads Total: " + modData.downloads;
-      document.getElementById("dl-today").innerHTML = "Downloads Today: no Data";
-      document.getElementById("dl-yesterday").innerHTML = "Downloads Yesterday: " + modData.hot;
-      document.getElementById("dl-week").innerHTML = "Downloads past week: " + (modData.dl_1 + modData.dl_2 + modData.dl_3 + modData.dl_4 + modData.dl_5 + modData.dl_6 + modData.dl_7);
-      document.getElementById("rank").innerHTML = "Rank: " + modData.rank;
-      document.getElementById("pop-rank").innerHTML = "Popularity Rank: no Data";
-      renderChart(modData);
+  if (modData != undefined && modData != null) {
+    document.getElementById("content").style.display = "block";
+    document.getElementById('oopsText').style.display = "none";
+    document.getElementById("title").innerHTML = '<a href="index.html">Mod Statistics</a> // ' + modData.displayname;
+
+    if (modData.hasIcon) {
+      document.getElementById("icon").style.display = "block";
+      document.getElementById("icon").src = `https://mirror.sgkoi.dev/direct/${modData.name}.png`;
     }
     else {
-      document.getElementById('mod-search').value = 'Invalid Request';
-      document.getElementById('oopsText').style.display = "block";
+      document.getElementById("icon").style.display = "none";
     }
-  };
+
+    document.getElementById("displayName").innerHTML = "Display Name: " + modData.displayname;
+    document.getElementById("internalName").innerHTML = "Internal Name: " + modData.name;
+    document.getElementById("version").innerHTML = "Version: " + modData.version + ` (tML version: ${modData.modloaderversion})`;
+    document.getElementById("author").innerHTML = "Author: " + modData.author;
+    document.getElementById("homepage").innerHTML = 'Homepage: ' + '<a href="http://javid.ddns.net/tModLoader/tools/querymodhomepage.php?modname=' + modData.name + '" target="_blank">' + 'http://javid.ddns.net/tModLoader/tools/querymodhomepage.php?modname=' + modData.name + '</a>';
+    document.getElementById("updated").innerHTML = "Last updated: " + modData.updateTimeStamp;
+    document.getElementById("widget").innerHTML = 'Widget url: ' + '<a href="https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '" target="_blank">' + 'https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '</a>';
+    document.getElementById("dl-total").innerHTML = "Downloads Total: " + modData.downloads;
+    document.getElementById("dl-today").innerHTML = "Downloads Today: no Data";
+    document.getElementById("dl-yesterday").innerHTML = "Downloads Yesterday: " + modData.hot;
+    document.getElementById("dl-week").innerHTML = "Downloads past week: " + (modData.dl_1 + modData.dl_2 + modData.dl_3 + modData.dl_4 + modData.dl_5 + modData.dl_6 + modData.dl_7);
+    document.getElementById("rank").innerHTML = "Rank: " + modData.rank;
+    document.getElementById("pop-rank").innerHTML = "Popularity Rank: no Data";
+    renderChart(modData);
+  }
+  else {
+    document.getElementById('mod-search').value = 'Invalid Request';
+    document.getElementById('oopsText').style.display = "block";
+    document.getElementById("content").style.display = "none";
+    document.getElementById("title").innerHTML = '<a href="index.html">Mod Statistics</a> // Invalid';
+  }
+};
 function renderChart(modData) {
   let now = new Date();
   let yesterday = new Date(now - 86400000 * 1);
@@ -136,7 +145,7 @@ function renderChart(modData) {
         }],
         yAxes: [{
           ticks: {
-            beginAtZero: true,
+            beginAtZero: false,
             fontColor: 'white'
           }
         }]

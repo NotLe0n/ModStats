@@ -41,15 +41,26 @@ function jsonConcat(o1, o2) {
 app.post('/api', async (request, response) => {
   console.log(`Got a request: ${request.body.str}`);
   let data = null;
-  let sql = `SELECT * FROM mods WHERE name="${request.body.str}"`;
+  let sql = `SELECT * FROM mods WHERE name="${request.body.str}" OR displayname="${request.body.str}"`;
   con.query(sql, async (err, result) => {
-    if (err) {}
+    if (err) { }
     else {
-      await fetch('http://javid.ddns.net/tModLoader/tools/modinfo.php?modname=' + request.body.str, { method: "Get" })
-        .then(res => res.json())
-        .then((json) => {
-          data = jsonConcat(result[0], json);
-        });
+      try {
+        // get more mod info
+        let response = await fetch('http://javid.ddns.net/tModLoader/tools/modinfo.php?modname=' + result[0].name, { method: "Get" });
+        let json = await response.json();
+        data = jsonConcat(result[0], json);
+
+        // check if mod has an icon
+        let image = await fetch(`https://mirror.sgkoi.dev/direct/${result[0].name}.png`, { method: "Get" });
+        if (await image.status == 200) {
+          data = jsonConcat(data, { "hasIcon": true });
+        }
+        else if (await image.status == 404) {
+          data = jsonConcat(data, { "hasIcon": false });
+        }
+      }
+      catch (e) { console.log("oops\n" + e); }
     }
     response.status(200).json(data);
   });
