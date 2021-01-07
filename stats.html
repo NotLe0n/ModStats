@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8" name="viewport" content="width=device-width">
+	<title>Mod Statistics</title>
+	<meta content="#43B581" data-react-helmet="true" name="theme-color">
+  <link href="standart.css" rel="stylesheet" type="text/css" />
+	<link href="stats_style.css" rel="stylesheet" type="text/css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+  <script src="js/stats_script.js"></script>
+</head>
+
+<body>
+	<div id="header">
+		<h1 id="title"><a href="index.html">Mod Statistics</a> // Invalid</h1>
+    <div id="input-container">
+      <input id="mod-search" type="text" onkeypress="search(this)" placeholder="Search for a mod"/>
+    </div>
+  </div>
+  <p id="oopsText" style="display: none; margin-top: 110px">This mod does not exist or there has been an error</p>
+  <div id="content">
+    <div>
+      <div id="mod-info">
+        <img src="" id="icon" width="160px" height="160px"></img>
+        <p id="displayName">Display Name: </p>
+        <p id="internalName">Internal Name: </p>
+        <p id="version">Version: </p>
+        <p id="author">Author: </p>
+        <p id="homepage">Homepage: </p>
+        <p id="updated">Last updated: </p>
+        <p id="widget">Widget url: </p>
+      </div>
+      <div id="download-info">
+        <h1>Downloads: </h1>
+        <p id="dl-total">Downloads Total: </p>
+        <p id="dl-today">Downloads Today: </p>
+        <p id="dl-yesterday">Downloads Yesterday: </p>
+        <p id="dl-week">Downloads past week: </p>
+        <br>
+        <p id="rank">Rank: </p>
+        <p id="pop-rank">Popularity Rank: </p>
+        <canvas id="myChart" width="1000" height="400"></canvas>
+      </div>
+    </div>
+  </div>
+</body>
+<footer>Made by <a href="https://github.com/TheLonelySheep" target="_blank">TheLonelySheep#7696</a> and <a href="https://github.com/bafto" target="_blank">bafto</a></footer>
+
+</html>
