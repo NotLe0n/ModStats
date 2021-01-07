@@ -136,7 +136,7 @@ function renderChart(modData) {
         }],
         yAxes: [{
           ticks: {
-            beginAtZero: false,
+            beginAtZero: true,
             fontColor: 'white'
           }
         }]
