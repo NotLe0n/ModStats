@@ -1,9 +1,8 @@
 body {
   font-family: 'Courier New', Courier, monospace;
-  color: #5EECFF;
+  color: #ffffff;
   background-color: #333;
 }
-
 #header {
   background-color: #525252;
   width: 100%;
@@ -26,7 +25,7 @@ body {
   align-self: center;
 }
 #mod-search {
-  color: #5EECFF;
+  color: rgb(255, 255, 255);
   background-color: #414141;
   background-image: url(/assets/line.png);
   font-family: 'Courier New', Courier, monospace;
@@ -43,7 +42,6 @@ body {
 #mod-search:focus {
   outline: solid white 1px;
 }
-
 #content {
   line-height: 0.4;
   margin: auto;
@@ -51,9 +49,8 @@ body {
 }
 a {
   text-decoration: none;
-  color: #5EECFF;
+  color: #aefaff;
 }
-
 footer{
   background-color: #222;
   width: 100%;

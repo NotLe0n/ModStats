@@ -1,4 +1,4 @@
-// get data incase site is reloaded or accessed 
+// get data incase site is reloaded or accessed through the url
 document.addEventListener("DOMContentLoaded", function() {
   let queriedMod = new URLSearchParams(window.location.search).get('mod');
   document.getElementById('mod-search').value = queriedMod;
@@ -29,38 +29,38 @@ async function getData(modName) {
   console.log(modData);
 
   if (modData != undefined && modData != null) {
+      let html = `<div>
+      <div id="mod-info">
+        <img src="https://mirror.sgkoi.dev/direct/${modData.name}.png" id="icon" width="160px" height="160px" style="display: ${modData.hasIcon ? "block" : "none"}"></img>
+        <p>Display name: <span id="displayName">${modData.displayname}</span></p>
+        <p>Internal name: <span id="internalName">${modData.name}</span></p>
+        <p>Version: <span id="version">${modData.version} (tML version: ${modData.modloaderversion})</span></p>
+        <p>Author: <span id="author">${modData.author}</span></p>
+        <p>Homepage: <span id="homepage">${modData.homepage != "no homepage" ? `<a href="${modData.homepage}" target="_blank">${modData.homepage}</a>` : `${modData.homepage}`}</span></p>
+        <p>Last updated: <span id="updated">${modData.updateTimeStamp}</span></p>
+        <p>Widget url: <span id="widget">${'<a href="https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '" target="_blank">' + 'https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '</a>'}</span></p>
+      </div>
+      <div id="description">
+        <p>hihihhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhihihhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
+      </div>
+      <div id="download-info" style="width: 30%;">
+        <h1>Downloads: </h1>
+        <p>Downloads total: <span id="dl-total">${modData.downloads}</span></p>
+        <p>Downloads today: <span id="dl-today">no Data</span></p>
+        <p>Downloads yesterday: <span id="dl-yesterday">${modData.hot}</span></p>
+        <p>Downloads past week: <span id="dl-week">${(modData.dl_1 + modData.dl_2 + modData.dl_3 + modData.dl_4 + modData.dl_5 + modData.dl_6 + modData.dl_7)}</span></p>
+        <br>
+        <p>Rank: <span id="rank"></span>${modData.rank}</p>
+        <p>Popularity rank: <span id="pop-rank">no Data</span></p>
+        <canvas id="myChart" width="1000" height="400"></canvas>
+      </div>
+    </div>`
+
+    document.getElementById("content").innerHTML = html;
+
     document.getElementById("content").style.display = "block";
     document.getElementById('oopsText').style.display = "none";
     document.getElementById("title-text").innerHTML = modData.displayname;
-
-    if (modData.hasIcon) {
-      document.getElementById("icon").style.display = "block";
-      document.getElementById("icon").src = `https://mirror.sgkoi.dev/direct/${modData.name}.png`;
-    }
-    else {
-      document.getElementById("icon").style.display = "none";
-    }
-
-    document.getElementById("displayName").innerHTML = modData.displayname;
-    document.getElementById("internalName").innerHTML = modData.name;
-    document.getElementById("version").innerHTML = modData.version + ` (tML version: ${modData.modloaderversion})`;
-    document.getElementById("author").innerHTML = modData.author;
-    
-    if (modData.homepage != "no homepage"){
-      document.getElementById("homepage").innerHTML = `<a href="${modData.homepage}" target="_blank">${modData.homepage}</a>`
-    }
-    else {
-      document.getElementById("homepage").innerHTML = modData.homepage;
-    }
-
-    document.getElementById("updated").innerHTML = modData.updateTimeStamp;
-    document.getElementById("widget").innerHTML = '<a href="https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '" target="_blank">' + 'https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '</a>';
-    document.getElementById("dl-total").innerHTML = modData.downloads;
-    document.getElementById("dl-today").innerHTML = "no Data";
-    document.getElementById("dl-yesterday").innerHTML = modData.hot;
-    document.getElementById("dl-week").innerHTML = (modData.dl_1 + modData.dl_2 + modData.dl_3 + modData.dl_4 + modData.dl_5 + modData.dl_6 + modData.dl_7);
-    document.getElementById("rank").innerHTML = modData.rank;
-    document.getElementById("pop-rank").innerHTML = "no Data";
 
     renderChart(modData);
   }
