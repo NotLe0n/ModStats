@@ -21,6 +21,9 @@ body {
   width: 100%;
   margin: 5px 0 30px;
 }
+#mod-info span {
+  color: rgb(235, 168, 93)
+}
 
 #downloads-info {
   margin-top: 15%;
@@ -28,11 +31,6 @@ body {
 #myChart {
   display: none;
   border: solid 2px #222;
-}
-
-a {
-  text-decoration: none;
-  color: #5EECFF;
 }
 
 footer{

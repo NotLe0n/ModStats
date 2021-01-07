@@ -31,7 +31,7 @@ async function getData(modName) {
   if (modData != undefined && modData != null) {
     document.getElementById("content").style.display = "block";
     document.getElementById('oopsText').style.display = "none";
-    document.getElementById("title").innerHTML = '<a href="index.html">Mod Statistics</a> // ' + modData.displayname;
+    document.getElementById("title-text").innerHTML = modData.displayname;
 
     if (modData.hasIcon) {
       document.getElementById("icon").style.display = "block";
@@ -41,26 +41,27 @@ async function getData(modName) {
       document.getElementById("icon").style.display = "none";
     }
 
-    document.getElementById("displayName").innerHTML = "Display Name: " + modData.displayname;
-    document.getElementById("internalName").innerHTML = "Internal Name: " + modData.name;
-    document.getElementById("version").innerHTML = "Version: " + modData.version + ` (tML version: ${modData.modloaderversion})`;
-    document.getElementById("author").innerHTML = "Author: " + modData.author;
+    document.getElementById("displayName").innerHTML = modData.displayname;
+    document.getElementById("internalName").innerHTML = modData.name;
+    document.getElementById("version").innerHTML = modData.version + ` (tML version: ${modData.modloaderversion})`;
+    document.getElementById("author").innerHTML = modData.author;
     
     if (modData.homepage != "no homepage"){
-      document.getElementById("homepage").innerHTML = 'Homepage: ' + `<a href="${modData.homepage}" target="_blank">${modData.homepage}</a>`
+      document.getElementById("homepage").innerHTML = `<a href="${modData.homepage}" target="_blank">${modData.homepage}</a>`
     }
     else {
-      document.getElementById("homepage").innerHTML = 'Homepage: ' + modData.homepage;
+      document.getElementById("homepage").innerHTML = modData.homepage;
     }
 
-    document.getElementById("updated").innerHTML = "Last updated: " + modData.updateTimeStamp;
-    document.getElementById("widget").innerHTML = 'Widget url: ' + '<a href="https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '" target="_blank">' + 'https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '</a>';
-    document.getElementById("dl-total").innerHTML = "Downloads Total: " + modData.downloads;
-    document.getElementById("dl-today").innerHTML = "Downloads Today: no Data";
-    document.getElementById("dl-yesterday").innerHTML = "Downloads Yesterday: " + modData.hot;
-    document.getElementById("dl-week").innerHTML = "Downloads past week: " + (modData.dl_1 + modData.dl_2 + modData.dl_3 + modData.dl_4 + modData.dl_5 + modData.dl_6 + modData.dl_7);
-    document.getElementById("rank").innerHTML = "Rank: " + modData.rank;
-    document.getElementById("pop-rank").innerHTML = "Popularity Rank: no Data";
+    document.getElementById("updated").innerHTML = modData.updateTimeStamp;
+    document.getElementById("widget").innerHTML = '<a href="https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '" target="_blank">' + 'https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '</a>';
+    document.getElementById("dl-total").innerHTML = modData.downloads;
+    document.getElementById("dl-today").innerHTML = "no Data";
+    document.getElementById("dl-yesterday").innerHTML = modData.hot;
+    document.getElementById("dl-week").innerHTML = (modData.dl_1 + modData.dl_2 + modData.dl_3 + modData.dl_4 + modData.dl_5 + modData.dl_6 + modData.dl_7);
+    document.getElementById("rank").innerHTML = modData.rank;
+    document.getElementById("pop-rank").innerHTML = "no Data";
+
     renderChart(modData);
   }
   else {

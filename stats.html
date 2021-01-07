@@ -14,7 +14,7 @@
 
 <body>
 	<div id="header">
-		<h1 id="title"><a href="index.html">Mod Statistics</a> // Invalid</h1>
+		<h1 id="title"><a href="index.html">Mod Statistics // </a><span id="title-text">Invalid</span></h1>
     <div id="input-container">
       <input id="mod-search" type="text" onkeypress="search(this)" placeholder="Search for a mod"/>
     </div>
@@ -24,23 +24,23 @@
     <div>
       <div id="mod-info">
         <img src="" id="icon" width="160px" height="160px"></img>
-        <p id="displayName">Display Name: </p>
-        <p id="internalName">Internal Name: </p>
-        <p id="version">Version: </p>
-        <p id="author">Author: </p>
-        <p id="homepage">Homepage: </p>
-        <p id="updated">Last updated: </p>
-        <p id="widget">Widget url: </p>
+        <p>Display Name: <span id="displayName"></span></p>
+        <p>Internal Name: <span id="internalName"></span></p>
+        <p>Version: <span id="version"></span></p>
+        <p>Author: <span id="author"></span></p>
+        <p>Homepage: <span id="homepage"></span></p>
+        <p>Last updated: <span id="updated"></span></p>
+        <p>Widget url: <span id="widget"></span></p>
       </div>
       <div id="download-info">
         <h1>Downloads: </h1>
-        <p id="dl-total">Downloads Total: </p>
-        <p id="dl-today">Downloads Today: </p>
-        <p id="dl-yesterday">Downloads Yesterday: </p>
-        <p id="dl-week">Downloads past week: </p>
+        <p>Downloads Total: <span id="dl-total"></span></p>
+        <p>Downloads Today: <span id="dl-today"></span></p>
+        <p>Downloads Yesterday: <span id="dl-yesterday"></span></p>
+        <p>Downloads past week: <span id="dl-week"></span></p>
         <br>
-        <p id="rank">Rank: </p>
-        <p id="pop-rank">Popularity Rank: </p>
+        <p>Rank: <span id="rank"></span></p>
+        <p>Popularity Rank: <span id="pop-rank"></span></p>
         <canvas id="myChart" width="1000" height="400"></canvas>
       </div>
     </div>
