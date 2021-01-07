@@ -51,12 +51,22 @@ app.post('/api', async (request, response) => {
         let json = await response.json();
         data = jsonConcat(result[0], json);
 
+        let homepage = await fetch(' http://javid.ddns.net/tModLoader/tools/querymodhomepage.php?modname=' + result[0].name, { method: "Get" });
+        homepage = await homepage.text();
+        if (homepage != "") {
+          data = jsonConcat(data, {"homepage": homepage});
+        }
+        else {
+          data = jsonConcat(data, {"homepage": "no homepage"});
+        }
         // check if mod has an icon
-        let image = await fetch(`https://mirror.sgkoi.dev/direct/${result[0].name}.png`, { method: "Get" });
-        if (await image.status == 200) {
+        let imageStatus = await fetch(`https://mirror.sgkoi.dev/direct/${result[0].name}.png`, { method: "Get" });
+        imageStatus = await image.status;
+
+        if (imageStatus == 200) {
           data = jsonConcat(data, { "hasIcon": true });
         }
-        else if (await image.status == 404) {
+        else if (imageStatus == 404) {
           data = jsonConcat(data, { "hasIcon": false });
         }
       }

@@ -45,7 +45,14 @@ async function getData(modName) {
     document.getElementById("internalName").innerHTML = "Internal Name: " + modData.name;
     document.getElementById("version").innerHTML = "Version: " + modData.version + ` (tML version: ${modData.modloaderversion})`;
     document.getElementById("author").innerHTML = "Author: " + modData.author;
-    document.getElementById("homepage").innerHTML = 'Homepage: ' + '<a href="http://javid.ddns.net/tModLoader/tools/querymodhomepage.php?modname=' + modData.name + '" target="_blank">' + 'http://javid.ddns.net/tModLoader/tools/querymodhomepage.php?modname=' + modData.name + '</a>';
+    
+    if (modData.homepage != "no homepage"){
+      document.getElementById("homepage").innerHTML = 'Homepage: ' + `<a href="${modData.homepage}" target="_blank">${modData.homepage}</a>`
+    }
+    else {
+      document.getElementById("homepage").innerHTML = 'Homepage: ' + modData.homepage;
+    }
+
     document.getElementById("updated").innerHTML = "Last updated: " + modData.updateTimeStamp;
     document.getElementById("widget").innerHTML = 'Widget url: ' + '<a href="https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '" target="_blank">' + 'https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '</a>';
     document.getElementById("dl-total").innerHTML = "Downloads Total: " + modData.downloads;
