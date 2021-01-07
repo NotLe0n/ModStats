@@ -5,6 +5,24 @@ const mysql = require('mysql');
 const fetch = require('node-fetch');
 const app = express();
 
+async function getModHasIcon(modName) {
+  const url = "https://mirror.sgkoi.dev/direct";
+  return fetch(`${url}/${modName}.png`, { method: "Get" })
+      .then(d => d.status === 200);
+}
+
+async function getModPage(modName) {
+  const url = "http://javid.ddns.net/tModLoader/tools/querymodhomepage.php";
+  return fetch(`${url}?modname=${modName}`, { method: "Get" })
+    .then(d => d.text());
+}
+
+async function getModInfo(modName) {
+  const url = "http://javid.ddns.net/tModLoader/tools/modinfo.php";
+  return fetch(`${url}?modname=${modName}`, { method: "Get" })
+    .then(d => d.json());
+}
+
 // connect to Database
 var con = mysql.createConnection({
   host: "sql7.freesqldatabase.com",
@@ -31,39 +49,45 @@ app.get('/', async (request, response) => {
 app.listen(3000, () => {
   console.log('server started');
 });
+
 function jsonConcat(o1, o2) {
   let json1 = JSON.stringify(o1);
   let json2 = JSON.stringify(o2);
 
   return JSON.parse(json1.slice(0, json1.length - 1) + "," + json2.slice(1, json2.length));
 }
+
 // get data from database and send it to front-end
 app.post('/api', async (request, response) => {
+
   console.log(`Got a request: ${request.body.str}`);
-  let data = null;
   let sql = `SELECT * FROM mods WHERE name="${request.body.str}" OR displayname="${request.body.str}"`;
+
   con.query(sql, async (err, result) => {
-    if (err) { }
-    else {
-      try {
-        // get more mod info
-        let response = await fetch('http://javid.ddns.net/tModLoader/tools/modinfo.php?modname=' + result[0].name, { method: "Get" });
-        let json = await response.json();
-        data = jsonConcat(result[0], json);
-
-        // get homepage
-        let homepage = await fetch(' http://javid.ddns.net/tModLoader/tools/querymodhomepage.php?modname=' + result[0].name, { method: "Get" });
-        homepage = await homepage.text();
-        data = jsonConcat(data, homepage != "" ? {"homepage": homepage} : {"homepage": "no homepage"});
-
-        // check if mod has an icon
-        let imageStatus = await fetch(`https://mirror.sgkoi.dev/direct/${result[0].name}.png`, { method: "Get" });
-        imageStatus = await imageStatus.status;
-        data = jsonConcat(data, { "hasIcon": imageStatus == 200 ? true : false });
+    try {
+      if (err) {
+        console.error(err);
+        response.status(500);
+        return;
       }
-      catch (e) { console.log("oops\n" + e); }
+
+      const modInfo = getModInfo(result[0].name);
+      const pageUrl = getModPage(result[0].name);
+      const hasIcon = getModHasIcon(result[0].name);
+
+      const data = await Promise.all([modInfo, pageUrl, hasIcon])
+        .then(([info, page, icon]) => ({
+          ...result[0],
+          ...info,
+          homepage: page || "no homepage",
+          hasIcon: icon
+        }));
+
+      response.status(200).json(data);
+    } catch (err) {
+      console.error(err);
+      response.status(500);
     }
-    response.status(200).json(data);
   });
 });
 
@@ -72,3 +96,4 @@ process.on('exit', function() {
   console.log('About to close');
   con.end();
 });
+
