@@ -35,6 +35,7 @@ con.connect(error => {
   if (error) throw error;
   console.log('connected to Database!');
 });
+
 // fixes file paths
 app.use(express.static(__dirname));
 //enables json use
@@ -71,9 +72,10 @@ app.post('/idk', async (request, response) => {
 
 // get data from database and send it to front-end
 app.post('/api', async (request, response) => {
+  let modname = con.escape(request.body.str);
 
-  console.log(`Got a request: ${request.body.str}`);
-  let sql = `SELECT * FROM mods WHERE name="${request.body.str}" OR displayname="${request.body.str}"`;
+  console.log('Got a request: ' + modname);
+  let sql = `SELECT * FROM mods WHERE name=${modname} OR displayname=${modname}`;
 
   con.query(sql, async (err, result) => {
     try {
@@ -104,4 +106,3 @@ process.on('exit', function() {
   console.log('About to close');
   con.end();
 });
-

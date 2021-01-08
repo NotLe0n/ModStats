@@ -22,6 +22,10 @@ function search(element) {
   document.getElementById("mod-search").setAttribute("list", (element.value.length > 2) ? "modlist" : "");
 }
 
+function parseChatTags(str){
+  return str.replace(/\[c\/(\w+):([\s\S]+?)\]/g , `<span style="color: #$1; !important">$2</span>`);
+}
+
 async function getData(modName) {
   // send mod name to back-end
   let str = modName // what the user entered into the text field
@@ -43,7 +47,7 @@ async function getData(modName) {
     let html = `<div>
       <div id="mod-info">
         <img src="https://mirror.sgkoi.dev/direct/${modData.name}.png" id="icon" width="160px" height="160px" style="display: ${modData.hasIcon ? "block" : "none"}"></img>
-        <p>Display name: <span id="displayName">${modData.displayname}</span></p>
+        <p>Display name: <span id="displayName">${parseChatTags(modData.displayname)}</span></p>
         <p>Internal name: <span id="internalName">${modData.name}</span></p>
         <p>Version: <span id="version">${modData.version} (tML version: ${modData.modloaderversion})</span></p>
         <p>Author: <span id="author">${modData.author}</span></p>
@@ -72,7 +76,7 @@ async function getData(modName) {
 
     document.getElementById("content").style.display = "block";
     document.getElementById('oopsText').style.display = "none";
-    document.getElementById("title-text").innerHTML = modData.displayname;
+    document.getElementById("title-text").innerHTML = parseChatTags(modData.displayname);
 
     renderChart(modData);
   }
@@ -96,8 +100,6 @@ function renderChart(modData) {
   // chort
   document.getElementById('myChart').style.display = "inline";
   var ctx = document.getElementById('myChart').getContext('2d');
-
-  
 
   var myChart = new Chart(ctx, {
     type: 'line',
