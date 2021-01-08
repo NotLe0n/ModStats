@@ -14,18 +14,20 @@
 
 <body>
 	<div id="header">
-		<h1 id="title"><a href="index.html">Mod Statistics // </a><span id="title-text">Invalid</span></h1>
+		<h1 id="title"><a href="index.html">Mod Statistics // </a><span id="title-text">Loading...</span></h1>
     <div id="input-container">
-      <input id="mod-search" type="text" onkeypress="search(this)" placeholder="Search for a mod"/>
+      <input id="mod-search" type="text" onkeypress="search(this)" placeholder="Search for a mod" list=""/>
+      <datalist id="modlist"></datalist>
     </div>
   </div>
   <p id="oopsText" style="display: none; margin-top: 110px">This mod does not exist or there has been an error</p>
   <div id="content">
     <div>
       <div id="mod-info">
+      <img id="icon" width="160px" height="160px" style="display: none"}"></img>
         <p>Display name: <span id="displayName"></span></p>
         <p>Internal name: <span id="internalName"></span></p>
-        <p>Version: <span id="version"> (tML version: ${})</span></p>
+        <p>Version: <span id="version"></span></p>
         <p>Author: <span id="author"></span></p>
         <p>Homepage: <span id="homepage"></span></p>
         <p>Last updated: <span id="updated"></span></p>

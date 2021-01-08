@@ -34,7 +34,7 @@ var con = mysql.createConnection({
 con.connect(error => {
   if (error) throw error;
   console.log('connected to Database!');
-})
+});
 // fixes file paths
 app.use(express.static(__dirname));
 //enables json use
@@ -50,12 +50,24 @@ app.listen(3000, () => {
   console.log('server started');
 });
 
-function jsonConcat(o1, o2) {
-  let json1 = JSON.stringify(o1);
-  let json2 = JSON.stringify(o2);
+app.post('/idk', async (request, response) => {
+  let sql = `SELECT displayname FROM mods`;
 
-  return JSON.parse(json1.slice(0, json1.length - 1) + "," + json2.slice(1, json2.length));
-}
+  con.query(sql, async (err, result) => {
+    try {
+      if (err) {
+        console.error(err);
+        response.status(500);
+        return;
+      }
+      response.status(200).json(result);
+    }
+    catch (err) {
+      console.error(err);
+      response.status(500);
+    }
+  });
+});
 
 // get data from database and send it to front-end
 app.post('/api', async (request, response) => {
@@ -65,12 +77,6 @@ app.post('/api', async (request, response) => {
 
   con.query(sql, async (err, result) => {
     try {
-      if (err) {
-        console.error(err);
-        response.status(500);
-        return;
-      }
-
       const modInfo = getModInfo(result[0].name);
       const pageUrl = getModPage(result[0].name);
       const hasIcon = getModHasIcon(result[0].name);
@@ -80,13 +86,15 @@ app.post('/api', async (request, response) => {
           ...result[0],
           ...info,
           homepage: page || "no homepage",
-          hasIcon: icon
+          hasIcon: icon,
         }));
 
       response.status(200).json(data);
-    } catch (err) {
+    } 
+    catch (err) {
       console.error(err);
       response.status(500);
+      response.json(null);
     }
   });
 });

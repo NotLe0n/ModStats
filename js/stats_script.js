@@ -1,14 +1,25 @@
 // get data incase site is reloaded or accessed through the url
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", async function() {
   let queriedMod = new URLSearchParams(window.location.search).get('mod');
   document.getElementById('mod-search').value = queriedMod;
   getData(queriedMod);
+
+  // get all mod names from the database
+  var response = await fetch('/idk', { method: "POST" });
+  let modData = await response.json();
+  for (let element in modData) {
+    let option = document.createElement("option");
+    option.innerHTML = modData[element].displayname;
+    document.getElementById("modlist").appendChild(option);
+  }
 });
 
 function search(element) {
   if (event.key === 'Enter') {
     getData(element.value);
   }
+
+  document.getElementById("mod-search").setAttribute("list", (element.value.length > 2) ? "modlist" : "");
 }
 
 async function getData(modName) {
@@ -28,8 +39,8 @@ async function getData(modName) {
   let modData = await response.json();
   console.log(modData);
 
-  if (modData != undefined && modData != null) {
-      let html = `<div>
+  if (response.status == 200) {
+    let html = `<div>
       <div id="mod-info">
         <img src="https://mirror.sgkoi.dev/direct/${modData.name}.png" id="icon" width="160px" height="160px" style="display: ${modData.hasIcon ? "block" : "none"}"></img>
         <p>Display name: <span id="displayName">${modData.displayname}</span></p>
@@ -41,14 +52,15 @@ async function getData(modName) {
         <p>Widget url: <span id="widget">${'<a href="https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '" target="_blank">' + 'https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '</a>'}</span></p>
       </div>
       <div id="description">
-        <p>hihihhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhihihhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
+        <h1>Description</h1>
+        <p>no Data</p>
       </div>
       <div id="download-info" style="width: 30%;">
         <h1>Downloads: </h1>
         <p>Downloads total: <span id="dl-total">${modData.downloads}</span></p>
         <p>Downloads today: <span id="dl-today">no Data</span></p>
         <p>Downloads yesterday: <span id="dl-yesterday">${modData.hot}</span></p>
-        <p>Downloads past week: <span id="dl-week">${(modData.dl_1 + modData.dl_2 + modData.dl_3 + modData.dl_4 + modData.dl_5 + modData.dl_6 + modData.dl_7)}</span></p>
+        <p>Downloads past week: <span id="dl-week">${(modData.downloads - modData.dl_1)}</span></p>
         <br>
         <p>Rank: <span id="rank"></span>${modData.rank}</p>
         <p>Popularity rank: <span id="pop-rank">no Data</span></p>
@@ -68,7 +80,7 @@ async function getData(modName) {
     document.getElementById('mod-search').value = 'Invalid Request';
     document.getElementById('oopsText').style.display = "block";
     document.getElementById("content").style.display = "none";
-    document.getElementById("title").innerHTML = '<a href="index.html">Mod Statistics</a> // Invalid';
+    document.getElementById("title-text").innerHTML = 'Invalid';
   }
 };
 function renderChart(modData) {
@@ -84,6 +96,8 @@ function renderChart(modData) {
   // chort
   document.getElementById('myChart').style.display = "inline";
   var ctx = document.getElementById('myChart').getContext('2d');
+
+  
 
   var myChart = new Chart(ctx, {
     type: 'line',
@@ -148,8 +162,9 @@ function renderChart(modData) {
           type: 'time',
           distribution: 'linear',
           ticks: {
-            fontColor: 'white'
-          }
+            fontColor: 'white',
+            source: "labels"
+            }
         }],
         yAxes: [{
           ticks: {
