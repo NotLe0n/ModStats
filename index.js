@@ -8,7 +8,7 @@ const app = express();
 async function getModHasIcon(modName) {
   const url = "https://mirror.sgkoi.dev/direct";
   return fetch(`${url}/${modName}.png`, { method: "Get" })
-      .then(d => d.status === 200);
+    .then(d => d.status === 200);
 }
 
 async function getModPage(modName) {
@@ -22,19 +22,6 @@ async function getModInfo(modName) {
   return fetch(`${url}?modname=${modName}`, { method: "Get" })
     .then(d => d.json());
 }
-
-// connect to Database
-var con = mysql.createConnection({
-  host: "sql7.freesqldatabase.com",
-  user: "sql7384742",
-  password: "GYR1aYu68T",
-  database: "sql7384742"
-});
-
-con.connect(error => {
-  if (error) throw error;
-  console.log('connected to Database!');
-});
 
 // fixes file paths
 app.use(express.static(__dirname));
@@ -52,6 +39,17 @@ app.listen(3000, () => {
 });
 
 app.post('/idk', async (request, response) => {
+  var con = mysql.createConnection({
+    host: "sql7.freesqldatabase.com",
+    user: "sql7384742",
+    password: "GYR1aYu68T",
+    database: "sql7384742"
+  });
+  con.connect((err)=> {
+    if (err) console.log(err);
+    console.log("connected to DB");
+  });
+  
   let sql = `SELECT displayname FROM mods`;
 
   con.query(sql, async (err, result) => {
@@ -68,10 +66,22 @@ app.post('/idk', async (request, response) => {
       response.status(500);
     }
   });
+  con.end();
 });
 
 // get data from database and send it to front-end
 app.post('/api', async (request, response) => {
+  var con = mysql.createConnection({
+    host: "sql7.freesqldatabase.com",
+    user: "sql7384742",
+    password: "GYR1aYu68T",
+    database: "sql7384742"
+  });
+  con.connect((err)=> {
+    if (err) console.log(err);
+    console.log("connected to DB");
+  });
+
   let modname = con.escape(request.body.str);
 
   console.log('Got a request: ' + modname);
@@ -92,17 +102,17 @@ app.post('/api', async (request, response) => {
         }));
 
       response.status(200).json(data);
-    } 
+    }
     catch (err) {
       console.error(err);
       response.status(500);
       response.json(null);
     }
   });
+  con.end();
 });
 
 //stuff to do on exit
 process.on('exit', function() {
   console.log('About to close');
-  con.end();
 });

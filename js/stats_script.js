@@ -12,18 +12,20 @@ document.addEventListener("DOMContentLoaded", async function() {
     option.innerHTML = modData[element].displayname;
     document.getElementById("modlist").appendChild(option);
   }
+  document.getElementById("mod-search").setAttribute("list", "modlist");
 });
 
 function search(element) {
   if (event.key === 'Enter') {
     getData(element.value);
   }
-
-  document.getElementById("mod-search").setAttribute("list", (element.value.length > 2) ? "modlist" : "");
 }
 
 function parseChatTags(str){
-  return str.replace(/\[c\/(\w+):([\s\S]+?)\]/g , `<span style="color: #$1; !important">$2</span>`);
+  let itemtag = str.replace(/\[i:(\w+)\]/g, `<img src="$1.png">`);
+  let colortag = itemtag.replace(/\[c\/(\w+):([\s\S]+?)\]/g , `<span style="color: #$1; !important">$2</span>`)
+  console.log(colortag);
+  return colortag;
 }
 
 async function getData(modName) {
@@ -59,7 +61,7 @@ async function getData(modName) {
         <h1>Description</h1>
         <p>no Data</p>
       </div>
-      <div id="download-info" style="width: 30%;">
+      <div id="download-info">
         <h1>Downloads: </h1>
         <p>Downloads total: <span id="dl-total">${modData.downloads}</span></p>
         <p>Downloads today: <span id="dl-today">no Data</span></p>
