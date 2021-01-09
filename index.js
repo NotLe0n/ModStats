@@ -38,6 +38,13 @@ app.listen(3000, () => {
   console.log('server started');
 });
 
+let fetchedMod;
+app.post('/getDescription', async (request, response) => {
+  console.log("getting description");
+  let allDescriptions = await fetch('http://javid.ddns.net/tModLoader/tools/querymodnamehomepagedescription.php', { method: "Get" }).then(r => r.json());
+  response.status(200).json(allDescriptions.filter(x => x.name == fetchedMod)[0].description);
+});
+
 app.post('/idk', async (request, response) => {
   var con = mysql.createConnection({
     host: "sql7.freesqldatabase.com",
@@ -47,7 +54,7 @@ app.post('/idk', async (request, response) => {
   });
   con.connect((err)=> {
     if (err) console.log(err);
-    console.log("connected to DB");
+    console.log("recieved mod list");
   });
   
   let sql = `SELECT displayname FROM mods`;
@@ -81,7 +88,7 @@ app.post('/api', async (request, response) => {
     if (err) console.log(err);
     console.log("connected to DB");
   });
-
+  
   let modname = con.escape(request.body.str);
 
   console.log('Got a request: ' + modname);
@@ -102,6 +109,7 @@ app.post('/api', async (request, response) => {
         }));
 
       response.status(200).json(data);
+      fetchedMod = data.name; 
     }
     catch (err) {
       console.error(err);

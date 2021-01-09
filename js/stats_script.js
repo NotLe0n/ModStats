@@ -21,10 +21,12 @@ function search(element) {
   }
 }
 
-function parseChatTags(str){
-  let itemtag = str.replace(/\[i:(\w+)\]/g, `<img src="$1.png">`);
-  let colortag = itemtag.replace(/\[c\/(\w+):([\s\S]+?)\]/g , `<span style="color: #$1; !important">$2</span>`)
-  console.log(colortag);
+function parseChatTags(str) {
+  let linebr = str.replace(/\\r\\n|\\n/g, "<br>");
+  let quot = linebr.replace(/\\"/g, "&quot;");
+  let itemtag = quot.replace(/\[i:(\w+)\]/g, `<img src="Item_$1.png">`);
+  let colortag = itemtag.replace(/\[c\/(\w+):([\s\S]+?)\]/g, `<span style="color: #$1;">$2</span>`)
+
   return colortag;
 }
 
@@ -51,15 +53,15 @@ async function getData(modName) {
         <img src="https://mirror.sgkoi.dev/direct/${modData.name}.png" id="icon" width="160px" height="160px" style="display: ${modData.hasIcon ? "block" : "none"}"></img>
         <p>Display name: <span id="displayName">${parseChatTags(modData.displayname)}</span></p>
         <p>Internal name: <span id="internalName">${modData.name}</span></p>
-        <p>Version: <span id="version">${modData.version} (tML version: ${modData.modloaderversion})</span></p>
+        <p>Version: <span id="version">${modData.version} (${modData.modloaderversion})</span></p>
         <p>Author: <span id="author">${modData.author}</span></p>
         <p>Homepage: <span id="homepage">${modData.homepage != "no homepage" ? `<a href="${modData.homepage}" target="_blank">${modData.homepage}</a>` : `${modData.homepage}`}</span></p>
         <p>Last updated: <span id="updated">${modData.updateTimeStamp}</span></p>
         <p>Widget url: <span id="widget">${'<a href="https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '" target="_blank">' + 'https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '</a>'}</span></p>
       </div>
-      <div id="description">
+      <div id="description-container">
         <h1>Description</h1>
-        <p>no Data</p>
+        <p id="description">Loading...</p>
       </div>
       <div id="download-info">
         <h1>Downloads: </h1>
@@ -81,6 +83,11 @@ async function getData(modName) {
     document.getElementById("title-text").innerHTML = parseChatTags(modData.displayname);
 
     renderChart(modData);
+
+    // get description
+    var descriptionResponse = await fetch('/getDescription', { method: "POST" });
+    let description = await descriptionResponse.text();
+    document.getElementById("description").innerHTML = parseChatTags(description.substr(1, description.length - 1));
   }
   else {
     document.getElementById('mod-search').value = 'Invalid Request';
@@ -168,7 +175,7 @@ function renderChart(modData) {
           ticks: {
             fontColor: 'white',
             source: "labels"
-            }
+          }
         }],
         yAxes: [{
           ticks: {

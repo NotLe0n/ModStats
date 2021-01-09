@@ -1,7 +1,7 @@
 #content {
-  margin-top: 120px;
   margin-left: 30px;
   display: none;
+  white-space: nowrap;
 }
 #mod-info img {
   float: left;
@@ -10,15 +10,21 @@
 }
 #mod-info {
   float: left;
-  width: 900px;
+  width: 950px;
   margin: 5px 30px 30px 0px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+#description-container {
+  float: right;
+  width: 830px;
+  height: 400px;
+  margin: 5px 15px 30px;
+  line-height: 1;
 }
 #description {
-  overflow-wrap: anywhere;
-  float: left;
-  margin: 5px 0 30px;
-  width: 600px;
-  line-height: 1;
+  overflow: overlay;
+  height: 400px;
 }
 span {
   color: #fcd581

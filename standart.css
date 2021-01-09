@@ -2,12 +2,12 @@ body {
   font-family: 'Courier New', Courier, monospace;
   color: #ffffff;
   background-color: #333;
+  margin: 0;
 }
 #header {
   background-color: #525252;
   width: 100%;
-  float: left;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   display: flex;
@@ -15,12 +15,11 @@ body {
 }
 #title {
   align-self: center;
-  text-align: left;
-  margin-left: 2%;
-  width: 70%;
+  margin-left: 40px;
 }
 #input-container {
-  margin-left: 10%;
+  margin-left: auto;
+  margin-right: 20px;
   align-self: center;
 }
 #mod-search {
@@ -42,9 +41,9 @@ body {
   outline: solid white 1px;
 }
 #content {
-  line-height: 0.4;
+  line-height: 0.4em;
   margin: auto;
-  margin-top: 150px;
+  margin-top: 20px;
 }
 a {
   text-decoration: none;
