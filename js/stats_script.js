@@ -24,7 +24,7 @@ function search(element) {
 function parseChatTags(str) {
   let linebr = str.replace(/\\r\\n|\\n/g, "<br>");
   let quot = linebr.replace(/\\"/g, "&quot;");
-  let itemtag = quot.replace(/\[i:(\w+)\]/g, `<img src="Item_$1.png">`);
+  let itemtag = quot.replace(/\[i:(\w+)\]/g, `<img src="assets/Item_$1.png" id="item-icon">`);
   let colortag = itemtag.replace(/\[c\/(\w+):([\s\S]+?)\]/g, `<span style="color: #$1;">$2</span>`)
 
   return colortag;

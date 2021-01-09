@@ -3,10 +3,13 @@
   display: none;
   white-space: nowrap;
 }
-#mod-info img {
+#icon {
   float: left;
   margin-right: 10px;
   image-rendering: pixelated;
+}
+#item-icon {
+  height: 1em;
 }
 #mod-info {
   float: left;
