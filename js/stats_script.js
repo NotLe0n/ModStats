@@ -30,19 +30,19 @@ function parseChatTags(str) {
   let linebr = str.replace(/\\r\\n|\\n/g, "<br>");
   let quot = linebr.replace(/\\"/g, "&quot;");
   let itemtag = quot.replace(/\[i(.*?):(\w+)\]/g, `<img src="assets/Item_$2.png" id="item-icon">`);
-  let colortag = itemtag.replace(/\[c\/(\w+):([\s\S]+?)\]/g, `<span style="color: #$1;">$2</span>`)
+  let colortag = itemtag.replace(/\[c\/(\w+):([\s\S]+?)\]/g, `<span style="color: #$1;">$2</span>`);
 
   return colortag;
 }
 function linkedModRefs(str) {
-  if(str == "") return "no mods"
+  if(str == "") return "no mods";
 
   let stre = "";
   let mods = str.split(',');
   for(let item in mods) {
-    stre += `<a href="https://modstats.repl.co/stats.html?mod=${mods[item]}">${mods[item]}</a>`
+    stre += `<a href="https://modstats.repl.co/stats.html?mod=${mods[item]}">${mods[item]}</a>`;
     if (item != mods.length - 1)
-      stre += ','
+      stre += ',';
   }
   return stre;
 }
@@ -94,7 +94,7 @@ async function getData(modName) {
         <p>Popularity rank: <span id="pop-rank">no Data</span></p>
         <canvas id="myChart" width="1000" height="400"></canvas>
       </div>
-    </div>`
+    </div>`;
 
     document.getElementById("content").innerHTML = html;
 
@@ -115,7 +115,7 @@ async function getData(modName) {
     document.getElementById("content").style.display = "none";
     document.getElementById("title-text").innerHTML = 'Invalid';
   }
-};
+}
 function renderChart(modData) {
   let now = new Date();
   let yesterday = new Date(now - 86400000 * 1);
