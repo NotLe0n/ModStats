@@ -16,7 +16,7 @@ function search(element) {
   var opts = document.getElementById('modlist').childNodes;
   for (var i = 0; i < opts.length; i++) {
     if (opts[i].value === element.value) {
-      window.location.href = "https://modstats.repl.co/stats.html?mod=" + opts[i].value;
+      window.location.href = "/stats.html?mod=" + opts[i].value;
       break;
     }
   }
