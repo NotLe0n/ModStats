@@ -13,7 +13,11 @@ document.addEventListener("DOMContentLoaded", async function() {
 
 //redirection from searchbar
 function search(element) {
-  if (event.key === 'Enter') {
-    window.location.href = "https://modstats.repl.co/stats.html?mod=" + element.value;
+  var opts = document.getElementById('modlist').childNodes;
+  for (var i = 0; i < opts.length; i++) {
+    if (opts[i].value === element.value) {
+      window.location.href = "https://modstats.repl.co/stats.html?mod=" + opts[i].value;
+      break;
+    }
   }
 }

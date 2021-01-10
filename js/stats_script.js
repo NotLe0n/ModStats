@@ -15,19 +15,36 @@ document.addEventListener("DOMContentLoaded", async function() {
   document.getElementById("mod-search").setAttribute("list", "modlist");
 });
 
+//redirection from searchbar
 function search(element) {
-  if (event.key === 'Enter') {
-    getData(element.value);
+  var opts = document.getElementById('modlist').childNodes;
+  for (var i = 0; i < opts.length; i++) {
+    if (opts[i].value === element.value) {
+      getData(opts[i].value);
+      break;
+    }
   }
 }
 
 function parseChatTags(str) {
   let linebr = str.replace(/\\r\\n|\\n/g, "<br>");
   let quot = linebr.replace(/\\"/g, "&quot;");
-  let itemtag = quot.replace(/\[i:(\w+)\]/g, `<img src="assets/Item_$1.png" id="item-icon">`);
+  let itemtag = quot.replace(/\[i(.*?):(\w+)\]/g, `<img src="assets/Item_$2.png" id="item-icon">`);
   let colortag = itemtag.replace(/\[c\/(\w+):([\s\S]+?)\]/g, `<span style="color: #$1;">$2</span>`)
 
   return colortag;
+}
+function linkedModRefs(str) {
+  if(str == "") return "no mods"
+
+  let stre = "";
+  let mods = str.split(',');
+  for(let item in mods) {
+    stre += `<a href="https://modstats.repl.co/stats.html?mod=${mods[item]}">${mods[item]}</a>`
+    if (item != mods.length - 1)
+      stre += ','
+  }
+  return stre;
 }
 
 async function getData(modName) {
@@ -58,6 +75,8 @@ async function getData(modName) {
         <p>Homepage: <span id="homepage">${modData.homepage != "no homepage" ? `<a href="${modData.homepage}" target="_blank">${modData.homepage}</a>` : `${modData.homepage}`}</span></p>
         <p>Last updated: <span id="updated">${modData.updateTimeStamp}</span></p>
         <p>Widget url: <span id="widget">${'<a href="https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '" target="_blank">' + 'https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '</a>'}</span></p>
+        <p>Mod dependencies: <span>${linkedModRefs(modData.modreferences)}</span>
+        <p>Mod Side: <span>${modData.modside}</span></p>
       </div>
       <div id="description-container">
         <h1>Description</h1>
@@ -65,6 +84,7 @@ async function getData(modName) {
       </div>
       <div id="download-info">
         <h1>Downloads: </h1>
+        <p>Download link: <span id="dl-link">${modData.download}</span></p>
         <p>Downloads total: <span id="dl-total">${modData.downloads}</span></p>
         <p>Downloads today: <span id="dl-today">no Data</span></p>
         <p>Downloads yesterday: <span id="dl-yesterday">${modData.hot}</span></p>
