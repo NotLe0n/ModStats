@@ -29,6 +29,21 @@
   overflow: overlay;
   height: 400px;
 }
+#description::-webkit-scrollbar-track
+{
+  background-color: #525252;
+}
+#description::-webkit-scrollbar
+{
+  width: 15px;
+  height: 15px;
+  background-color: #F5F5F5;
+}
+#description::-webkit-scrollbar-thumb
+{
+  background-color: #FFFFFF;
+  border: solid black 2px;
+}
 span {
   color: #fcd581
 }

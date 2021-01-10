@@ -107,7 +107,7 @@ async function getData(modName) {
     // get description
     var descriptionResponse = await fetch('/getDescription', { method: "POST" });
     let description = await descriptionResponse.text();
-    document.getElementById("description").innerHTML = parseChatTags(description.substr(1, description.length - 1));
+    document.getElementById("description").innerHTML = parseChatTags(description.substr(1, description.length - 2));
   }
   else {
     document.getElementById('mod-search').value = 'Invalid Request';
