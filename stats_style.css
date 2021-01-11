@@ -22,12 +22,12 @@
   float: right;
   width: 830px;
   height: 400px;
-  margin: 5px 15px 30px;
+  margin: 5px 15px 70px;
   line-height: 1;
 }
 #description {
   overflow: overlay;
-  height: 400px;
+  height: 350px;
 }
 #description::-webkit-scrollbar-track
 {

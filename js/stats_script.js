@@ -94,6 +94,9 @@ async function getData(modName) {
         <p>Popularity rank: <span id="pop-rank">no Data</span></p>
         <canvas id="myChart" width="1000" height="400"></canvas>
       </div>
+      <div id="dl-history" style="float: right; margin-bottom: 50px">
+        <embed src="http://javid.ddns.net/tModLoader/tools/moddownloadhistory.php?modname=${modData.name}" style="width:800px; height: 400px;">
+      </div>
     </div>`;
 
     document.getElementById("content").innerHTML = html;
