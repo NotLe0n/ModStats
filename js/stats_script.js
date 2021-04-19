@@ -1,9 +1,30 @@
-// get data on site load
-document.addEventListener("DOMContentLoaded", async function () {
+// get data incase site is reloaded or accessed through the url
+document.addEventListener("DOMContentLoaded", async function() {
   let queriedMod = new URLSearchParams(window.location.search).get('mod');
   document.getElementById('mod-search').value = queriedMod;
   getData(queriedMod);
+
+  // get all mod names from the database
+  var response = await fetch('/idk', { method: "POST" });
+  let modData = await response.json();
+  for (let element in modData) {
+    let option = document.createElement("option");
+    option.innerHTML = modData[element].displayname;
+    document.getElementById("modlist").appendChild(option);
+  }
+  document.getElementById("mod-search").setAttribute("list", "modlist");
 });
+
+//redirection from searchbar
+function search(element) {
+  var opts = document.getElementById('modlist').childNodes;
+  for (var i = 0; i < opts.length; i++) {
+    if (opts[i].value === element.value) {
+      getData(opts[i].value);
+      break;
+    }
+  }
+}
 
 function parseChatTags(str) {
   let linebr = str.replace(/\\r\\n|\\n/g, "<br>");
@@ -14,11 +35,11 @@ function parseChatTags(str) {
   return colortag;
 }
 function linkedModRefs(str) {
-  if (str == "") return "no mods";
+  if(str == "") return "no mods";
 
   let stre = "";
   let mods = str.split(',');
-  for (let item in mods) {
+  for(let item in mods) {
     stre += `<a href="https://modstats.repl.co/stats.html?mod=${mods[item]}">${mods[item]}</a>`;
     if (item != mods.length - 1)
       stre += ',';
@@ -37,6 +58,7 @@ async function getData(modName) {
     },
     body: JSON.stringify(data)
   };
+  window.history.pushState({}, null, '?mod=' + modName);
 
   var response = await fetch('/api', options);
   let modData = await response.json();
@@ -76,7 +98,7 @@ async function getData(modName) {
         <embed src="http://javid.ddns.net/tModLoader/tools/moddownloadhistory.php?modname=${modData.name}" style="width:800px; height: 400px;">
       </div>
     </div>`;
-    document.title = "Mod Statistics // " + modData.displayname;
+
     document.getElementById("content").innerHTML = html;
 
     document.getElementById("content").style.display = "block";
@@ -97,7 +119,6 @@ async function getData(modName) {
     document.getElementById("title-text").innerHTML = 'Invalid';
   }
 }
-
 function renderChart(modData) {
   let now = new Date();
   let yesterday = new Date(now - 86400000 * 1);
@@ -111,4 +132,86 @@ function renderChart(modData) {
   // chort
   document.getElementById('myChart').style.display = "inline";
   var ctx = document.getElementById('myChart').getContext('2d');
+
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [now, yesterday, three_days_ago, four_days_ago, five_days_ago, six_days_ago, seven_days_ago, eight_days_ago],
+      datasets: [{
+        lineTension: 0,
+        label: modData.name,
+        data: [
+          {
+            t: now,
+            y: modData.dl_7 // dl_1
+          },
+          {
+            t: yesterday,
+            y: modData.dl_6 // dl_2
+          },
+          {
+            t: three_days_ago,
+            y: modData.dl_5 // dl_3
+          },
+          {
+            t: four_days_ago,
+            y: modData.dl_4 // dl_4
+          },
+          {
+            t: six_days_ago,
+            y: modData.dl_3 // dl_5
+          },
+          {
+            t: seven_days_ago,
+            y: modData.dl_2 // dl_6
+          },
+          {
+            t: eight_days_ago,
+            y: modData.dl_1 // dl_7
+          },
+        ],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: false,
+      scales: {
+        xAxes: [{
+          type: 'time',
+          distribution: 'linear',
+          ticks: {
+            fontColor: 'white',
+            source: "labels"
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            beginAtZero: false,
+            fontColor: 'white'
+          }
+        }]
+      },
+      legend: {
+        labels: {
+          fontColor: 'white'
+        }
+      }
+    }
+  });
 }
