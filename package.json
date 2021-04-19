@@ -10,8 +10,11 @@
   "author": "TheLonelySheep <mr.sheep75@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.5",
     "express": "^4.17.1",
     "mysql": "^2.18.1",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "puppeteer": "^5.5.0"
   }
 }

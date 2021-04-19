@@ -2,51 +2,39 @@
 <html>
 
 <head>
-	<meta charset="utf-8" name="viewport"">
+  <meta charset="utf-8" name="viewport"">
 	<title>Mod Statistics</title>
-	<meta content="#43B581" data-react-helmet="true" name="theme-color">
+	<meta content=" #43B581" data-react-helmet="true" name="theme-color">
   <link href="standart.css" rel="stylesheet" type="text/css" />
-	<link href="stats_style.css" rel="stylesheet" type="text/css" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+  <link href="stats_style.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="js/script.js"></script>
   <script src="js/stats_script.js"></script>
 </head>
 
 <body>
-	<div id="header">
+  <div id="Sidebar" class="sidebar">
+    <h2>Mod Statistics</h2>
+    <a href="javascript:void(0)" class="closebtn" onclick="closemenu()">×</a>
+    <a href="javascript:void(0)" onclick="getRandomMod()">Random Mod</a>
+    <a href="/list.html">List mods</a>
+    <a href="https://github.com/NotLe0n/ModStats">Github</a>
+  </div>
+
+  <div id="header">
+    <img src="assets/menubtn.png" width="48px" height="48px" onclick="openmenu()" />
     <h1 id="title"><a href="index.html">Mod Statistics // </a><span id="title-text">Loading...</span></h1>
     <div id="input-container">
-      <input id="mod-search" type="text" oninput="search(this)" placeholder="Search for a mod" list=""/>
+      <input id="mod-search" type="text" oninput="search(this)" placeholder="Search for a mod" list="" />
       <datalist id="modlist"></datalist>
     </div>
   </div>
   <p id="oopsText" style="display: none; margin-top: 110px">This mod does not exist or there has been an error</p>
   <div id="content">
-    <div>
-      <div id="mod-info">
-      <img id="icon" width="160px" height="160px" style="display: none"></img>
-        <p>Display name: <span id="displayName"></span></p>
-        <p>Internal name: <span id="internalName"></span></p>
-        <p>Version: <span id="version"></span></p>
-        <p>Author: <span id="author"></span></p>
-        <p>Homepage: <span id="homepage"></span></p>
-        <p>Last updated: <span id="updated"></span></p>
-        <p>Widget url: <span id="widget"></span></p>
-      </div>
-      <div id="download-info">
-        <h1>Downloads: </h1>
-        <p>Downloads total: <span id="dl-total"></span></p>
-        <p>Downloads today: <span id="dl-today"></span></p>
-        <p>Downloads yesterday: <span id="dl-yesterday"></span></p>
-        <p>Downloads past week: <span id="dl-week"></span></p>
-        <br>
-        <p>Rank: <span id="rank"></span></p>
-        <p>Popularity rank: <span id="pop-rank"></span></p>
-        <canvas id="myChart" width="1000" height="400"></canvas>
-      </div>
-    </div>
+
   </div>
 </body>
-<footer>Made by <a href="https://github.com/TheLonelySheep" target="_blank">TheLonelySheep#7696</a> and <a href="https://github.com/bafto" target="_blank">bafto</a></footer>
+<footer>Made by <a href="https://github.com/NotLe0n/" target="_blank">NotLe0n#7696</a> and <a
+    href="https://github.com/bafto" target="_blank">bafto</a></footer>
 
 </html>
