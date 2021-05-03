@@ -26,3 +26,24 @@ function updateTMLStats(modList) {
   document.getElementById("deadmods").innerHTML = modList.filter(x => x.DownloadsYesterday < 5).length;
   document.getElementById("median").innerHTML = 4896;
 }
+
+async function randomMod() {
+  // this NEEDS to be instant
+  var response = await fetch('/api/getModlist', { method: "GET" });
+  let modList = await response.json();
+
+  let index = Math.floor(Math.random() * modList.length);
+  window.location.href = `/stats?mod=${modList[index].ModName}`;
+}
+
+/* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+  document.getElementById("main").style.marginLeft = "250px";
+}
+
+/* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+  document.getElementById("main").style.marginLeft = "0";
+}

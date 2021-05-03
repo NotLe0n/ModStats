@@ -81,7 +81,7 @@ function displayData(modData) {
     <p>Author: <span id="author">${modData.Author}</span></p>
     <p>Homepage: <span id="homepage">${modData.Homepage != "no homepage" ? `<a href="${modData.Homepage}" target="_blank">${modData.Homepage}</a>` : `${modData.Homepage}`}</span></p>
     <p>Last updated: <span id="updated">${modData.LastUpdated}</span></p>
-    <p>Widget url: <span id="widget">${'<a href="https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '" target="_blank">' + 'https://bettermodwidget.javidpack.repl.co/?mod=' + modData.name + '</a>'}</span></p>
+    <p>Widget url: <span id="widget"><a href="https://bettermodwidget.javidpack.repl.co/?mod=${modData.InternalName}" target="_blank">https://bettermodwidget.javidpack.repl.co/?mod=${modData.InternalName}</a></span></p>
     <p>Mod dependencies: <span>${linkedModRefs(modData.ModDependencies)}</span>
     <p>Mod Side: <span>${modData.ModSide}</span></p>
   </div>
