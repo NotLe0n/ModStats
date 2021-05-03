@@ -25,7 +25,7 @@ body {
 #mod-search {
   color: rgb(255, 255, 255);
   background-color: #414141;
-  background-image: url(/assets/line.png);
+  background-image: url(../assets/line.png);
   font-family: 'Courier New', Courier, monospace;
   font-size: 16px;
   height: 30px;
