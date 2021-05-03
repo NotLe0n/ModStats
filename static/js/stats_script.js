@@ -53,9 +53,9 @@ async function getData(modName) {
   window.history.pushState({}, null, '?mod=' + modName);
 
   var response = await fetch(`/api/getModInfo?modname=${modName}`);
-  let modData = await response.json();
 
-  if (response.status == 200) {
+  if (response.status === 200) {
+    let modData = await response.json();
     let html = `<div>
       <div id="mod-info">
         <img src="https://mirror.sgkoi.dev/direct/${modData.InternalName}.png" id="icon" width="160px" height="160px" style="display: ${modData.Icon !== "" ? "block" : "none"}"></img>
