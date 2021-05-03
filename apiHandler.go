@@ -21,6 +21,9 @@ func returnJsonFromStruct(w http.ResponseWriter, data interface{}, code int) {
 }
 
 func getModlistHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method must be of type GET", http.StatusBadRequest)
+	}
 	resp, err := http.Get("https://tmlapis.repl.co/modList")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
