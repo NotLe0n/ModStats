@@ -1,11 +1,16 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+	"sync"
 	"time"
 )
+
+var wg sync.WaitGroup
 
 var serverHandler *http.ServeMux
 var staticHandler http.Handler
@@ -48,8 +53,43 @@ func main() {
 	serverHandler.HandleFunc("/api/getModInfo", getModInfoHandler)
 	serverHandler.HandleFunc("/api/getInternalName", getInternalNameHandler)
 
+	log.Println("Starting cmd goroutine")
+	wg.Add(1)
+	go func() {
+		defer wg.Done() //tell the waiter group that we are finished at the end
+		cmdInterface()
+		log.Println("cmd goroutine finished")
+	}()
+
 	log.Println("server starting on Port :3000")
-	log.Fatal(server.ListenAndServe())
+	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		log.Fatal(err.Error())
+	} else if err == http.ErrServerClosed {
+		log.Println("Server not listening anymore")
+	}
+}
+
+func cmdInterface() {
+	for loop := true; loop; {
+		var inp string
+		_, err := fmt.Scanln(&inp)
+		if err != nil {
+			log.Println(err.Error())
+		} else {
+			switch inp {
+			case "quit":
+				log.Println("Attempting to shutdown server")
+				err := server.Shutdown(context.Background())
+				if err != nil {
+					log.Fatal("Error while trying to shutdown server: " + err.Error())
+				}
+				log.Println("Server was shutdown")
+				loop = false
+			default:
+				fmt.Println("cmd not supported")
+			}
+		}
+	}
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
