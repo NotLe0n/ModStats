@@ -83,7 +83,7 @@ async function getData(modName) {
         <p>Popularity rank: <span id="pop-rank">no Data</span></p>
       </div>
       <div id="dl-history">
-        <embed src="http://javid.ddns.net/tModLoader/tools/moddownloadhistory.php?modname=${modData.InternalName}" style="width:800px; height: 400px;">
+        <iframe src="http://javid.ddns.net/tModLoader/tools/moddownloadhistory.php?modname=${modData.InternalName}">
       </div>
     </div>`;
 
