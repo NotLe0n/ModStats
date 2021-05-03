@@ -4,6 +4,7 @@ body {
   background-color: #333;
   margin: 0;
 }
+
 #header {
   background-color: #525252;
   width: 100%;
@@ -13,15 +14,18 @@ body {
   display: flex;
   overflow: hidden;
 }
+
 #title {
   align-self: center;
   margin-left: 40px;
 }
+
 #input-container {
   margin-left: auto;
   margin-right: 20px;
   align-self: center;
 }
+
 #mod-search {
   color: rgb(255, 255, 255);
   background-color: #414141;
@@ -33,23 +37,28 @@ body {
   border: none;
   padding-left: 10px;
 }
+
 #mod-search:hover {
   border: none;
   outline: solid white 1px;
 }
+
 #mod-search:focus {
   outline: solid white 1px;
 }
+
 #content {
   line-height: 0.4em;
   margin: auto;
   margin-top: 20px;
 }
+
 a {
   text-decoration: none;
   color: #aefaff;
 }
-footer{
+
+footer {
   background-color: #222;
   width: 100%;
   height: 3%;

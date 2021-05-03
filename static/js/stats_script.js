@@ -1,30 +1,25 @@
 // get data incase site is reloaded or accessed through the url
-document.addEventListener("DOMContentLoaded", async function() {
+document.addEventListener("DOMContentLoaded", async function () {
   let queriedMod = new URLSearchParams(window.location.search).get('mod');
   document.getElementById('mod-search').value = queriedMod;
   getData(queriedMod);
 
   // get all mod names from the database
-  var response = await fetch('/api/getModlist', { method: "GET" });
+  var response = await fetch('/api/getModlist', {
+    method: "GET"
+  });
   let modData = await response.json();
   modData.forEach(el => {
     let option = document.createElement("option");
     option.innerHTML = el.DisplayName;
     document.getElementById("modlist").appendChild(option);
-  })
+  });
   document.getElementById("mod-search").setAttribute("list", "modlist");
 });
 
-//redirection from searchbar
-async function search(element) {
-  var opts = document.getElementById('modlist').childNodes;
-  for (var i = 0; i < opts.length; i++) {
-    if (opts[i].value === element.value) {
-      let resp = await fetch("/api/getInternalName?displayname="+encodeURIComponent(element.value))
-      let name = await resp.json()
-      window.location.href = `/stats?mod=${name}`;
-      break;
-    }
+function search(element) {
+  if (event.keyCode === 13) {
+    window.location.href = `/stats?mod=${element.value}`;
   }
 }
 
@@ -36,12 +31,13 @@ function parseChatTags(str) {
 
   return colortag;
 }
+
 function linkedModRefs(str) {
-  if(str == "") return "no mods";
+  if (str == "") return "no mods";
 
   let stre = "";
   let mods = str.split(', ');
-  for(let item in mods) {
+  for (let item in mods) {
     stre += `<a href="?mod=${mods[item]}">${mods[item]}</a>`;
     if (item != mods.length - 1)
       stre += ', ';
@@ -49,6 +45,7 @@ function linkedModRefs(str) {
   return stre;
 }
 
+let firstTime = true;
 async function getData(modName) {
   window.history.pushState({}, null, '?mod=' + modName);
 
@@ -95,11 +92,17 @@ async function getData(modName) {
 
     let description = JSON.stringify(modData.Description);
     document.getElementById("description").innerHTML = parseChatTags(description.substr(1, description.length - 2));
-  }
-  else {
-    document.getElementById('mod-search').value = 'Invalid Request';
-    document.getElementById('oopsText').style.display = "block";
-    document.getElementById("content").style.display = "none";
-    document.getElementById("title-text").innerHTML = 'Invalid';
+  } else {
+    if (firstTime) {
+      firstTime = false;
+      let resp = await fetch("/api/getInternalName?displayname=" + encodeURIComponent(modName));
+      let name = await resp.json();
+      getData(name)
+    } else {
+      document.getElementById('mod-search').value = 'Invalid Request';
+      document.getElementById('oopsText').style.display = "block";
+      document.getElementById("content").style.display = "none";
+      document.getElementById("title-text").innerHTML = 'Invalid';
+    }
   }
 }
