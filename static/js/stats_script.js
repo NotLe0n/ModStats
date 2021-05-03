@@ -31,7 +31,7 @@ async function search(element) {
 function parseChatTags(str) {
   let linebr = str.replace(/\\r\\n|\\n/g, "<br>");
   let quot = linebr.replace(/\\"/g, "&quot;");
-  let itemtag = quot.replace(/\[i(.*?):(\w+)\]/g, `<img src="assets/Item_$2.png" id="item-icon">`);
+  let itemtag = quot.replace(/\[i(.*?):(\w+)\]/g, `<img src="https://tmlapis.repl.co/img/Item_$2.png" id="item-icon">`);
   let colortag = itemtag.replace(/\[c\/(\w+):([\s\S]+?)\]/g, `<span style="color: #$1;">$2</span>`);
 
   return colortag;
