@@ -16,11 +16,13 @@ document.addEventListener("DOMContentLoaded", async function() {
 });
 
 //redirection from searchbar
-function search(element) {
+async function search(element) {
   var opts = document.getElementById('modlist').childNodes;
   for (var i = 0; i < opts.length; i++) {
     if (opts[i].value === element.value) {
-      getData(opts[i].value);
+      let resp = await fetch("/api/getInternalName?displayname="+encodeURIComponent(element.value))
+      let name = await resp.json()
+      window.location.href = `/stats?mod=${name}`;
       break;
     }
   }

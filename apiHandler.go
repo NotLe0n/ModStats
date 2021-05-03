@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"net/url"
 )
 
 type AuthorModInfo struct {
@@ -31,6 +32,24 @@ type ModInfo struct {
 	DownloadsYesterday int
 }
 
+var ModNameMap map[string]string = make(map[string]string)
+
+func updateModNameMap() error {
+	resp, err := http.Get("https://tmlapis.repl.co/modList")
+	if err != nil {
+		return err
+	}
+	var ModList []AuthorModInfo
+	err = json.NewDecoder(resp.Body).Decode(&ModList)
+	if err != nil {
+		return err
+	}
+	for _, v := range ModList {
+		ModNameMap[url.QueryEscape(v.DisplayName)] = v.ModName
+	}
+	return nil
+}
+
 func returnJsonFromStruct(w http.ResponseWriter, data interface{}, code int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
@@ -56,6 +75,21 @@ func getModlistHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	returnJsonFromStruct(w, ModList, http.StatusOK)
+}
+
+func getInternalNameHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method must be of type GET", http.StatusBadRequest)
+		return
+	}
+	DisplayName := r.URL.Query().Get("displayname")
+	name, err := json.Marshal(ModNameMap[url.QueryEscape(DisplayName)])
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Method must be of type GET", http.StatusBadRequest)
+		return
+	}
+	w.Write(name)
 }
 
 func getModInfoHandler(w http.ResponseWriter, r *http.Request) {
