@@ -81,9 +81,8 @@ async function getData(modName) {
         <p>Downloads yesterday: <span id="dl-yesterday">${modData.DownloadsYesterday}</span></p>
         <br>
         <p>Popularity rank: <span id="pop-rank">no Data</span></p>
-        <canvas id="myChart" width="1000" height="400"></canvas>
       </div>
-      <div id="dl-history" style="float: right; margin-bottom: 50px">
+      <div id="dl-history">
         <embed src="http://javid.ddns.net/tModLoader/tools/moddownloadhistory.php?modname=${modData.InternalName}" style="width:800px; height: 400px;">
       </div>
     </div>`;
@@ -94,9 +93,7 @@ async function getData(modName) {
     document.getElementById('oopsText').style.display = "none";
     document.getElementById("title-text").innerHTML = parseChatTags(modData.DisplayName);
 
-    // get description
-    var descriptionResponse = await fetch('/getDescription', { method: "POST" });
-    let description = await descriptionResponse.text();
+    let description = JSON.stringify(modData.Description);
     document.getElementById("description").innerHTML = parseChatTags(description.substr(1, description.length - 2));
   }
   else {
