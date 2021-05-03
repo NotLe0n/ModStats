@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"time"
 )
 
 var serverHandler *http.ServeMux
@@ -19,6 +20,21 @@ func loadTemplates() {
 func main() {
 	loadTemplates()
 
+	err := updateModNameMap()
+	if err != nil {
+		log.Fatal("Unable to update ModNameMap: " + err.Error())
+	}
+
+	go func() {
+		for range time.Tick(10 * time.Minute) {
+			log.Println("updating ModNameMap")
+			err := updateModNameMap()
+			if err != nil {
+				log.Fatal("Unable to update ModNameMap: " + err.Error())
+			}
+		}
+	}()
+
 	serverHandler = http.NewServeMux()
 	server = http.Server{Addr: ":3000", Handler: serverHandler}
 
@@ -30,6 +46,7 @@ func main() {
 
 	serverHandler.HandleFunc("/api/getModlist", getModlistHandler)
 	serverHandler.HandleFunc("/api/getModInfo", getModInfoHandler)
+	serverHandler.HandleFunc("/api/getInternalName", getInternalNameHandler)
 
 	log.Println("server starting on Port :3000")
 	log.Fatal(server.ListenAndServe())
