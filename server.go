@@ -29,6 +29,7 @@ func main() {
 	serverHandler.HandleFunc("/stats", statsHandler)
 
 	serverHandler.HandleFunc("/api/getModlist", getModlistHandler)
+	serverHandler.HandleFunc("/api/getModInfo", getModInfoHandler)
 
 	log.Println("server starting on Port :3000")
 	log.Fatal(server.ListenAndServe())
