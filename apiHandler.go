@@ -39,11 +39,13 @@ func updateModNameMap() error {
 	if err != nil {
 		return err
 	}
+
 	var ModList []AuthorModInfo
 	err = json.NewDecoder(resp.Body).Decode(&ModList)
 	if err != nil {
 		return err
 	}
+
 	for _, v := range ModList {
 		ModNameMap[url.QueryEscape(v.DisplayName)] = v.ModName
 	}
@@ -61,12 +63,14 @@ func getModlistHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method must be of type GET", http.StatusBadRequest)
 		return
 	}
+
 	resp, err := http.Get("https://tmlapis.repl.co/modList")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		log.Println(err)
 		return
 	}
+
 	var ModList []AuthorModInfo
 	err = json.NewDecoder(resp.Body).Decode(&ModList)
 	if err != nil {
@@ -82,6 +86,7 @@ func getInternalNameHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method must be of type GET", http.StatusBadRequest)
 		return
 	}
+
 	DisplayName := r.URL.Query().Get("displayname")
 	name, err := json.Marshal(ModNameMap[url.QueryEscape(DisplayName)])
 	if err != nil {
@@ -98,12 +103,15 @@ func getModInfoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	modName := r.URL.Query().Get("modname")
+	log.Println("recieved request for " + modName)
+
 	resp, err := http.Get("https://tmlapis.repl.co/modInfo?modname=" + modName)
 	if err != nil {
 		log.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
 	var modInfo ModInfo
 	err = json.NewDecoder(resp.Body).Decode(&modInfo)
 	if err != nil {
@@ -111,6 +119,7 @@ func getModInfoHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
 	err = json.NewEncoder(w).Encode(modInfo)
 	if err != nil {
 		log.Println(err)
