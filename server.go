@@ -12,8 +12,12 @@ var server http.Server
 
 var templates *template.Template
 
-func main() {
+func loadTemplates() {
 	templates = template.Must(template.ParseFiles("index.html", "stats.html"))
+}
+
+func main() {
+	loadTemplates()
 
 	serverHandler = http.NewServeMux()
 	server = http.Server{Addr: ":3000", Handler: serverHandler}
@@ -22,13 +26,29 @@ func main() {
 	serverHandler.Handle("/static/", http.StripPrefix("/static/", staticHandler))
 
 	serverHandler.HandleFunc("/", indexHandler)
+	serverHandler.HandleFunc("/stats", statsHandler)
+
+	serverHandler.HandleFunc("/api/getModlist", getModlistHandler)
 
 	log.Println("server starting on Port :3000")
 	log.Fatal(server.ListenAndServe())
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
+	loadTemplates() //we reload the templates on each call, so that we don't need to restart the server when changing the html (mainly for debugging)
 	err := templates.ExecuteTemplate(w, "index.html", nil)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Println(err)
+	}
+}
+
+func statsHandler(w http.ResponseWriter, r *http.Request) {
+	loadTemplates() //we reload the templates on each call, so that we don't need to restart the server when changing the html (mainly for debugging)
+	modName := r.URL.Query().Get("mod")
+	err := templates.ExecuteTemplate(w, "stats.html", struct{ Mod string }{
+		Mod: modName,
+	})
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		log.Println(err)

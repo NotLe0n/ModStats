@@ -1,12 +1,13 @@
 document.addEventListener("DOMContentLoaded", async function() {
   // get all mod names from the database
-  var response = await fetch('/idk', { method: "POST" });
+  var response = await fetch('/api/getModlist', { method: "GET" });
   let modData = await response.json();
-  for (let element in modData) {
+  console.log(modData)
+  modData.forEach(el => {
     let option = document.createElement("option");
-    option.innerHTML = modData[element].displayname;
+    option.innerHTML = el.DisplayName;
     document.getElementById("modlist").appendChild(option);
-  }
+  })
 
   document.getElementById("mod-search").setAttribute("list", "modlist");
 });
@@ -16,7 +17,7 @@ function search(element) {
   var opts = document.getElementById('modlist').childNodes;
   for (var i = 0; i < opts.length; i++) {
     if (opts[i].value === element.value) {
-      window.location.href = "/stats.html?mod=" + opts[i].value;
+      window.location.href = "/stats?mod=" + opts[i].value;
       break;
     }
   }
