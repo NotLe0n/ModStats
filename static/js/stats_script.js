@@ -38,11 +38,11 @@ function linkedModRefs(str) {
   if(str == "") return "no mods";
 
   let stre = "";
-  let mods = str.split(',');
+  let mods = str.split(', ');
   for(let item in mods) {
-    stre += `<a href="https://modstats.repl.co/stats.html?mod=${mods[item]}">${mods[item]}</a>`;
+    stre += `<a href="?mod=${mods[item]}">${mods[item]}</a>`;
     if (item != mods.length - 1)
-      stre += ',';
+      stre += ', ';
   }
   return stre;
 }
