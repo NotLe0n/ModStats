@@ -52,6 +52,7 @@ func main() {
 	serverHandler.HandleFunc("/api/getModlist", getModlistHandler)
 	serverHandler.HandleFunc("/api/getModInfo", getModInfoHandler)
 	serverHandler.HandleFunc("/api/getInternalName", getInternalNameHandler)
+	serverHandler.HandleFunc("/api/getRandomMod", getRandomModHandler)
 
 	log.Println("Starting cmd goroutine")
 	wg.Add(1)

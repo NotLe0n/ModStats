@@ -29,11 +29,9 @@ function updateTMLStats(modList) {
 
 async function randomMod() {
   // this NEEDS to be instant
-  var response = await fetch('/api/getModlist', { method: "GET" });
-  let modList = await response.json();
-
-  let index = Math.floor(Math.random() * modList.length);
-  window.location.href = `/stats?mod=${modList[index].ModName}`;
+  var response = await fetch('/api/getRandomMod');
+  let modName = await response.json();
+  window.location.href = `/stats?mod=${modName}`
 }
 
 /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */

@@ -3,8 +3,10 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"math/rand"
 	"net/http"
 	"net/url"
+	"time"
 )
 
 type AuthorModInfo struct {
@@ -33,6 +35,8 @@ type ModInfo struct {
 }
 
 var ModNameMap map[string]string = make(map[string]string)
+
+var random *rand.Rand = rand.New(rand.NewSource(time.Now().Unix()))
 
 func updateModNameMap() error {
 	resp, err := http.Get("https://tmlapis.repl.co/modList")
@@ -91,7 +95,7 @@ func getInternalNameHandler(w http.ResponseWriter, r *http.Request) {
 	name, err := json.Marshal(ModNameMap[url.QueryEscape(DisplayName)])
 	if err != nil {
 		log.Println(err)
-		http.Error(w, "Method must be of type GET", http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Write(name)
@@ -125,5 +129,27 @@ func getModInfoHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
+	}
+}
+
+func getRandomModHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method must be GET", http.StatusBadRequest)
+		return
+	}
+	count := random.Intn(len(ModNameMap))
+	i := 0
+	for _, v := range ModNameMap {
+		if i >= count {
+			name, err := json.Marshal(url.QueryEscape(v))
+			if err != nil {
+				log.Println(err)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			w.Write(name)
+			return
+		}
+		i++
 	}
 }
