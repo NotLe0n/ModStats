@@ -1,4 +1,14 @@
-## ModStats
+# ModStats
+This is a website which displays information about tModloader mods.
+![image](https://user-images.githubusercontent.com/26361108/116994005-7ae9fb00-acd8-11eb-96d5-5625a015d25e.png)
+
+
+## Features
+- Mod Search (internal- and display name)
+- Author Search (through steamid64)
+- Mod List
+- Random Mod
+
 
 ### How to run locally
 
