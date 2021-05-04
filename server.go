@@ -99,7 +99,6 @@ func cmdInterface() {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println("Someone visited the homepage!")
 	loadTemplates() //we reload the templates on each call, so that we don't need to restart the server when changing the html (mainly for debugging)
 	err := templates.ExecuteTemplate(w, "index.html", nil)
 	if err != nil {
