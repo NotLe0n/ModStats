@@ -79,7 +79,7 @@ function displayData(modData) {
     <p>Internal name: <span id="internalName">${modData.InternalName}</span></p>
     <p>Version: <span id="version">${modData.Version} (${modData.TModLoaderVersion})</span></p>
     <p>Author: <span id="author">${modData.Author}</span></p>
-    <p>Homepage: <span id="homepage">${modData.Homepage != "no homepage" ? `<a href="${modData.Homepage}" target="_blank">${modData.Homepage}</a>` : `${modData.Homepage}`}</span></p>
+    <p>Homepage: <span id="homepage">${modData.Homepage != "" ? `<a href="${modData.Homepage}" target="_blank">${modData.Homepage}</a>` : "no homepage"}</span></p>
     <p>Last updated: <span id="updated">${modData.LastUpdated}</span></p>
     <p>Widget url: <span id="widget"><a href="https://bettermodwidget.javidpack.repl.co/?mod=${modData.InternalName}" target="_blank">https://bettermodwidget.javidpack.repl.co/?mod=${modData.InternalName}</a></span></p>
     <p>Mod dependencies: <span>${linkedModRefs(modData.ModDependencies)}</span>
