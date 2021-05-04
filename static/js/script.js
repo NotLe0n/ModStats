@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 function search(element) {
   // has enter been pressed?
   if (event.keyCode === 13) {
-    window.location.href = `/stats?mod=${element.value}`;
+    window.location.href = `/stats?mod=${encodeURIComponent(element.value)}`;
   }
 }
 
@@ -28,7 +28,6 @@ function updateTMLStats(modList) {
 }
 
 async function randomMod() {
-  // this NEEDS to be instant
   var response = await fetch('/api/getRandomMod');
   let modName = await response.json();
   window.location.href = `/stats?mod=${modName}`

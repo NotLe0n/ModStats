@@ -93,10 +93,10 @@ function displayData(modData) {
     <h1>Downloads: </h1>
     <p>Download link: <span id="dl-link">${modData.DownloadLink}</span></p>
     <p>Downloads total: <span id="dl-total">${modData.DownloadsTotal}</span></p>
-    <p>Downloads today: <span id="dl-today">no Data</span></p>
+    <p>Downloads today: <span id="dl-today"></span>${modData.DownloadsToday}</p>
     <p>Downloads yesterday: <span id="dl-yesterday">${modData.DownloadsYesterday}</span></p>
     <br>
-    <p>Popularity rank: <span id="pop-rank">no Data</span></p>
+    <p>Rank total: <span id="total-rank">${modData.Rank}</span></p>
   </div>
   <div id="dl-history">
     <iframe src="http://javid.ddns.net/tModLoader/tools/moddownloadhistory.php?modname=${modData.InternalName}">

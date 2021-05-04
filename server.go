@@ -25,7 +25,7 @@ func loadTemplates() {
 func main() {
 	loadTemplates()
 
-	err := updateModNameMap()
+	err := updateModMaps()
 	if err != nil {
 		log.Fatal("Unable to update ModNameMap: " + err.Error())
 	}
@@ -33,7 +33,7 @@ func main() {
 	go func() {
 		for range time.Tick(10 * time.Minute) {
 			log.Println("updating ModNameMap")
-			err := updateModNameMap()
+			err := updateModMaps()
 			if err != nil {
 				log.Fatal("Unable to update ModNameMap: " + err.Error())
 			}

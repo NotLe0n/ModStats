@@ -9,9 +9,11 @@ import (
 	"time"
 )
 
-type AuthorModInfo struct {
+type ModListItem struct {
 	DisplayName        string
+	Rank               int
 	DownloadsTotal     int
+	DownloadsToday     int
 	DownloadsYesterday int
 	TModLoaderVersion  string
 	ModName            string
@@ -19,6 +21,7 @@ type AuthorModInfo struct {
 
 type ModInfo struct {
 	DisplayName        string
+	Rank               int
 	InternalName       string
 	Author             string
 	Homepage           string
@@ -31,20 +34,22 @@ type ModInfo struct {
 	ModSide            string
 	DownloadLink       string
 	DownloadsTotal     int
+	DownloadsToday     int
 	DownloadsYesterday int
 }
 
 var ModNameMap map[string]string = make(map[string]string)
+var ModInfoMap map[string]ModListItem = make(map[string]ModListItem)
 
 var random *rand.Rand = rand.New(rand.NewSource(time.Now().Unix()))
 
-func updateModNameMap() error {
+func updateModMaps() error {
 	resp, err := http.Get("https://tmlapis.repl.co/modList")
 	if err != nil {
 		return err
 	}
 
-	var ModList []AuthorModInfo
+	var ModList []ModListItem
 	err = json.NewDecoder(resp.Body).Decode(&ModList)
 	if err != nil {
 		return err
@@ -52,6 +57,7 @@ func updateModNameMap() error {
 
 	for _, v := range ModList {
 		ModNameMap[url.QueryEscape(v.DisplayName)] = v.ModName
+		ModInfoMap[v.ModName] = v
 	}
 	return nil
 }
@@ -75,7 +81,7 @@ func getModlistHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var ModList []AuthorModInfo
+	var ModList []ModListItem
 	err = json.NewDecoder(resp.Body).Decode(&ModList)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -123,7 +129,8 @@ func getModInfoHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
+	modInfo.Rank = ModInfoMap[modInfo.InternalName].Rank
+	modInfo.DownloadsToday = ModInfoMap[modInfo.InternalName].DownloadsToday
 	err = json.NewEncoder(w).Encode(modInfo)
 	if err != nil {
 		log.Println(err)
