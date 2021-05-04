@@ -26,7 +26,10 @@ function search(element) {
 
 function parseChatTags(str) {
   let linebr = str.replace(/\\r\\n|\\n/g, "<br>"); // replace \r\n and \n with <br> tags
-  let quot = linebr.replace(/\\"/g, "&quot;"); // replace " with &quot;
+  let tab = linebr.replace(/\\t/g, "    "); // replace \t with 4 spaces
+  let apo = tab.replace(/\\'/g, "'"); // replace \' with '
+  let backslash = apo.replace(/\\/g, "\\"); // replace \\ with \
+  let quot = backslash.replace(/\\"/g, "&quot;"); // replace " with &quot;
   let itemtag = quot.replace(/\[i(.*?):(\w+)\]/g, `<img src="https://tmlapis.repl.co/img/Item_$2.png" id="item-icon">`); // replace item tags with the correct image
   let colortag = itemtag.replace(/\[c\/(\w+):([\s\S]+?)\]/g, `<span style="color: #$1;">$2</span>`); // replace the color tags with <span>
 
