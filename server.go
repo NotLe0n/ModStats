@@ -10,14 +10,15 @@ import (
 	"time"
 )
 
-var wg sync.WaitGroup
+var wg sync.WaitGroup //needed to keep the goroutines in sync when the server is shut down
 
-var serverHandler *http.ServeMux
-var staticHandler http.Handler
-var server http.Server
+var serverHandler *http.ServeMux //for all the request handler
+var staticHandler http.Handler   //serves the static folder (javascript + css and assets)
+var server http.Server           //the server itself
 
-var templates *template.Template
+var templates *template.Template //the html files
 
+//load the html files
 func loadTemplates() {
 	templates = template.Must(template.ParseFiles("index.html", "stats.html"))
 }
@@ -30,6 +31,7 @@ func main() {
 		log.Fatal("Unable to update ModNameMap: " + err.Error())
 	}
 
+	//this goroutine updates the mod list every 10 minutes so that the loading time is not too long on every reload
 	go func() {
 		for range time.Tick(10 * time.Minute) {
 			log.Println("updating ModNameMap")
@@ -41,14 +43,14 @@ func main() {
 	}()
 
 	serverHandler = http.NewServeMux()
-	server = http.Server{Addr: ":3000", Handler: serverHandler}
+	server = http.Server{Addr: ":3000", Handler: serverHandler} //server on Port :3000
 
-	staticHandler = http.FileServer(http.Dir("static"))
+	staticHandler = http.FileServer(http.Dir("static")) //serves the static directory for js + css and assets
 	serverHandler.Handle("/static/", http.StripPrefix("/static/", staticHandler))
-
+	//add the html handler
 	serverHandler.HandleFunc("/", indexHandler)
 	serverHandler.HandleFunc("/stats", statsHandler)
-
+	//add the api handler so the frontend can fetch all the data it needs
 	serverHandler.HandleFunc("/api/getModlist", getModlistHandler)
 	serverHandler.HandleFunc("/api/getModInfo", getModInfoHandler)
 	serverHandler.HandleFunc("/api/getInternalName", getInternalNameHandler)
@@ -56,6 +58,7 @@ func main() {
 
 	log.Println("Starting cmd goroutine")
 	wg.Add(1)
+	//this goroutine is for the cmd interface (at the moment only the quit command for a gracefull shutdown)
 	go func() {
 		defer wg.Done() //tell the waiter group that we are finished at the end
 		cmdInterface()
@@ -70,6 +73,7 @@ func main() {
 	}
 }
 
+//commands in the switch can be run from the server console (not in sync with the logging)
 func cmdInterface() {
 	for loop := true; loop; {
 		var inp string

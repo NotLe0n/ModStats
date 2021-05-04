@@ -93,7 +93,7 @@ function displayData(modData) {
     <h1>Downloads: </h1>
     <p>Download link: <span id="dl-link">${modData.DownloadLink}</span></p>
     <p>Downloads total: <span id="dl-total">${modData.DownloadsTotal}</span></p>
-    <p>Downloads today: <span id="dl-today"></span>${modData.DownloadsToday}</p>
+    <p>Downloads today: <span id="dl-today">${modData.DownloadsToday}</span></p>
     <p>Downloads yesterday: <span id="dl-yesterday">${modData.DownloadsYesterday}</span></p>
     <br>
     <p>Rank total: <span id="total-rank">${modData.Rank}</span></p>
