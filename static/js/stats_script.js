@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 function search(element) {
   // has enter been pressed?
   if (event.keyCode === 13) {
-    window.location.href = `/stats?mod=${element.value}`;
+    window.location.href = `/stats?mod=${encodeURIComponent(element.value)}`;
   }
 }
 
