@@ -20,7 +20,7 @@ var templates *template.Template //the html files
 
 //load the html files
 func loadTemplates() {
-	templates = template.Must(template.ParseFiles("index.html", "stats.html"))
+	templates = template.Must(template.ParseFiles("index.html", "stats.html", "modList.html"))
 }
 
 func main() {
@@ -50,6 +50,7 @@ func main() {
 	//add the html handler
 	serverHandler.HandleFunc("/", indexHandler)
 	serverHandler.HandleFunc("/stats", statsHandler)
+	serverHandler.HandleFunc("/modList", modListHandler)
 	//add the api handler so the frontend can fetch all the data it needs
 	serverHandler.HandleFunc("/api/getModlist", getModlistHandler)
 	serverHandler.HandleFunc("/api/getModInfo", getModInfoHandler)
@@ -114,6 +115,16 @@ func statsHandler(w http.ResponseWriter, r *http.Request) {
 	err := templates.ExecuteTemplate(w, "stats.html", struct{ Mod string }{
 		Mod: modName,
 	})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Println(err)
+	}
+}
+
+func modListHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Someone visited the mod list!")
+	loadTemplates()
+	err := templates.ExecuteTemplate(w, "modList.html", nil)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		log.Println(err)
