@@ -1,25 +1,7 @@
 document.addEventListener("DOMContentLoaded", async function () {
-    // get all mod names
-    var response = await fetch('/api/getModlist', { method: "GET" });
-    let modList = await response.json();
-
-    // add mods to search dropdown
-    modList.forEach(el => {
-        let option = document.createElement("option");
-        option.innerHTML = el.DisplayName;
-        document.getElementById("modlist").appendChild(option);
-    })
-    document.getElementById("mod-search").setAttribute("list", "modlist");
-
+    let modList = await setupModList();
     createTable(modList);
 });
-
-function search(element) {
-    // has enter been pressed?
-    if (event.keyCode === 13) {
-        window.location.href = `/stats?mod=${encodeURIComponent(element.value)}`;
-    }
-}
 
 function createTable(modList) {
     modList = modList.sort((a,b) => a.Rank > b.Rank ? 1 : (a.Rank < b.Rank) ? -1 : 0);
