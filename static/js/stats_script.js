@@ -25,7 +25,9 @@ function search(element) {
 }
 
 function parseChatTags(str) {
-  let linebr = str.replace(/\\r\\n|\\n/g, "<br>"); // replace \r\n and \n with <br> tags
+  let lt = str.replace(/</g, "&lt;");
+  let gt = lt.replace(/>/g, "&gt;");
+  let linebr = gt.replace(/\\r\\n|\\n/g, "<br>"); // replace \r\n and \n with <br> tags
   let tab = linebr.replace(/\\t/g, "    "); // replace \t with 4 spaces
   let apo = tab.replace(/\\'/g, "'"); // replace \' with '
   let backslash = apo.replace(/\\/g, "\\"); // replace \\ with \
