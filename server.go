@@ -20,7 +20,7 @@ var templates *template.Template //the html files
 
 //load the html files
 func loadTemplates() {
-	templates = template.Must(template.ParseFiles("index.html", "stats.html", "modList.html"))
+	templates = template.Must(template.ParseFiles("index.html", "stats.html", "modList.html", "author.html"))
 }
 
 func main() {
@@ -56,6 +56,7 @@ func main() {
 	serverHandler.HandleFunc("/api/getModInfo", getModInfoHandler)
 	serverHandler.HandleFunc("/api/getInternalName", getInternalNameHandler)
 	serverHandler.HandleFunc("/api/getRandomMod", getRandomModHandler)
+	serverHandler.HandleFunc("/api/getAuthorInfo", getAuthorInfoHandler)
 
 	log.Println("Starting cmd goroutine")
 	wg.Add(1)
@@ -108,15 +109,34 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func statsHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println("Someone searched for a mod!")
 	loadTemplates() //we reload the templates on each call, so that we don't need to restart the server when changing the html (mainly for debugging)
+
+	steam64ID := r.URL.Query().Get("author")
+	if steam64ID != "" {
+		log.Println("Someone searched for an author!")
+
+		err := templates.ExecuteTemplate(w, "author.html", struct{ Steam64ID string }{
+			Steam64ID: steam64ID,
+		})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Println(err)
+		}
+		return
+	}
+
 	modName := r.URL.Query().Get("mod")
-	err := templates.ExecuteTemplate(w, "stats.html", struct{ Mod string }{
-		Mod: modName,
-	})
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		log.Println(err)
+	if modName != "" {
+		log.Println("Someone searched for a mod!")
+
+		err := templates.ExecuteTemplate(w, "stats.html", struct{ Mod string }{
+			Mod: modName,
+		})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			log.Println(err)
+		}
+		return
 	}
 }
 

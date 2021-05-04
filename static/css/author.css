@@ -1,0 +1,14 @@
+#content {
+    margin-left: 30px;
+    display: none;
+    white-space: nowrap;
+}
+
+span {
+    color: #fcd581
+}
+
+td {
+    padding: 20px;
+    line-height: 1;
+}

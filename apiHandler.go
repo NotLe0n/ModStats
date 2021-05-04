@@ -40,6 +40,27 @@ type ModInfo struct {
 	DownloadsYesterday int
 }
 
+type AuthorModInfo struct {
+	RankTotal          int
+	DisplayName        string
+	DownloadsTotal     int
+	DownloadsYesterday int
+}
+
+type AuthorMaintainedModInfo struct {
+	ModName            string
+	DownloadsTotal     int
+	DownloadsYesterday int
+}
+
+type Author struct {
+	SteamName          string
+	DownloadsTotal     int
+	DownloadsYesterday int
+	Mods               []AuthorModInfo
+	MaintainedMods     []AuthorMaintainedModInfo
+}
+
 var ModNameMap map[string]string = make(map[string]string)           //maps Display names to Internal names
 var ModInfoMap map[string]ModListItem = make(map[string]ModListItem) //maps Internal names to ModInfo (for Rank and DownloadsToday)
 
@@ -166,4 +187,29 @@ func getRandomModHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		i++
 	}
+}
+
+func getAuthorInfoHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method must be of type GET", http.StatusBadRequest)
+		return
+	}
+	steamID := r.URL.Query().Get("steamid64") //get the query
+	log.Println("recieved request for author: " + steamID)
+
+	resp, err := http.Get("https://tmlapis.repl.co/author_api/" + steamID) //fetch data
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var authorInfo Author
+	err = json.NewDecoder(resp.Body).Decode(&authorInfo) //encode the data (without rank and DownloadsToday)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	returnJsonFromStruct(w, authorInfo, http.StatusOK) //return it to the frontend
 }
