@@ -98,6 +98,7 @@ func cmdInterface() {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Someone visited the homepage!")
 	loadTemplates() //we reload the templates on each call, so that we don't need to restart the server when changing the html (mainly for debugging)
 	err := templates.ExecuteTemplate(w, "index.html", nil)
 	if err != nil {
@@ -107,6 +108,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func statsHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("Someone searched for a mod!")
 	loadTemplates() //we reload the templates on each call, so that we don't need to restart the server when changing the html (mainly for debugging)
 	modName := r.URL.Query().Get("mod")
 	err := templates.ExecuteTemplate(w, "stats.html", struct{ Mod string }{
