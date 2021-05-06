@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 	"net/url"
+	"sync"
 	"time"
 )
 
@@ -62,17 +63,22 @@ type Author struct {
 }
 
 var ModNameMap map[string]string = make(map[string]string)           //maps Display names to Internal names
-var ModInfoMap map[string]ModListItem = make(map[string]ModListItem) //maps Internal names to ModInfo (for Rank and DownloadsToday)
+var ModInfoMap map[string]ModListItem = make(map[string]ModListItem) //maps Internal names to ModListItem (for Rank and DownloadsToday)
+var ModList []ModListItem = make([]ModListItem, 0)
+
+/*!!!IMPORTANT always lock the mutex below before working with the data above, and close it afterwards!!!*/
+var dataMutex *sync.Mutex //while the maps and slices are being updated or used this mutex will be locked
 
 var random *rand.Rand = rand.New(rand.NewSource(time.Now().Unix())) //random device
 
 func updateModMaps() error {
+	dataMutex.Lock()
+	defer dataMutex.Unlock()
 	resp, err := http.Get("https://tmlapis.repl.co/modList")
 	if err != nil {
 		return err
 	}
 
-	var ModList []ModListItem
 	err = json.NewDecoder(resp.Body).Decode(&ModList) //decode the modlist
 	if err != nil {
 		return err
@@ -89,7 +95,10 @@ func updateModMaps() error {
 func returnJsonFromStruct(w http.ResponseWriter, data interface{}, code int) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
-	json.NewEncoder(w).Encode(data)
+	err := json.NewEncoder(w).Encode(data)
+	if err != nil {
+		log.Println(err)
+	}
 }
 
 //api handler to get the whole modList
@@ -99,21 +108,13 @@ func getModlistHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp, err := http.Get("https://tmlapis.repl.co/modList") //fetch the data
+	dataMutex.Lock()
+	defer dataMutex.Unlock()
+	w.Header().Set("Content-Type", "application/json")
+	err := json.NewEncoder(w).Encode(&ModList)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
 		log.Println(err)
-		return
 	}
-
-	var ModList []ModListItem
-	err = json.NewDecoder(resp.Body).Decode(&ModList) //decode the data
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		log.Println(err)
-		return
-	}
-	returnJsonFromStruct(w, ModList, http.StatusOK) //return it to the frontend
 }
 
 //returns the Internal name of the given Display name from a query
@@ -123,8 +124,10 @@ func getInternalNameHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	DisplayName := r.URL.Query().Get("displayname")                     //read the query
+	DisplayName := r.URL.Query().Get("displayname") //read the query
+	dataMutex.Lock()
 	name, err := json.Marshal(ModNameMap[url.QueryEscape(DisplayName)]) //find the Internal name in the map
+	dataMutex.Unlock()
 	if err != nil {
 		log.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -156,8 +159,10 @@ func getModInfoHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	dataMutex.Lock()
 	modInfo.Rank = ModInfoMap[modInfo.InternalName].Rank                     //add the rank from the map
 	modInfo.DownloadsToday = ModInfoMap[modInfo.InternalName].DownloadsToday //add DownloadsToday from the map
+	dataMutex.Unlock()
 	err = json.NewEncoder(w).Encode(modInfo)
 	if err != nil {
 		log.Println(err)
@@ -172,6 +177,8 @@ func getRandomModHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method must be GET", http.StatusBadRequest)
 		return
 	}
+	dataMutex.Lock()
+	defer dataMutex.Unlock()
 	count := random.Intn(len(ModNameMap))
 	i := 0
 	for _, v := range ModNameMap {

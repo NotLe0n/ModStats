@@ -24,16 +24,14 @@ func loadTemplates() {
 }
 
 func main() {
-	loadTemplates()
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	dataMutex = &sync.Mutex{}
 
-	err := updateModMaps()
-	if err != nil {
-		log.Fatal("Unable to update ModNameMap: " + err.Error())
-	}
+	loadTemplates()
 
 	//this goroutine updates the mod list every 10 minutes so that the loading time is not too long on every reload
 	go func() {
-		for range time.Tick(10 * time.Minute) {
+		for ; true; <-time.Tick(10 * time.Minute) {
 			log.Println("updating ModNameMap")
 			err := updateModMaps()
 			if err != nil {
