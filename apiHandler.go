@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 	"net/url"
+	"strings"
 	"sync"
 	"time"
 )
@@ -113,7 +114,10 @@ func getModlistHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	err := json.NewEncoder(w).Encode(&ModList)
 	if err != nil {
-		log.Println(err)
+		if !strings.HasPrefix(err.Error(), "write tcp") {
+			log.Println("Connection lost because of redirect")
+			log.Println(err)
+		}
 	}
 }
 
