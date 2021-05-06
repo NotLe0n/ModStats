@@ -59,7 +59,7 @@ async function getData(modName) {
   }
 }
 
-function displayData(modData) {
+async function displayData(modData) {
   let html = `<div>
   <div id="mod-info">
     <img src="https://mirror.sgkoi.dev/direct/${modData.InternalName}.png" id="icon" width="160px" height="160px" style="display: ${modData.Icon !== "" ? "block" : "none"}"></img>
@@ -87,9 +87,18 @@ function displayData(modData) {
     <p>Rank total: <span id="total-rank">${modData.Rank}</span></p>
   </div>
   <div id="dl-history">
-    <iframe src="http://javid.ddns.net/tModLoader/tools/moddownloadhistory.php?modname=${modData.InternalName}">
+    <h1>Version history</h1>
+    <div id="history-table">
+      <table>
+        <tbody id="history-tbody">
+          <tr>
+            <td>Version</td><td>Downloads</td><td>TModLoaderVersion</td><td>PublishDate</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  </div>`;
+</div>`;
 
   document.getElementById("content").innerHTML = html;
 
@@ -99,4 +108,18 @@ function displayData(modData) {
 
   let description = JSON.stringify(modData.Description);
   document.getElementById("description").innerHTML = parseChatTags(description.substr(1, description.length - 2));
+
+  let response = await fetch(`/api/getVersionHistory?modname=${modData.InternalName}`);
+  let versionHistory = await response.json();
+  makeHistoryGraph(versionHistory);
+}
+
+function makeHistoryGraph(versionHistory) {
+  let table = document.getElementById("history-tbody");
+
+  for (let i = 0; i < versionHistory.length; i++) {
+    let tr = document.createElement("tr");
+    tr.innerHTML = `<td>${versionHistory[i].Version}</td><td>${versionHistory[i].Downloads}</td><td>${versionHistory[i].TModLoaderVersion}</td><td>${versionHistory[i].PublishDate}</td>`
+    table.appendChild(tr);
+  }
 }

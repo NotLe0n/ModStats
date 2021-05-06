@@ -55,6 +55,7 @@ func main() {
 	serverHandler.HandleFunc("/api/getModlist", getModlistHandler)
 	serverHandler.HandleFunc("/api/getModInfo", getModInfoHandler)
 	serverHandler.HandleFunc("/api/getInternalName", getInternalNameHandler)
+	serverHandler.HandleFunc("/api/getVersionHistory", getVersionHistory)
 	serverHandler.HandleFunc("/api/getRandomMod", getRandomModHandler)
 	serverHandler.HandleFunc("/api/getAuthorInfo", getAuthorInfoHandler)
 
