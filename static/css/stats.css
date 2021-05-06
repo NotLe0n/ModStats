@@ -30,14 +30,14 @@
 #description-container {
   float: right;
   width: 830px;
-  height: 400px;
-  margin: 5px 15px 70px;
+  margin: 5px 15px 15px;
   line-height: 1;
 }
 
 #description {
   overflow: overlay;
-  height: 350px;
+  height: 150px;
+  max-height: 400px;
 }
 
 #description::-webkit-scrollbar-track {
@@ -61,11 +61,31 @@ span {
 
 #dl-history {
   float: left;
+}
+
+#history-table {
+  overflow: overlay;
+  height: 250px;
+  width: 800px;
   margin-bottom: 50px;
 }
 
-#dl-history iframe {
-  width: 800px;
-  height: 400px;
-  border: none;
+#history-table::-webkit-scrollbar-track {
+  background-color: #525252;
+}
+
+#history-table::-webkit-scrollbar {
+  width: 15px;
+  height: 15px;
+  background-color: #F5F5F5;
+}
+
+#history-table::-webkit-scrollbar-thumb {
+  background-color: #FFFFFF;
+  border: solid black 2px;
+}
+
+#history-tbody td {
+  padding: 10px;
+  line-height: 0.3em;
 }

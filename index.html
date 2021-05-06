@@ -32,19 +32,43 @@
 			<h1><u>Welcome to Mod Statistics</u></h1>
 			<p>Search and find out more about your mod</p>
 			<p>You can also search for yourself by searching "author: <a href="https://steamidfinder.com/" target="_blank">[your steamid64]</a>"</p>
-			<div class="blockDiv">
-				<h1><u>Did you know?</u></h1>
-				<h2>tModloader has <span id="modcount">...</span> mods in total</h2>
-			</div>
-			<div class="blockDiv">
-				<h1><u>Fun Fact:</u></h1>
-				<h2>There are <span id="deadmods">...</span> dead mods</h2>
-				<p>(daily download count < 5)</p> 
-			</div>
-			<div class="blockDiv">
-				<h1><u>:bruhcat:</u></h1>
-				<h2>The median Download count is <span id="median">...</span></h2>
-			</div>
+            <div id="input-container">
+                <input id="big-mod-search" type="text" onkeypress="search(this)" placeholder="Search" list="modlist"/>
+            </div>
+
+            <div id="tml-stats">
+                <h1>tModloader Statistics:</h1>
+                <p>- There are <span id="modcount">...</span> mods on the Mod Browser</p>
+                <p>- All downloads combined are <span id="combined">...</span></p>
+                <p>- There are <span id="deadmods">...</span> dead mods (daily download count < 5)</p>
+                <p>- The Top 10 mods make up <span id="percent">...</span>% of all downloads</p>
+                <p>- The median download count is <span id="median">...</span></p>
+                <p>- Over <span id="contribs">...</span> people have contributed to tML</p>
+            </div>
+
+            <div id="blocks">
+                <div class="blockDiv">
+                    <div class="blockhead">
+                        <h1>Top 10 Mods</h1>
+                    </div>
+                    <div class="blockbody">
+                        <ol id="Top10Mods">
+                            Loading...
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="blockDiv">
+                    <div class="blockhead">
+                        <h1>Popular Mods</h1>
+                    </div>
+                    <div class="blockbody">
+                        <ol id="hotmods">
+                            Loading...
+                        </ol>
+                    </div>
+                </div>
+            </div>
 		</div>
 	</div>
 </body>

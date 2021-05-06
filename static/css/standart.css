@@ -51,6 +51,13 @@ body {
   outline: solid white 1px;
 }
 
+#lupe {
+    display: inline;
+    align-self: center;
+    position: relative;
+    left: 250px
+}
+
 #content {
   line-height: 0.4em;
   margin: auto;

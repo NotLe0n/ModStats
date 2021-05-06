@@ -175,6 +175,36 @@ func getModInfoHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func getVersionHistory(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method must be of type GET", http.StatusBadRequest)
+		return
+	}
+	modName := r.URL.Query().Get("modname")                                               //get the query
+	resp, err := http.Get("https://tmlapis.repl.co/modVersionHistory?modname=" + modName) //fetch most of the data
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	type mod struct {
+		Version           string
+		Downloads         int
+		TModLoaderVersion string
+		PublishDate       string
+	}
+
+	var modInfo []mod
+	err = json.NewDecoder(resp.Body).Decode(&modInfo) //encode the data (without rank and DownloadsToday)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	returnJsonFromStruct(w, modInfo, http.StatusOK) //return it to the frontend
+}
+
 //returns a random Mod name
 func getRandomModHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
