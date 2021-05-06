@@ -30,14 +30,14 @@
 #description-container {
   float: right;
   width: 830px;
-  height: 400px;
-  margin: 5px 15px 70px;
+  margin: 5px 15px 15px;
   line-height: 1;
 }
 
 #description {
   overflow: overlay;
-  height: 350px;
+  height: 150px;
+  max-height: 400px;
 }
 
 #description::-webkit-scrollbar-track {
