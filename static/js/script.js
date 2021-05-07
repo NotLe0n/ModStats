@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async function () {
   let modList = await setupModList();
-  await updateTMLStats(modList);
+  updateTMLStats(modList);
 });
 
 function updateTMLStats(modList) {
@@ -8,7 +8,7 @@ function updateTMLStats(modList) {
 
     document.getElementById("modcount").innerHTML = modList.length;
     document.getElementById("deadmods").innerHTML = modList.filter(x => x.DownloadsYesterday < 5).length;
-    document.getElementById("median").innerHTML = modList[modList.length / 2].DownloadsTotal;
+    document.getElementById("median").innerHTML = modList[Math.floor(modList.length / 2)].DownloadsTotal;
     document.getElementById("combined").innerHTML = combinedDownloads(modList);
     document.getElementById("percent").innerHTML = ((combinedDownloads(modList.filter(x => x.Rank <= 10)) / combinedDownloads(modList)) * 100).toPrecision(4);
     document.getElementById("contribs").innerHTML = 80;
