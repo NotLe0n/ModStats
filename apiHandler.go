@@ -80,10 +80,12 @@ func updateModMaps() error {
 		return err
 	}
 	defer resp.Body.Close()
-	err = json.NewDecoder(resp.Body).Decode(&ModList) //decode the modlist
+	var TempModList []ModListItem = make([]ModListItem, len(ModList)) //if the fetching fails, it is not a fatal error as we still have the old modlist
+	err = json.NewDecoder(resp.Body).Decode(&TempModList)             //decode the modlist
 	if err != nil {
 		return err
 	}
+	ModList = TempModList
 
 	for _, v := range ModList {
 		ModNameMap[url.QueryEscape(v.DisplayName)] = v.ModName //map all Display names to Internal names

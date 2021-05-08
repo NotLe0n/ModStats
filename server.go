@@ -35,7 +35,7 @@ func main() {
 			log.Println("updating ModNameMap")
 			err := updateModMaps()
 			if err != nil {
-				log.Fatal("Unable to update ModNameMap: " + err.Error())
+				log.Println("Unable to update ModNameMap, using the last valid state: " + err.Error())
 			}
 		}
 	}()
