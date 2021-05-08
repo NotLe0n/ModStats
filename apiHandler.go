@@ -101,6 +101,7 @@ func returnJsonFromStruct(w http.ResponseWriter, data interface{}, code int) {
 	err := json.NewEncoder(w).Encode(data)
 	if err != nil {
 		log.Println(err)
+		errLog.Println(err)
 	}
 }
 
@@ -117,8 +118,8 @@ func getModlistHandler(w http.ResponseWriter, r *http.Request) {
 	err := json.NewEncoder(w).Encode(&ModList)
 	if err != nil {
 		if !strings.HasPrefix(err.Error(), "write tcp") {
-			log.Println("Connection lost because of redirect")
 			log.Println(err)
+			errLog.Println(err)
 		}
 	}
 }
@@ -136,6 +137,7 @@ func getInternalNameHandler(w http.ResponseWriter, r *http.Request) {
 	dataMutex.Unlock()
 	if err != nil {
 		log.Println(err)
+		errLog.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -154,6 +156,7 @@ func getModInfoHandler(w http.ResponseWriter, r *http.Request) {
 	resp, err := http.Get("https://tmlapis.repl.co/modInfo?modname=" + modName) //fetch most of the data
 	if err != nil {
 		log.Println(err)
+		errLog.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -163,6 +166,7 @@ func getModInfoHandler(w http.ResponseWriter, r *http.Request) {
 	err = json.NewDecoder(resp.Body).Decode(&modInfo) //encode the data (without rank and DownloadsToday)
 	if err != nil {
 		log.Println(err)
+		errLog.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -173,6 +177,7 @@ func getModInfoHandler(w http.ResponseWriter, r *http.Request) {
 	err = json.NewEncoder(w).Encode(modInfo)
 	if err != nil {
 		log.Println(err)
+		errLog.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -187,6 +192,7 @@ func getVersionHistory(w http.ResponseWriter, r *http.Request) {
 	resp, err := http.Get("https://tmlapis.repl.co/modVersionHistory?modname=" + modName) //fetch most of the data
 	if err != nil {
 		log.Println(err)
+		errLog.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -203,6 +209,7 @@ func getVersionHistory(w http.ResponseWriter, r *http.Request) {
 	err = json.NewDecoder(resp.Body).Decode(&modInfo) //encode the data (without rank and DownloadsToday)
 	if err != nil {
 		log.Println(err)
+		errLog.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -224,6 +231,7 @@ func getRandomModHandler(w http.ResponseWriter, r *http.Request) {
 			name, err := json.Marshal(url.QueryEscape(v))
 			if err != nil {
 				log.Println(err)
+				errLog.Println(err)
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
@@ -245,6 +253,7 @@ func getAuthorInfoHandler(w http.ResponseWriter, r *http.Request) {
 	resp, err := http.Get("https://tmlapis.repl.co/author_api/" + steamID) //fetch data
 	if err != nil {
 		log.Println(err)
+		errLog.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -254,6 +263,7 @@ func getAuthorInfoHandler(w http.ResponseWriter, r *http.Request) {
 	err = json.NewDecoder(resp.Body).Decode(&authorInfo) //encode the data (without rank and DownloadsToday)
 	if err != nil {
 		log.Println(err)
+		errLog.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}

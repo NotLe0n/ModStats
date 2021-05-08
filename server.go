@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"sync"
 	"time"
 )
@@ -18,6 +19,8 @@ var server http.Server           //the server itself
 
 var templates *template.Template //the html files
 
+var errLog *log.Logger
+
 //load the html files
 func loadTemplates() {
 	templates = template.Must(template.ParseFiles("index.html", "stats.html", "modList.html", "author.html"))
@@ -25,6 +28,15 @@ func loadTemplates() {
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
+	logFile, err := os.OpenFile("log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer logFile.Close()
+	errLog = log.New(logFile, "", log.Ldate|log.Ltime|log.Lshortfile)
+	errLog.Println("Setup log for this Session")
+
 	dataMutex = &sync.Mutex{}
 
 	loadTemplates()
@@ -36,6 +48,7 @@ func main() {
 			err := updateModMaps()
 			if err != nil {
 				log.Println("Unable to update ModNameMap, using the last valid state: " + err.Error())
+				errLog.Println("Unable to update ModNameMap: " + err.Error())
 			}
 		}
 	}()
