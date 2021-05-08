@@ -79,7 +79,7 @@ func updateModMaps() error {
 	if err != nil {
 		return err
 	}
-
+	defer resp.Body.Close()
 	err = json.NewDecoder(resp.Body).Decode(&ModList) //decode the modlist
 	if err != nil {
 		return err
@@ -155,6 +155,7 @@ func getModInfoHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	defer resp.Body.Close()
 
 	var modInfo ModInfo
 	err = json.NewDecoder(resp.Body).Decode(&modInfo) //encode the data (without rank and DownloadsToday)
@@ -187,6 +188,7 @@ func getVersionHistory(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	defer resp.Body.Close()
 
 	type mod struct {
 		Version           string
@@ -244,6 +246,7 @@ func getAuthorInfoHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	defer resp.Body.Close()
 
 	var authorInfo Author
 	err = json.NewDecoder(resp.Body).Decode(&authorInfo) //encode the data (without rank and DownloadsToday)
