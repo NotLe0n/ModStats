@@ -162,6 +162,12 @@ func getModInfoHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode != http.StatusOK {
+		log.Println("fetching of modInfo for \"" + modName + "\" returned an error. The mod probably doesn't exist.")
+		http.Error(w, "Invalid modName", http.StatusBadRequest)
+		return
+	}
+
 	var modInfo ModInfo
 	err = json.NewDecoder(resp.Body).Decode(&modInfo) //encode the data (without rank and DownloadsToday)
 	if err != nil {
@@ -197,6 +203,12 @@ func getVersionHistory(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		log.Println("fetching of modVersionHistory for \"" + modName + "\" returned an error. The mod probably doesn't exist.")
+		http.Error(w, "Invalid modName", http.StatusBadRequest)
+		return
+	}
 
 	type mod struct {
 		Version           string
@@ -258,6 +270,12 @@ func getAuthorInfoHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		log.Println("fetching of authorInfo for \"" + steamID + "\" returned an error. The steamID probably doesn't exist.")
+		http.Error(w, "Invalid modName", http.StatusBadRequest)
+		return
+	}
 
 	var authorInfo Author
 	err = json.NewDecoder(resp.Body).Decode(&authorInfo) //encode the data (without rank and DownloadsToday)
