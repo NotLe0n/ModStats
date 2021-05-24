@@ -1,6 +1,6 @@
 # ModStats
 This is a website which displays information about tModloader mods.
-![image](https://user-images.githubusercontent.com/26361108/116994005-7ae9fb00-acd8-11eb-96d5-5625a015d25e.png)
+![image](https://user-images.githubusercontent.com/26361108/119384301-c6cf0500-bcc4-11eb-81e0-66a09cf2706a.png)
 
 
 ## Features
