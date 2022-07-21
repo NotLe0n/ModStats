@@ -1,17 +1,10 @@
 package main
 
 import (
-	"context"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
-	"os"
-	"sync"
-	"time"
 )
-
-var wg sync.WaitGroup //needed to keep the goroutines in sync when the server is shut down
 
 var serverHandler *http.ServeMux //for all the request handler
 var staticHandler http.Handler   //serves the static folder (javascript + css and assets)
@@ -26,7 +19,7 @@ func loadTemplates() {
 	templates = template.Must(template.ParseFiles("index.html", "stats.html", "modList.html", "author.html"))
 }
 
-func main() {
+/*func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	logFile, err := os.OpenFile("log.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
@@ -71,58 +64,16 @@ func main() {
 	serverHandler.HandleFunc("/api/getAuthorInfo", getAuthorInfoHandler)
 
 	log.Println("Starting cmd goroutine")
-	wg.Add(1)
-	//this goroutine is for the cmd interface (at the moment only the quit command for a gracefull shutdown)
-	go func() {
-		defer wg.Done() //tell the waiter group that we are finished at the end
-		cmdInterface()
-		log.Println("cmd goroutine finished")
-	}()
 
 	log.Println("server starting on Port :3000")
-	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+	/*if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatal(err.Error())
 	} else if err == http.ErrServerClosed {
 		log.Println("Server not listening anymore")
 	}
-}
-
-//commands in the switch can be run from the server console (not in sync with the logging)
-func cmdInterface() {
-	for loop := true; loop; {
-		var inp string
-		_, err := fmt.Scanln(&inp)
-		if err != nil {
-			log.Println(err.Error())
-		} else {
-			switch inp {
-			case "quit":
-				log.Println("Attempting to shutdown server")
-				err := server.Shutdown(context.Background())
-				if err != nil {
-					log.Fatal("Error while trying to shutdown server: " + err.Error())
-				}
-				log.Println("Server was shutdown")
-				loop = false
-			default:
-				fmt.Println("cmd not supported")
-			}
-		}
-	}
-}
-
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	loadTemplates() //we reload the templates on each call, so that we don't need to restart the server when changing the html (mainly for debugging)
-	err := templates.ExecuteTemplate(w, "index.html", nil)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		log.Println(err)
-	}
-}
+}*/
 
 func statsHandler(w http.ResponseWriter, r *http.Request) {
-	loadTemplates() //we reload the templates on each call, so that we don't need to restart the server when changing the html (mainly for debugging)
-
 	steam64ID := r.URL.Query().Get("author")
 	if steam64ID != "" {
 		log.Println("Someone searched for an author!")

@@ -6,6 +6,7 @@ import (
 	"math/rand"
 	"net/http"
 	"net/url"
+	"sort"
 	"strings"
 	"sync"
 	"time"
@@ -68,7 +69,7 @@ var ModInfoMap map[string]ModListItem = make(map[string]ModListItem) //maps Inte
 var ModList []ModListItem = make([]ModListItem, 0)
 
 /*!!!IMPORTANT always lock the mutex below before working with the data above, and close it afterwards!!!*/
-var dataMutex *sync.Mutex //while the maps and slices are being updated or used this mutex will be locked
+var dataMutex *sync.Mutex = &sync.Mutex{} //while the maps and slices are being updated or used this mutex will be locked
 
 var random *rand.Rand = rand.New(rand.NewSource(time.Now().Unix())) //random device
 
@@ -91,6 +92,9 @@ func updateModMaps() error {
 		ModNameMap[url.QueryEscape(v.DisplayName)] = v.ModName //map all Display names to Internal names
 		ModInfoMap[v.ModName] = v                              //map all Internal names to ModInfo data
 	}
+	sort.Slice(ModList, func(i, j int) bool {
+		return ModList[i].Rank < ModList[j].Rank
+	})
 	return nil
 }
 

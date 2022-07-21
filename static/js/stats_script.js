@@ -1,10 +1,7 @@
 // get data incase site is reloaded or accessed through the url
 document.addEventListener("DOMContentLoaded", async function () {
   let queriedMod = new URLSearchParams(window.location.search).get('mod');
-  document.getElementById('mod-search').value = queriedMod;
   getData(queriedMod);
-
-  let modList = await setupModList();
 });
 
 function parseChatTags(str) {
