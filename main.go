@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -25,6 +26,7 @@ func startTicker() {
 }
 
 func main() {
+	rand.Seed(time.Now().Unix())
 	startTicker()
 
 	r := gin.Default()
@@ -39,7 +41,6 @@ func main() {
 	r.GET("/stats", statsPage)
 	api := r.Group("/api")
 	{
-		api.GET("/getModlist", getModList)
 		api.GET("/getRandomMod", getRandomMod)
 	}
 
