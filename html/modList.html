@@ -32,7 +32,7 @@
 			<input id="mod-search" type="text" onkeypress="search(this)" placeholder="Search for a mod" list="modlist" />
 			<datalist id="modlist">
 				{{range .modlist}}
-				<option value="{{ .ModName }}">
+				<option value="{{ .InternalName }}">
 				{{end}}
 			</datalist>
 		</div>
@@ -53,8 +53,8 @@
 			{{range .modlist}}
 			<tr>
 				<td>{{ .Rank }}</td>
-				<td><a href="/stats?mod={{ .ModName }}">{{ .DisplayName }}</a></td>
-				<td><a href="/stats?mod={{ .ModName }}">{{ .ModName }}</a></td>
+				<td><a href="/stats?mod={{ .InternalName }}">{{ .DisplayName }}</a></td>
+				<td><a href="/stats?mod={{ .InternalName }}">{{ .InternalName }}</a></td>
 				<td>{{ .DownloadsTotal }}</td>
 				<td>{{ .DownloadsToday }}</td>
 				<td>{{ .DownloadsYesterday }}</td>

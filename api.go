@@ -11,5 +11,5 @@ func getRandomMod(c *gin.Context) {
 	dataMutex.Lock()
 	defer dataMutex.Unlock()
 	n := rand.Intn(len(ModList))
-	c.String(http.StatusOK, ModList[n].ModName)
+	c.String(http.StatusOK, ModList[n].InternalName)
 }

@@ -44,7 +44,7 @@
 		<input id="mod-search" type="text" onkeypress="search(this)" placeholder="Search for a mod" list="modlist" value="{{ .Mod }}" />
 		<datalist id="modlist">
 		{{range .modlist}}
-			<option value="{{ .ModName }}">
+			<option value="{{ .InternalName }}">
 		{{end}}
 		</datalist>
 	</div>
@@ -86,7 +86,7 @@
 					</tr>
 					{{range .versionHistory}}
 					<tr>
-						<td>{{ .Version }}</td><td>{{ .Downloads }}</td><td>{{ .TModLoaderVersion }}</td><td>{{ .PublishDate }}</td>
+						<td>{{ .Version }}</td><td>{{ .DownloadsTotal }}</td><td>{{ .TModLoaderVersion }}</td><td>{{ .PublishDate }}</td>
 					</tr>
 					{{end}}
 				  </tbody>

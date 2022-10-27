@@ -9,7 +9,7 @@ import (
 
 // requires a internal modName
 func getModInfo(modName string) (ModInfo, error) {
-	resp, err := http.Get("https://tmlapis.repl.co/modInfo?modname=" + url.QueryEscape(modName))
+	resp, err := http.Get("https://tmlapis.tomat.dev/1.3/mod/" + url.QueryEscape(modName))
 	if err != nil {
 		return ModInfo{}, err
 	}
@@ -32,15 +32,15 @@ func getModInfo(modName string) (ModInfo, error) {
 }
 
 type ModVersion struct {
-	Version           string
-	Downloads         int
-	TModLoaderVersion string
-	PublishDate       string
+	Version           string `json:"version"`
+	DownloadsTotal    int    `json:"downloads_total"`
+	TModLoaderVersion string `json:"tmodloader_version"`
+	PublishDate       string `json:"publish_date"`
 }
 
 // requires a internal modName
 func getModVersionHistory(modName string) ([]ModVersion, error) {
-	resp, err := http.Get("https://tmlapis.repl.co/modVersionHistory?modname=" + url.QueryEscape(modName)) //fetch most of the data
+	resp, err := http.Get("https://tmlapis.tomat.dev/1.3/history/" + url.QueryEscape(modName)) //fetch most of the data
 	if err != nil {
 		return nil, err
 	}
@@ -59,7 +59,7 @@ func getModVersionHistory(modName string) ([]ModVersion, error) {
 }
 
 func getAuthorInfo(steamid64 string) (Author, error) {
-	resp, err := http.Get("https://tmlapis.repl.co/author_api/" + steamid64) //fetch data
+	resp, err := http.Get("https://tmlapis.tomat.dev/1.3/author/" + steamid64) //fetch data
 	if err != nil {
 		return Author{}, err
 	}
@@ -78,7 +78,7 @@ func getAuthorInfo(steamid64 string) (Author, error) {
 		authorInfo.Mods[i].EscapedDisplayName = url.QueryEscape(authorInfo.Mods[i].DisplayName)
 	}
 	for i := range authorInfo.MaintainedMods {
-		authorInfo.MaintainedMods[i].EscapedModName = url.QueryEscape(authorInfo.MaintainedMods[i].ModName)
+		authorInfo.MaintainedMods[i].EscapedModName = url.QueryEscape(authorInfo.MaintainedMods[i].InternalName)
 	}
 	return authorInfo, nil
 }

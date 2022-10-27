@@ -43,7 +43,7 @@
 			<input id="mod-search" type="text" onkeypress="search(this)" placeholder="Search for a mod" list="modlist" />
 			<datalist id="modlist">
 				{{range .modlist}}
-				<option value="{{ .ModName }}">
+				<option value="{{ .InternalName }}">
 				{{end}}
 			</datalist>
 		</div>
@@ -77,7 +77,7 @@
                         <ol>
                             {{range .top10mods}}
 							<li>
-								<a href="stats?mod={{ .ModName }}">{{ .DisplayName }}</a>
+								<a href="stats?mod={{ .InternalName }}">{{ .DisplayName }}</a>
 							</li>
 							{{end}}
                         </ol>
@@ -92,7 +92,7 @@
                         <ol>
 							{{range .hotmods}}
 							<li>
-								<a href="stats?mod={{ .ModName }}">{{ .DisplayName }}</a>
+								<a href="stats?mod={{ .InternalName }}">{{ .DisplayName }}</a>
 							</li>
 							{{end}}
                         </ol>
