@@ -4,29 +4,35 @@
 <head>
 	<meta charset="utf-8" name="viewport">
 	<title>Mod Statistics // Main Page</title>
-	<meta content="#43B581" data-react-helmet="true" name="theme-color">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 	<link href="/static/css/standart.css" rel="stylesheet" type="text/css" />
 	<link href="/static/css/index.css" rel="stylesheet" type="text/css" />
-	<script src="/static/js/standart.js"></script>
 	<script src="/static/js/index_script.js"></script>
     <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="favicon.ico/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="favicon.ico/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="favicon.ico/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="favicon.ico/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="favicon.ico/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="favicon.ico/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="favicon.ico/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="favicon.ico/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon.ico/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="favicon.ico/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="favicon.ico/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico/favicon-16x16.png">
-    <link rel="manifest" href="favicon.ico/manifest.json">
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+    <link rel="manifest" href="/favicon.ico/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="favicon.ico/ms-icon-144x144.png">
-    <meta name="theme-color" content="#ffffff">
+
+    <script>
+        function changeTarget(event) {
+            document.querySelectorAll('.mod-search[type=text]').forEach(x => x.setAttribute('name', event.value))
+            document.querySelectorAll('.input-container select').forEach(x => x.value = event.value)
+        }
+    </script>
 </head>
 
 <body>
@@ -36,28 +42,40 @@
 		<a href="/modList">Mod List</a>
 		<a href="https://github.com/NotLe0n/ModStats">Github</a>
 	</div>	
-	<div id="header">
-		<h1 onclick="openNav()" style="margin-left: 20px;">☰</h1>
-		<h1 id="title">Mod Statistics // Main Page</h1>
-		<div id="input-container">
-			<input id="mod-search" type="text" onkeypress="search(this)" placeholder="Search for a mod" list="modlist" />
-			<datalist id="modlist">
-				{{range .modlist}}
-				<option value="{{ .InternalName }}">
-				{{end}}
-			</datalist>
+	<header>
+		<h1 onclick="openNav()">☰</h1>
+        <h1><span>Mod Statistics // </span><wbr><span>Main Page</span></h1>
+		<div class="input-container">
+            <form action="stats" method="get">
+                <select onchange="changeTarget(this)">
+                    <option>mod</option>
+                    <option>author</option>
+                </select>
+                <input name="mod" class="mod-search" type="text" placeholder="Search" list="modlist" />
+                <datalist id="modlist">
+                    {{range .modlist}}
+                    <option value="{{ .InternalName }}">
+                    {{end}}
+                </datalist>
+            </form>
 		</div>
-	</div>
+	</header>
 	<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
-	<div id="main">
+	<main id="main">
 		<div id="content">
 			<h1><u>Welcome to Mod Statistics</u></h1>
 			<p>Search and find out more about your mod</p>
 			<p>You can also search for yourself by searching "author: <a href="https://steamidfinder.com/" target="_blank">[your steamid64]</a>"</p>
-            <div id="input-container">
-                <input id="big-mod-search" type="text" onkeypress="search(this)" placeholder="Search" list="modlist"/>
-            </div>
 
+            <div class="input-container">
+                <form action="stats" method="get">
+                    <select onchange="changeTarget(this)">
+                        <option>mod</option>
+                        <option>author</option>
+                    </select>
+                    <input name="mod" class="mod-search" id="big-mod-search" type="text" placeholder="Search" list="modlist"/>
+                </form>
+            </div>
             <div id="tml-stats">
                 <h1>tModloader Statistics:</h1>
                 <p>- There are <span>{{ .modcount }}</span> mods on the Mod Browser</p>
@@ -100,7 +118,7 @@
                 </div>
             </div>
 		</div>
-	</div>
+	</main>
 </body>
 <footer>
 	Made by <a href="https://github.com/NotLe0n" target="_blank">NotLe0n#7696</a> and <a href="https://github.com/bafto" target="_blank">bafto</a>

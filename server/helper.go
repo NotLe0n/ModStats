@@ -75,7 +75,7 @@ func getAuthorInfo(steamid64 string) (Author, error) {
 		return Author{}, err
 	}
 	for i := range authorInfo.Mods {
-		authorInfo.Mods[i].EscapedDisplayName = url.QueryEscape(authorInfo.Mods[i].DisplayName)
+		authorInfo.Mods[i].InternalName = url.QueryEscape(ModNameMap[url.QueryEscape(authorInfo.Mods[i].DisplayName)])
 	}
 	for i := range authorInfo.MaintainedMods {
 		authorInfo.MaintainedMods[i].EscapedModName = url.QueryEscape(authorInfo.MaintainedMods[i].InternalName)

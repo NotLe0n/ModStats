@@ -1,81 +1,115 @@
-body {
-  font-family: 'Courier New', Courier, monospace;
-  color: #ffffff;
-  background-color: #333;
-  margin: 0;
+:root {
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 1em;
+	--bg-color: #333;
+	--searchbar-size: 15rem;
+	--form-bg-color: #414141;
+	--form-border-color: rgb(0 0 0 / 60%);
+	--form-hover-color: #c0c0c0;
+	--link-color: #aefaff;
 }
 
-#header {
-  background-color: #525252;
-  width: 100%;
-  position: sticky;
-  top: 0;
-  left: 0;
-  display: flex;
-  overflow: hidden;
+h1 {
+	font-size: 2rem;
 }
 
-#header h1 {
-  transition: margin 0.5s ease;
+html, body {
+	width: 100%;
+	background-color: var(--bg-color);
+	margin: 0;
+	color: white;
+	position: fixed;
 }
 
-#title {
-  align-self: center;
-  margin-left: 40px;
+header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	top: 0;
+	left: 0;
+	padding: 1rem;
+	background-color: #525252;
+	overflow: hidden;
 }
 
-#input-container {
-  margin-left: auto;
-  margin-right: 20px;
-  align-self: center;
+@media screen and (max-width: 750px) {
+	header {
+		flex-flow: row wrap;
+		justify-content: center;
+	}
 }
 
-#mod-search {
-  color: rgb(255, 255, 255);
-  background-color: #414141;
-  background-image: url(../assets/line.png);
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 16px;
-  height: 30px;
-  width: 250px;
-  border: none;
-  padding-left: 10px;
+@media screen and (max-width: 700px) {
+	header h1 {
+		width: min-content;
+		font-size: 1.5rem;
+	}
 }
 
-#mod-search:hover {
-  border: none;
-  outline: solid white 1px;
+header h1 {
+	transition: margin 0.5s ease;
+	margin: 1rem;
+	white-space: normal;
 }
 
-#mod-search:focus {
-  outline: solid white 1px;
+header h1 span {
+	overflow: hidden;
+	white-space: nowrap;
 }
 
-#lupe {
-    display: inline;
-    align-self: center;
-    position: relative;
-    left: 250px
+.input-container {
+	padding: 1rem;
 }
 
-#content {
-  line-height: 0.4em;
-  margin: auto;
-  margin-top: 20px;
+.input-container form {
+	margin-bottom: 0;
+}
+
+.input-container form *:hover {
+	outline: solid var(--form-hover-color) 1px;
+}
+
+.input-container form *:focus {
+	outline: solid var(--form-hover-color) 1px;
+}
+
+.input-container select {
+	color: white;
+	outline: none;
+	border: var(--form-border-color) solid 1px;
+	height: 2rem;
+	background: var(--form-bg-color);
+}
+
+.mod-search {
+	color: white;
+	background: var(--form-bg-color) url("../assets/line.png") no-repeat left;
+	background-size: contain;
+	background-position-y: bottom;
+	border: var(--form-border-color) solid 1px;
+	padding: .5rem;
+}
+
+header .mod-search {
+	width: var(--searchbar-size);
 }
 
 a {
-  text-decoration: none;
-  color: #aefaff;
+	text-decoration: none;
+	color: var(--link-color)
 }
 
 footer {
-  background-color: #222;
-  width: 100%;
-  height: 3%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  text-align: center;
-  padding-top: 10px;
+	background-color: #222;
+	width: 100%;
+	height: 3%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	text-align: center;
+	padding-top: 10px;
+}
+
+main {
+	overflow: auto;
 }

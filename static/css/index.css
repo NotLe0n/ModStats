@@ -4,25 +4,9 @@
 }
 
 #big-mod-search {
-  height: 30px;
-  width: 500px;
-  color: rgb(255, 255, 255);
-  background-color: #414141;
-  background-size: 500px 30px;
-  background-image: url(../assets/line.png);
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 16px;
-  border: none;
-  padding-left: 10px;
-}
-
-#big-mod-search:hover {
-  border: none;
-  outline: solid white 1px;
-}
-
-#big-mod-search:focus {
-  outline: solid white 1px;
+    width: calc(var(--searchbar-size) * 2);
+    background-size: cover;
+    image-rendering: crisp-edges;
 }
 
 #tml-stats {
@@ -32,13 +16,14 @@
     vertical-align: middle;
     font-size: 20px;
 }
+
 #blocks {
     display: inline-block;
 }
 
 .blockDiv {
     width: 400px;
-    height: auto; 
+    height: auto;
     margin: 20px;
     vertical-align: middle;
     display: inline-block;
@@ -67,40 +52,40 @@
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-  }
-  
-  /* The navigation menu links */
-  .sidenav a {
+}
+
+/* The navigation menu links */
+.sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
     color: #818181;
     display: block;
     transition: 0.3s;
-  }
-  
-  /* When you mouse over the navigation links, change their color */
-  .sidenav a:hover {
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
     color: #f1f1f1;
-  }
-  
-  /* Position and style the close button (top right corner) */
-  .sidenav .closebtn {
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
     position: absolute;
     top: 0;
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
-  }
-  
-  /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-  #main {
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
     transition: margin-left .5s;
     padding: 20px;
-  }
-  
-  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-  @media screen and (max-height: 450px) {
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
-  }
+}

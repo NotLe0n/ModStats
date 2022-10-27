@@ -42,7 +42,7 @@ type ModInfo struct {
 type AuthorModInfo struct {
 	Rank               int    `json:"rank"`
 	DisplayName        string `json:"display_name"`
-	EscapedDisplayName string // added later
+	InternalName       string // added later
 	DownloadsTotal     int    `json:"downloads_total"`
 	DownloadsYesterday int    `json:"downloads_yesterday"`
 }

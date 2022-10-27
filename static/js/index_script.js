@@ -1,5 +1,5 @@
 async function randomMod() {
-  var response = await fetch('/api/getRandomMod');
+  let response = await fetch('/api/getRandomMod');
   let modName = await response.text();
   console.log(modName)
   window.location.href = `/stats?mod=${modName}`
