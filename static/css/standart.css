@@ -15,10 +15,10 @@ h1 {
 
 html, body {
 	width: 100%;
+	height: 100%;
 	background-color: var(--bg-color);
 	margin: 0;
 	color: white;
-	position: fixed;
 }
 
 header {
@@ -111,5 +111,9 @@ footer {
 }
 
 main {
+	position: relative;
+	padding: 10px;
 	overflow: auto;
+	height: 80%;
+	overflow-y: scroll;
 }
