@@ -45,6 +45,10 @@
 	.sidenav a {font-size: 18px;}
 }
 
+#hamburger {
+	cursor: pointer;
+}
+
 main {
 	transition: margin-left .5s;
 	padding: 20px;
