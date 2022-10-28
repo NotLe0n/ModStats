@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8" name="viewport">
 		<title>{{ .escapedDisplayName }}</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta content="#43B581" data-react-helmet="true" name="theme-color">
-		<link href="/static/css/standart.css" rel="stylesheet" type="text/css" />
-		<link href="/static/css/stats.css" rel="stylesheet" type="text/css" />
-
+		<link rel="stylesheet" href="/static/css/standart.css" />
+		<link rel="stylesheet" href="/static/css/stats.css" />
 		<link rel="icon" type="image/png" sizes="any" href="/static/assets/favicon.ico">
 
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!-- embed metadata -->
 		<meta property="og:title" content="Mod Statistics // {{ .modData.DisplayName }}" />
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content="https://modstats.repl.co/stats?mod={{ .modData.InternalName }}" />
 		<meta property="og:image" content="https://bettermodwidget.javidpack.repl.co/?mod={{ .modData.InternalName }}" />
 		<meta name="theme-color" content="#2f3136">
-
-		<!-- Include this to make the og:image larger -->
+		<meta content="#43B581" data-react-helmet="true" name="theme-color">
 		<meta name="twitter:card" content="summary_large_image">
 
 		<script>
