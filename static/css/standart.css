@@ -30,7 +30,7 @@ header {
 	justify-content: space-between;
 	top: 0;
 	left: 0;
-	height: 2rem;
+	height: 4rem;
 	padding: 1rem;
 	background-color: #525252;
 	overflow: hidden;
@@ -38,17 +38,14 @@ header {
 	z-index: 1;
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 897px) {
 	header {
+		height: 5rem;
 		position: unset;
 		flex-flow: row wrap;
 		justify-content: center;
 	}
-}
-
-@media screen and (max-width: 700px) {
 	header h1 {
-		width: min-content;
 		font-size: 1.5rem;
 	}
 	.input-container {
@@ -56,9 +53,18 @@ header {
 	}
 }
 
+@media screen and (max-width: 410px) {
+	header {
+		height: 8.5rem;
+	}
+	header h1 {
+		width: min-content;
+	}
+}
+
 header h1 {
 	transition: margin 0.5s ease;
-	margin: 1rem;
+	margin: .5rem;
 	white-space: normal;
 }
 
