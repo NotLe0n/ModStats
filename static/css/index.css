@@ -22,6 +22,7 @@
 	display: block;
 	transition: 0.3s;
 	text-wrap: none;
+	cursor: pointer;
 }
 
 /* When you mouse over the navigation links, change their color */
@@ -42,10 +43,6 @@
 @media screen and (max-height: 450px) {
 	.sidenav {padding-top: 15px;}
 	.sidenav a {font-size: 18px;}
-}
-
-#hamburger {
-	cursor: pointer;
 }
 
 main {
