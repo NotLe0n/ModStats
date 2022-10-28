@@ -1,70 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" name="viewport">
+        <title>Mod Statistics // Main Page</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<head>
-	<meta charset="utf-8" name="viewport">
-	<title>Mod Statistics // Main Page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="/static/css/standart.css" rel="stylesheet" type="text/css" />
+        <link href="/static/css/index.css" rel="stylesheet" type="text/css" />
+        <!-- Favicons -->
+        <link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+        <link rel="manifest" href="/favicon.ico/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="favicon.ico/ms-icon-144x144.png">
 
-	<link href="/static/css/standart.css" rel="stylesheet" type="text/css" />
-	<link href="/static/css/index.css" rel="stylesheet" type="text/css" />
-	<script src="/static/js/index_script.js"></script>
-    <!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
-    <link rel="manifest" href="/favicon.ico/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="favicon.ico/ms-icon-144x144.png">
+        <script>
+            function changeTarget(event) {
+                document.querySelectorAll('.mod-search[type=text]').forEach(x => x.setAttribute('name', event.value))
+                document.querySelectorAll('.input-container select').forEach(x => x.value = event.value)
+            }
 
-    <script>
-        function changeTarget(event) {
-            document.querySelectorAll('.mod-search[type=text]').forEach(x => x.setAttribute('name', event.value))
-            document.querySelectorAll('.input-container select').forEach(x => x.value = event.value)
-        }
-    </script>
-</head>
+            async function randomMod() {
+                let response = await fetch('/api/getRandomMod').then(x => x.text());
+                window.location.href = `/stats?mod=${response}`
+            }
 
-<body>
-	<div id="mySidenav" class="sidenav">
-		<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-		<a href="javascript:void(0)" onclick="randomMod()">Random Mod</a>
-		<a href="/modList">Mod List</a>
-		<a href="https://github.com/NotLe0n/ModStats">Github</a>
-	</div>	
-	<header>
-		<h1 onclick="openNav()">☰</h1>
-        <h1><span>Mod Statistics // </span><wbr><span>Main Page</span></h1>
-		<div class="input-container">
-            <form action="stats" method="get">
-                <select onchange="changeTarget(this)">
-                    <option>mod</option>
-                    <option>author</option>
-                </select>
-                <input name="mod" class="mod-search" type="text" placeholder="Search" list="modlist" />
-                <datalist id="modlist">
-                    {{range .modlist}}
-                    <option value="{{ .InternalName }}">
-                    {{end}}
-                </datalist>
-            </form>
-		</div>
-	</header>
-	<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
-	<main id="main">
-		<div id="content">
-			<h1><u>Welcome to Mod Statistics</u></h1>
-			<p>Search and find out more about your mod</p>
+            let openNav = () => document.querySelector('nav.sidenav').style.width = "250px";
+            let closeNav = () => document.querySelector('nav.sidenav').style.width = "0";
+        </script>
+    </head>
+
+    <body>
+        <nav class="sidenav">
+            <a class="closebtn" onclick="closeNav()">&times;</a>
+            <a onclick="randomMod()">Random Mod</a>
+            <a href="/modList">Mod List</a>
+            <a href="https://github.com/NotLe0n/ModStats">Github</a>
+        </nav>
+        <header>
+            <h1 id="hamburger" onclick="openNav()">☰</h1>
+            <h1><span>Mod Statistics // </span><wbr><span>Main Page</span></h1>
+            <div class="input-container">
+                <form action="stats" method="get">
+                    <select onchange="changeTarget(this)">
+                        <option>mod</option>
+                        <option>author</option>
+                    </select>
+                    <input name="mod" class="mod-search" type="text" placeholder="Search" list="modlist" />
+                    <datalist id="modlist">
+                        {{range .modlist}}
+                        <option value="{{ .InternalName }}">
+                        {{end}}
+                    </datalist>
+                </form>
+            </div>
+        </header>
+        <main onclick="closeNav()">
+            <h1><u>Welcome to Mod Statistics</u></h1>
+            <p>Search and find out more about your mod</p>
 
             <div class="input-container">
                 <form action="stats" method="get">
@@ -93,10 +97,10 @@
                     <div class="blockbody">
                         <ol>
                             {{range .top10mods}}
-							<li>
-								<a href="stats?mod={{ .InternalName }}">{{ .DisplayName }}</a>
-							</li>
-							{{end}}
+                            <li>
+                                <a href="stats?mod={{ .InternalName }}">{{ .DisplayName }}</a>
+                            </li>
+                            {{end}}
                         </ol>
                     </div>
                 </div>
@@ -107,21 +111,15 @@
                     </div>
                     <div class="blockbody">
                         <ol>
-							{{range .hotmods}}
-							<li>
-								<a href="stats?mod={{ .InternalName }}">{{ .DisplayName }}</a>
-							</li>
-							{{end}}
+                            {{range .hotmods}}
+                            <li>
+                                <a href="stats?mod={{ .InternalName }}">{{ .DisplayName }}</a>
+                            </li>
+                            {{end}}
                         </ol>
                     </div>
                 </div>
             </div>
-		</div>
-	</main>
-</body>
-<footer>
-	Made by <a href="https://github.com/NotLe0n" target="_blank">NotLe0n#7696</a> and <a href="https://github.com/bafto" target="_blank">bafto</a>
-	<a onclick="window.location.href = 'https://bit.ly/3h05aLp'" style="position: fixed; bottom: 0; right: 0;">?</a>
-</footer>
-
+        </main>
+    </body>
 </html>

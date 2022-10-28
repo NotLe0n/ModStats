@@ -1,111 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" name="viewport">
+		<title>{{ .escapedDisplayName }}</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta content="#43B581" data-react-helmet="true" name="theme-color">
+		<link href="/static/css/standart.css" rel="stylesheet" type="text/css" />
+		<link href="/static/css/stats.css" rel="stylesheet" type="text/css" />
 
-<head>
-	<meta charset="utf-8" name="viewport">
-	<title>{{ .escapedDisplayName }}</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta content="#43B581" data-react-helmet="true" name="theme-color">
-	<link href="/static/css/standart.css" rel="stylesheet" type="text/css" />
-	<link href="/static/css/stats.css" rel="stylesheet" type="text/css" />
+		<!-- Favicons -->
+		<link rel="apple-touch-icon" sizes="57x57" href="favicon.ico/apple-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="favicon.ico/apple-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="favicon.ico/apple-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="favicon.ico/apple-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="favicon.ico/apple-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="favicon.ico/apple-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="favicon.ico/apple-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="favicon.ico/apple-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="favicon.ico/apple-icon-180x180.png">
+		<link rel="icon" type="image/png" sizes="192x192"  href="favicon.ico/android-icon-192x192.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="favicon.ico/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="favicon.ico/favicon-96x96.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="favicon.ico/favicon-16x16.png">
+		<link rel="manifest" href="favicon.ico/manifest.json">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="msapplication-TileImage" content="favicon.ico/ms-icon-144x144.png">
 
-	<!-- Favicons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="favicon.ico/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="favicon.ico/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="favicon.ico/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="favicon.ico/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="favicon.ico/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="favicon.ico/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="favicon.ico/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="favicon.ico/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicon.ico/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192"  href="favicon.ico/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="favicon.ico/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon.ico/favicon-16x16.png">
-    <link rel="manifest" href="favicon.ico/manifest.json">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="favicon.ico/ms-icon-144x144.png">
+		<meta property="og:title" content="Mod Statistics // {{.Mod}}" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://modstats.repl.co/stats?mod={{.Mod}}" />
+		<meta property="og:image" content="https://bettermodwidget.javidpack.repl.co/?mod={{.Mod}}" />
+		<meta name="theme-color" content="#2f3136">
 
-	<meta property="og:title" content="Mod Statistics // {{.Mod}}" />
-	<meta property="og:type" content="website" />
-	<meta property="og:url" content="https://modstats.repl.co/stats?mod={{.Mod}}" />
-	<meta property="og:image" content="https://bettermodwidget.javidpack.repl.co/?mod={{.Mod}}" />
-	<meta name="theme-color" content="#2f3136">
+		<!-- Include this to make the og:image larger -->
+		<meta name="twitter:card" content="summary_large_image">
 
-	<!-- Include this to make the og:image larger -->
-	<meta name="twitter:card" content="summary_large_image">
+		<script>
+			function changeTarget(event) {
+				document.querySelectorAll('.mod-search[type=text]').forEach(x => x.setAttribute('name', event.value))
+				document.querySelectorAll('.input-container select').forEach(x => x.value = event.value)
+			}
+		</script>
+	</head>
 
-	<script>
-		function changeTarget(event) {
-			document.querySelectorAll('.mod-search[type=text]').forEach(x => x.setAttribute('name', event.value))
-			document.querySelectorAll('.input-container select').forEach(x => x.value = event.value)
-		}
-	</script>
-</head>
-
-<body>
-	<header>
-		<h1><span><a href="">Mod Statistics</a> // </span><wbr><span>Mod stats</span></h1>
-		<div class="input-container">
-			<form action="stats" method="get">
-				<select onchange="changeTarget(this)">
-					<option>mod</option>
-					<option>author</option>
-				</select>
-				<input name="mod" class="mod-search" type="text" placeholder="Search" list="modlist" />
-				<datalist id="modlist">
-					{{range .modlist}}
-					<option value="{{ .InternalName }}">
-						{{end}}
-				</datalist>
-			</form>
-		</div>
-	</header>
-	<main id="content">
-		<div id="mod-info">
-			<img src="https://mirror.sgkoi.dev/direct/{{ .modData.InternalName }}.png" id="icon" width="160px" height="160px" style="display:{{ .iconDisplay }}"></img>
-			<p>Display name: <span id="displayName">{{ .escapedDisplayName }}</span></p>
-			<p>Internal name: <span id="internalName">{{ .modData.InternalName }}</span></p>
-			<p>Version: <span id="version">{{ .modData.Version }} ({{ .modData.TModLoaderVersion }})</span></p>
-			<p>Author: <span id="author">{{ .modData.Author }}</span></p>
-			<p>Homepage: <span id="homepage">{{if .hasHomepage }} <a href="{{ .modData.Homepage }}" target="_blank">{{ .modData.Homepage }}</a> {{else}} no homepage {{end}}</span></p>
-			<p>Last updated: <span id="updated">{{ .modData.LastUpdated }}</span></p>
-			<p>Widget url: <span id="widget"><a href="https://bettermodwidget.javidpack.repl.co/?mod={{ .modData.InternalName }}" target="_blank">https://bettermodwidget.javidpack.repl.co/?mod={{ .modData.InternalName }}</a></span></p>
-			<p>Mod dependencies: <span>{{range .modDependencies}}<a href="?mod={{ . }}">{{ . }}</a>{{end}}</span>
-			<p>Mod Side: <span>{{ .modData.ModSide }}</span></p>
-		</div>
-			<div id="description-container">
-				<h1>Description</h1>
-				<p id="description">{{ .escapedDescription }}</p>
+	<body>
+		<header>
+			<h1><span><a href="">Mod Statistics</a> // </span><wbr><span>Mod stats</span></h1>
+			<div class="input-container">
+				<form action="stats" method="get">
+					<select onchange="changeTarget(this)">
+						<option>mod</option>
+						<option>author</option>
+					</select>
+					<input name="mod" class="mod-search" type="text" placeholder="Search" list="modlist" />
+					<datalist id="modlist">
+						{{range .modlist}}
+						<option value="{{ .InternalName }}">
+							{{end}}
+					</datalist>
+				</form>
 			</div>
-		<div id="download-info">
-			<h1>Downloads: </h1>
-			<p>Download link: <span id="dl-link">{{ .modData.DownloadLink }}</span></p>
-			<p>Downloads total: <span id="dl-total">{{ .modData.DownloadsTotal }}</span></p>
-			<p>Downloads today: <span id="dl-today">{{ .modData.DownloadsToday }}</span></p>
-			<p>Downloads yesterday: <span id="dl-yesterday">{{ .modData.DownloadsYesterday }}</span></p>
-			<br>
-			<p>Rank total: <span id="total-rank">{{ .modData.Rank }}</span></p>
-		</div>
-		<div id="dl-history">
-			<h1>Version history</h1>
-			<div id="history-table">
-			<table>
-				<tbody id="history-tbody">
-				<tr>
-					<td>Version</td><td>Downloads</td><td>TModLoaderVersion</td><td>PublishDate</td>
-				</tr>
-				{{range .versionHistory}}
+		</header>
+		<main>
+			<div>
+				<div id="mod-info">
+					<img src="https://mirror.sgkoi.dev/direct/{{ .modData.InternalName }}.png" id="icon" width="160px" height="160px" style="display:{{ .iconDisplay }}"></img>
+					<p>Display name: <span id="displayName">{{ .escapedDisplayName }}</span></p>
+					<p>Internal name: <span id="internalName">{{ .modData.InternalName }}</span></p>
+					<p>Version: <span id="version">{{ .modData.Version }} ({{ .modData.TModLoaderVersion }})</span></p>
+					<p>Author: <span id="author">{{ .modData.Author }}</span></p>
+					<p>Homepage: <span id="homepage">{{if .hasHomepage }} <a href="{{ .modData.Homepage }}" target="_blank">{{ .modData.Homepage }}</a> {{else}} no homepage {{end}}</span></p>
+					<p>Last updated: <span id="updated">{{ .modData.LastUpdated }}</span></p>
+					<p>Widget url: <span id="widget"><a href="https://bettermodwidget.javidpack.repl.co/?mod={{ .modData.InternalName }}" target="_blank">https://bettermodwidget.javidpack.repl.co/?mod={{ .modData.InternalName }}</a></span></p>
+					<p>Mod dependencies: <span>{{range .modDependencies}}<a href="?mod={{ . }}">{{ . }}</a>{{end}}</span>
+					<p>Mod Side: <span>{{ .modData.ModSide }}</span></p>
+				</div>
+					<div id="description-container">
+						<h1>Description</h1>
+						<p id="description">{{ .escapedDescription }}</p>
+					</div>
+				<div id="download-info">
+					<h1>Downloads: </h1>
+					<p>Download link: <span id="dl-link">{{ .modData.DownloadLink }}</span></p>
+					<p>Downloads total: <span id="dl-total">{{ .modData.DownloadsTotal }}</span></p>
+					<p>Downloads today: <span id="dl-today">{{ .modData.DownloadsToday }}</span></p>
+					<p>Downloads yesterday: <span id="dl-yesterday">{{ .modData.DownloadsYesterday }}</span></p>
+					<p>Rank total: <span id="total-rank">{{ .modData.Rank }}</span></p>
+				</div>
+			</div>
+			<div id="dl-history">
+				<h1>Version history</h1>
+				<div id="history-table">
+				<table>
+					<tbody id="history-tbody">
 					<tr>
-						<td>{{ .Version }}</td><td>{{ .DownloadsTotal }}</td><td>{{ .TModLoaderVersion }}</td><td>{{ .PublishDate }}</td>
+						<td>Version</td><td>Downloads</td><td>TModLoaderVersion</td><td>PublishDate</td>
 					</tr>
-				{{end}}
-			  </tbody>
-			</table>
-		  </div>
-		</div>
-	</main>
-</body>
-<footer>Made by <a href="https://github.com/NotLe0n" target="_blank">NotLeon#7696</a> and <a href="https://github.com/bafto" target="_blank">bafto</a></footer>
+					{{range .versionHistory}}
+						<tr>
+							<td>{{ .Version }}</td><td>{{ .DownloadsTotal }}</td><td>{{ .TModLoaderVersion }}</td><td>{{ .PublishDate }}</td>
+						</tr>
+					{{end}}
+				  </tbody>
+				</table>
+			  </div>
+			</div>
+		</main>
+	</body>
 </html>

@@ -1,13 +1,13 @@
 #content {
-    margin-left: 30px;
-    white-space: nowrap;
+	margin-left: 30px;
+	white-space: nowrap;
 }
 
 span {
-    color: #fcd581
+	color: #fcd581
 }
 
 td {
-    padding: 20px;
-    line-height: 1;
+	padding: 20px;
+	line-height: 1;
 }

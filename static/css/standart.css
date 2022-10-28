@@ -7,6 +7,9 @@
 	--form-border-color: rgb(0 0 0 / 60%);
 	--form-hover-color: #c0c0c0;
 	--link-color: #aefaff;
+	--table-border-color: #4a4a4a;
+	--table-fill-dark: #3b3c3e;
+	--table-fill-light: #3f4043;
 }
 
 h1 {
@@ -30,10 +33,13 @@ header {
 	padding: 1rem;
 	background-color: #525252;
 	overflow: hidden;
+	position: sticky;
+	z-index: 1;
 }
 
 @media screen and (max-width: 750px) {
 	header {
+		position: unset;
 		flex-flow: row wrap;
 		justify-content: center;
 	}
@@ -43,6 +49,9 @@ header {
 	header h1 {
 		width: min-content;
 		font-size: 1.5rem;
+	}
+	.input-container {
+		padding: .5rem !important;
 	}
 }
 
@@ -79,6 +88,7 @@ header h1 span {
 	border: var(--form-border-color) solid 1px;
 	height: 2rem;
 	background: var(--form-bg-color);
+	border-radius: .33rem;
 }
 
 .mod-search {
@@ -88,6 +98,7 @@ header h1 span {
 	background-position-y: bottom;
 	border: var(--form-border-color) solid 1px;
 	padding: .5rem;
+	border-radius: .33rem;
 }
 
 header .mod-search {
@@ -99,21 +110,78 @@ a {
 	color: var(--link-color)
 }
 
-footer {
-	background-color: #222;
-	width: 100%;
-	height: 3%;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	text-align: center;
-	padding-top: 10px;
-}
-
 main {
 	position: relative;
 	padding: 10px;
 	overflow: auto;
-	height: 80%;
-	overflow-y: scroll;
+}
+
+/*table code taken from github*/
+.markdown-body * {
+	box-sizing: border-box;
+}
+
+.markdown-body table {
+	border-spacing: 0;
+	border-collapse: collapse;
+	width: max-content;
+	overflow: auto;
+	max-width: 100%;
+	display: block;
+}
+
+th {
+	font-weight: 600;
+	padding: 6px 13px;
+	border: 1px solid var(--table-border-color);
+}
+
+tr {
+	background-color: var(--table-fill-dark);
+	border-top: 1px solid var(--table-fill-dark);
+	display: table-row;
+	vertical-align: inherit;
+	border-color: inherit;
+}
+
+table tr:nth-child(2n) {
+	background-color: var(--table-fill-light);
+}
+
+tbody {
+	display: table-row-group;
+	vertical-align: middle;
+	border-color: inherit;
+}
+
+td {
+	padding: 6px 13px;
+	border: 1px solid var(--table-border-color);
+	display: table-cell;
+	vertical-align: inherit;
+}
+
+/* scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #333;
+	border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #666;
+	border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
 }

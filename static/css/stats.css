@@ -1,85 +1,50 @@
-#icon {
-  float: left;
-  margin-right: 10px;
-  image-rendering: pixelated;
+main {
+	display: flex;
+	flex-wrap: wrap;
 }
 
-#item-icon {
-  height: 1em;
-}
-
-#mod-info {
-  float: left;
-  width: 950px;
-  margin: 5px 30px 30px 0px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-#download-info {
-  float: left;
-  margin: 20px 20px 20px 0px;
-}
-
-#description-container {
-  float: right;
-  width: 830px;
-  margin: 5px 15px 15px;
-  line-height: 1;
-}
-
-#description {
-  overflow: overlay;
-  height: 150px;
-  max-height: 400px;
-}
-
-#description::-webkit-scrollbar-track {
-  background-color: #525252;
-}
-
-#description::-webkit-scrollbar {
-  width: 15px;
-  height: 15px;
-  background-color: #F5F5F5;
-}
-
-#description::-webkit-scrollbar-thumb {
-  background-color: #FFFFFF;
-  border: solid black 2px;
+main div {
+	padding: 5px;
 }
 
 span {
-  color: #fcd581
+	color: #fcd581
+}
+
+#icon {
+	float: left;
+	padding: 10px;
+	image-rendering: pixelated;
+}
+
+#item-icon {
+	height: 1em;
+}
+
+#mod-info {
+	overflow-wrap: normal;
+	width: 60rem;
+}
+
+#description-container {
+	line-height: 1;
+	width: 60rem;
+}
+
+#description {
+	height: 10rem;
+	overflow: auto;
+}
+
+#download-info {
+	width: 60rem;
 }
 
 #dl-history {
-  float: left;
+	width: 48rem;
 }
 
 #history-table {
-  overflow: overlay;
-  height: 250px;
-  width: 800px;
-  margin-bottom: 50px;
-}
-
-#history-table::-webkit-scrollbar-track {
-  background-color: #525252;
-}
-
-#history-table::-webkit-scrollbar {
-  width: 15px;
-  height: 15px;
-  background-color: #F5F5F5;
-}
-
-#history-table::-webkit-scrollbar-thumb {
-  background-color: #FFFFFF;
-  border: solid black 2px;
-}
-
-#history-tbody td {
-  padding: 10px;
-  line-height: 0.3em;
+	height: 40rem;
+	overflow: auto;
 }
