@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" name="viewport">
+        <title>{{.author}}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta content="#43B581" data-react-helmet="true" name="theme-color">
+        <link href="/static/css/standart.css" rel="stylesheet" type="text/css" />
+        <link href="/static/css/author.css" rel="stylesheet" type="text/css" />
+        <!-- Favicons -->
+        <link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+        <link rel="manifest" href="/favicon.ico/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="favicon.ico/ms-icon-144x144.png">
+
+        <meta property="og:title" content="Mod Statistics // {{.Steam64ID}}" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://modstats.repl.co/stats?author={{.Steam64ID}}" />
+        <meta property="og:image" content="https://dynamictmlstats.repl.co/?steamid64={{.Steam64ID}}" />
+        <meta name="theme-color" content="#2f3136">
+
+        <!-- Include this to make the og:image larger -->
+        <meta name="twitter:card" content="summary_large_image">
+
+        <script>
+            function changeTarget(event) {
+                document.querySelectorAll('.mod-search[type=text]').forEach(x => {
+                    x.setAttribute('name', event.value)
+                    x.setAttribute('list', event.value === "mod" ? modlist : "")
+                })
+                document.querySelectorAll('.input-container select').forEach(x => x.value = event.value)
+            }
+        </script>
+    </head>
+
+    <body>
+        <header>
+            <h1><span><a href=".">Mod Statistics</a> // </span><wbr><span>Author stats</span></h1>
+            <div class="input-container">
+                <form action="stats" method="get">
+                    <select onchange="changeTarget(this)">
+                        <option>mod</option>
+                        <option>author</option>
+                    </select>
+                    <input name="mod" class="mod-search" type="text" placeholder="Search" list="modlist" />
+                    <datalist id="modlist">
+                        {{range .modlist}}
+                            <option value="{{ .InternalName }}">
+                        {{end}}
+                    </datalist>
+                </form>
+            </div>
+        </header>
+        <main id="content">
+            <p>Steam Name: <span>{{ .authorInfo.SteamName }}</span></p>
+            <p>Downloads Total: <span>{{ .authorInfo.DownloadsTotal }}</span></p>
+            <p>Downloads Yesterday: <span>{{ .authorInfo.DownloadsYesterday }}</span></p>
+            <p>Mods: <span>
+                {{if .authorInfo.Mods}}
+                    <table>
+                        <tbody><tr> <td>Rank</td> <td>Display Name</td> <td>Downloads Total</td> <td>Downloads Yesterday</td> </tr></tbody>
+                        {{range .authorInfo.Mods}}
+                        <tr>
+                            <td>{{ .Rank }}</td>
+                            <td><a href="/stats?mod={{ .InternalName }}">{{ .DisplayName }}</a></td>
+                            <td>{{ .DownloadsTotal }}</td>
+                            <td>{{ .DownloadsYesterday }}</td>
+                        </tr>
+                        {{end}}
+                    </table>
+                {{else}}
+                    no mods
+                {{end}}
+            </span></p>
+            <p>Maintained Mods: <span>
+                {{if .authorInfo.MaintainedMods}}
+                    <table>
+                        <tbody><tr> <td>Rank</td> <td>Display Name</td> <td>Downloads Total</td> <td>Downloads Yesterday</td> </tr></tbody>
+                        {{range .authorInfo.MaintainedMods}}
+                        <tr>
+                            <td>?</td>
+                            <td><a href="/stats?mod={{ .InternalName }}">{{ .EscapedModName }}</a></td>
+                            <td>{{ .DownloadsTotal }}</td>
+                            <td>{{ .DownloadsYesterday }}</td>
+                        </tr>
+                    </table>
+                {{end}}
+                {{else}}
+                    no mods
+                {{end}}
+            </span></p>
+        </main>
+    </body>
+</html>

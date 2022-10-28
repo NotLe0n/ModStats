@@ -1,81 +1,195 @@
-body {
-  font-family: 'Courier New', Courier, monospace;
-  color: #ffffff;
-  background-color: #333;
-  margin: 0;
+:root {
+	font-family: monospace;
+	font-size: 1.25em;
+	--bg-color: #333;
+	--searchbar-size: 15rem;
+	--form-bg-color: #414141;
+	--form-border-color: rgb(0 0 0 / 60%);
+	--form-hover-color: #c0c0c0;
+	--link-color: #aefaff;
+	--table-border-color: #4a4a4a;
+	--table-fill-dark: #3b3c3e;
+	--table-fill-light: #3f4043;
 }
 
-#header {
-  background-color: #525252;
-  width: 100%;
-  position: sticky;
-  top: 0;
-  left: 0;
-  display: flex;
-  overflow: hidden;
+h1 {
+	font-size: 2rem;
 }
 
-#header h1 {
-  transition: margin 0.5s ease;
+html, body {
+	width: 100%;
+	height: 100%;
+	background-color: var(--bg-color);
+	margin: 0;
+	color: white;
 }
 
-#title {
-  align-self: center;
-  margin-left: 40px;
+header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	top: 0;
+	left: 0;
+	height: 4rem;
+	padding: 1rem;
+	background-color: #525252;
+	overflow: hidden;
+	position: sticky;
+	z-index: 1;
 }
 
-#input-container {
-  margin-left: auto;
-  margin-right: 20px;
-  align-self: center;
+@media screen and (max-width: 897px) {
+	header {
+		height: 5rem;
+		position: unset;
+		flex-flow: row wrap;
+		justify-content: center;
+	}
+	header h1 {
+		font-size: 1.5rem;
+	}
+	.input-container {
+		padding: .5rem !important;
+	}
 }
 
-#mod-search {
-  color: rgb(255, 255, 255);
-  background-color: #414141;
-  background-image: url(../assets/line.png);
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 16px;
-  height: 30px;
-  width: 250px;
-  border: none;
-  padding-left: 10px;
+@media screen and (max-width: 410px) {
+	header {
+		height: 8.5rem;
+	}
+	header h1 {
+		width: min-content;
+	}
 }
 
-#mod-search:hover {
-  border: none;
-  outline: solid white 1px;
+header h1 {
+	transition: margin 0.5s ease;
+	margin: .5rem;
+	white-space: normal;
 }
 
-#mod-search:focus {
-  outline: solid white 1px;
+header h1 span {
+	overflow: hidden;
+	white-space: nowrap;
 }
 
-#lupe {
-    display: inline;
-    align-self: center;
-    position: relative;
-    left: 250px
+.input-container {
+	padding: 1rem;
 }
 
-#content {
-  line-height: 0.4em;
-  margin: auto;
-  margin-top: 20px;
+.input-container form {
+	margin-bottom: 0;
+}
+
+.input-container form *:hover {
+	outline: solid var(--form-hover-color) 1px;
+}
+
+.input-container form *:focus {
+	outline: solid var(--form-hover-color) 1px;
+}
+
+.input-container select {
+	color: white;
+	outline: none;
+	border: var(--form-border-color) solid 1px;
+	height: 2rem;
+	background: var(--form-bg-color);
+	border-radius: .33rem;
+}
+
+.mod-search {
+	color: white;
+	background: var(--form-bg-color) url("../assets/line.png") no-repeat left;
+	background-size: contain;
+	background-position-y: bottom;
+	border: var(--form-border-color) solid 1px;
+	padding: .5rem;
+	border-radius: .33rem;
+}
+
+header .mod-search {
+	width: var(--searchbar-size);
 }
 
 a {
-  text-decoration: none;
-  color: #aefaff;
+	text-decoration: none;
+	color: var(--link-color)
 }
 
-footer {
-  background-color: #222;
-  width: 100%;
-  height: 3%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  text-align: center;
-  padding-top: 10px;
+main {
+	position: relative;
+	padding: 10px;
+	overflow: auto;
+}
+
+/*table code taken from github*/
+.markdown-body * {
+	box-sizing: border-box;
+}
+
+.markdown-body table {
+	border-spacing: 0;
+	border-collapse: collapse;
+	width: max-content;
+	overflow: auto;
+	max-width: 100%;
+	display: block;
+}
+
+th {
+	font-weight: 600;
+	padding: 6px 13px;
+	background: #2f2f2f;
+	border: 1px solid var(--table-border-color);
+}
+
+tr {
+	background-color: var(--table-fill-dark);
+	border-top: 1px solid var(--table-fill-dark);
+	display: table-row;
+	vertical-align: inherit;
+	border-color: inherit;
+}
+
+table tr:nth-child(2n) {
+	background-color: var(--table-fill-light);
+}
+
+tbody {
+	display: table-row-group;
+	vertical-align: middle;
+	border-color: inherit;
+}
+
+td {
+	padding: 6px 13px;
+	border: 1px solid var(--table-border-color);
+	display: table-cell;
+	vertical-align: inherit;
+}
+
+/* scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #333;
+	border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #666;
+	border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
 }

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" name="viewport">
+        <title>Mod Statistics // Main Page</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="/static/css/standart.css" rel="stylesheet" type="text/css" />
+        <link href="/static/css/index.css" rel="stylesheet" type="text/css" />
+        <!-- Favicons -->
+        <link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico/apple-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico/apple-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico/apple-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico/apple-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico/apple-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico/apple-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico/apple-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico/apple-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/apple-icon-180x180.png">
+        <link rel="icon" type="image/png" sizes="192x192"  href="/favicon.ico/android-icon-192x192.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico/favicon-96x96.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/favicon-16x16.png">
+        <link rel="manifest" href="/favicon.ico/manifest.json">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="favicon.ico/ms-icon-144x144.png">
+
+        <script>
+            function changeTarget(event) {
+                document.querySelectorAll('.mod-search[type=text]').forEach(x => {
+                    x.setAttribute('name', event.value)
+                    x.setAttribute('list', event.value === "mod" ? modlist : "")
+                })
+                document.querySelectorAll('.input-container select').forEach(x => x.value = event.value)
+            }
+
+            async function randomMod() {
+                let response = await fetch('/api/getRandomMod').then(x => x.text());
+                window.location.href = `/stats?mod=${response}`
+            }
+
+            let openNav = () => document.querySelector('nav.sidenav').style.width = "250px";
+            let closeNav = () => document.querySelector('nav.sidenav').style.width = "0";
+        </script>
+    </head>
+
+    <body>
+        <nav class="sidenav">
+            <a class="closebtn" onclick="closeNav()">&times;</a>
+            <a onclick="randomMod()">Random Mod</a>
+            <a href="/modList">Mod List</a>
+            <a href="https://github.com/NotLe0n/ModStats">Github</a>
+        </nav>
+        <header>
+            <h1 id="hamburger" onclick="openNav()">☰</h1>
+            <h1><span>Mod Statistics // </span><wbr><span>Main Page</span></h1>
+            <div class="input-container">
+                <form action="stats" method="get">
+                    <select onchange="changeTarget(this)">
+                        <option>mod</option>
+                        <option>author</option>
+                    </select>
+                    <input name="mod" class="mod-search" type="text" placeholder="Search" list="modlist" />
+                    <datalist id="modlist">
+                        {{range .modlist}}
+                        <option value="{{ .InternalName }}">
+                        {{end}}
+                    </datalist>
+                </form>
+            </div>
+        </header>
+        <main onclick="closeNav()">
+            <h1><u>Welcome to Mod Statistics</u></h1>
+            <p>Search and find out more about your mod</p>
+
+            <div class="input-container">
+                <form action="stats" method="get">
+                    <select onchange="changeTarget(this)">
+                        <option>mod</option>
+                        <option>author</option>
+                    </select>
+                    <input name="mod" class="mod-search" id="big-mod-search" type="text" placeholder="Search" list="modlist"/>
+                </form>
+            </div>
+            <div id="tml-stats">
+                <h1>tModloader Statistics:</h1>
+                <p>- There are <span>{{ .modcount }}</span> mods on the Mod Browser</p>
+                <p>- All downloads combined are <span>{{ .combined }}</span></p>
+                <p>- There are <span>{{ .deadmods }}</span> dead mods (daily download count < 5)</p>
+                <p>- The Top 10 mods make up <span>{{ .percent }}</span>% of all downloads</p>
+                <p>- The median download count is <span>{{ .median }}</span></p>
+                <p>- Over <span>{{ .contribs }}</span> people have contributed to tML</p>
+            </div>
+
+            <div id="blocks">
+                <div class="blockDiv">
+                    <div class="blockhead">
+                        <h1>Top 10 Mods</h1>
+                    </div>
+                    <div class="blockbody">
+                        <ol>
+                            {{range .top10mods}}
+                            <li>
+                                <a href="stats?mod={{ .InternalName }}">{{ .DisplayName }}</a>
+                            </li>
+                            {{end}}
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="blockDiv">
+                    <div class="blockhead">
+                        <h1>Popular Mods</h1>
+                    </div>
+                    <div class="blockbody">
+                        <ol>
+                            {{range .hotmods}}
+                            <li>
+                                <a href="stats?mod={{ .InternalName }}">{{ .DisplayName }}</a>
+                            </li>
+                            {{end}}
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

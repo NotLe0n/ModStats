@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" name="viewport">
+		<title>Mod Statistics // Mod List</title>
+		<meta content="#43B581" data-react-helmet="true" name="theme-color">
+		<link href="/static/css/standart.css" rel="stylesheet" type="text/css" />
+		<link href="/static/css/modList.css" rel="stylesheet" type="text/css" />
+		<!-- Favicons -->
+		<link rel="apple-touch-icon" sizes="57x57" href="favicon.ico/apple-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="favicon.ico/apple-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="favicon.ico/apple-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="favicon.ico/apple-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="favicon.ico/apple-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="favicon.ico/apple-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="favicon.ico/apple-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="favicon.ico/apple-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="favicon.ico/apple-icon-180x180.png">
+		<link rel="icon" type="image/png" sizes="192x192"  href="favicon.ico/android-icon-192x192.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="favicon.ico/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="favicon.ico/favicon-96x96.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="favicon.ico/favicon-16x16.png">
+		<link rel="manifest" href="favicon.ico/manifest.json">
+		<meta name="msapplication-TileColor" content="#ffffff">
+		<meta name="msapplication-TileImage" content="favicon.ico/ms-icon-144x144.png">
+		<meta name="theme-color" content="#ffffff">
+
+		<script>
+			function changeTarget(event) {
+				document.querySelectorAll('.mod-search[type=text]').forEach(x => {
+					x.setAttribute('name', event.value)
+					x.setAttribute('list', event.value === "mod" ? modlist : "")
+				})
+				document.querySelectorAll('.input-container select').forEach(x => x.value = event.value)
+			}
+		</script>
+	</head>
+	<body>
+		<header>
+			<h1><span><a href=".">Mod Statistics</a> // </span><wbr><span>Mod List</span></h1>
+			<div class="input-container">
+				<form action="stats" method="get">
+					<select onchange="changeTarget(this)">
+						<option>mod</option>
+						<option>author</option>
+					</select>
+					<input name="mod" class="mod-search" type="text" placeholder="Search" list="modlist" />
+					<datalist id="modlist">
+						{{range .modlist}}
+						<option value="{{ .InternalName }}">
+						{{end}}
+					</datalist>
+				</form>
+			</div>
+		</header>
+		<main id="content">
+			<table>
+				<tbody>
+				<tr>
+					<th>Rank</th>
+					<th>Display Name</th>
+					<th>Internal Name</th>
+					<th>Downloads Total</th>
+					<th>Downloads Today</th>
+					<th>Downloads Yesterday</th>
+					<th>tModloader Version</th>
+				</tr>
+				{{range .modlist}}
+				<tr>
+					<td>{{ .Rank }}</td>
+					<td><a href="/stats?mod={{ .InternalName }}">{{ .DisplayName }}</a></td>
+					<td><a href="/stats?mod={{ .InternalName }}">{{ .InternalName }}</a></td>
+					<td>{{ .DownloadsTotal }}</td>
+					<td>{{ .DownloadsToday }}</td>
+					<td>{{ .DownloadsYesterday }}</td>
+					<td>{{ .TModLoaderVersion }}</td>
+				</tr>
+				{{end}}
+				</tbody>
+			</table>
+		</main>
+	</body>
+</html>
