@@ -1,6 +1,7 @@
 main {
 	display: flex;
 	flex-wrap: wrap;
+	line-height: .5;
 }
 
 main div {
@@ -27,11 +28,11 @@ span {
 }
 
 #description-container {
-	line-height: 1;
 	width: 60rem;
 }
 
 #description {
+	line-height: 1;
 	height: 10rem;
 	overflow: auto;
 }

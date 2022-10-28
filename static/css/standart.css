@@ -1,6 +1,6 @@
 :root {
-	font-family: 'Courier New', Courier, monospace;
-	font-size: 1em;
+	font-family: monospace;
+	font-size: 1.25em;
 	--bg-color: #333;
 	--searchbar-size: 15rem;
 	--form-bg-color: #414141;
@@ -30,6 +30,7 @@ header {
 	justify-content: space-between;
 	top: 0;
 	left: 0;
+	height: 2rem;
 	padding: 1rem;
 	background-color: #525252;
 	overflow: hidden;
@@ -133,6 +134,7 @@ main {
 th {
 	font-weight: 600;
 	padding: 6px 13px;
+	background: #2f2f2f;
 	border: 1px solid var(--table-border-color);
 }
 

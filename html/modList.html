@@ -46,16 +46,15 @@
 		<main id="content">
 			<table>
 				<tbody>
-					<tr>
-						<td>Rank</td>
-						<td>Display Name</td>
-						<td>Internal Name</td>
-						<td>Downloads Total</td>
-						<td>Downloads Today</td>
-						<td>Downloads Yesterday</td>
-						<td>tModloader Version</td>
-					</tr>
-				</tbody>
+				<tr>
+					<th>Rank</th>
+					<th>Display Name</th>
+					<th>Internal Name</th>
+					<th>Downloads Total</th>
+					<th>Downloads Today</th>
+					<th>Downloads Yesterday</th>
+					<th>tModloader Version</th>
+				</tr>
 				{{range .modlist}}
 				<tr>
 					<td>{{ .Rank }}</td>
@@ -67,6 +66,7 @@
 					<td>{{ .TModLoaderVersion }}</td>
 				</tr>
 				{{end}}
+				</tbody>
 			</table>
 		</main>
 	</body>
