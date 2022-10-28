@@ -46,6 +46,6 @@ span {
 }
 
 #history-table {
-	height: 40rem;
+	max-height: 40rem;
 	overflow: auto;
 }

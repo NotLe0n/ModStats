@@ -37,7 +37,10 @@
 
 		<script>
 			function changeTarget(event) {
-				document.querySelectorAll('.mod-search[type=text]').forEach(x => x.setAttribute('name', event.value))
+				document.querySelectorAll('.mod-search[type=text]').forEach(x => {
+					x.setAttribute('name', event.value)
+					x.setAttribute('list', event.value === "mod" ? modlist : "")
+				})
 				document.querySelectorAll('.input-container select').forEach(x => x.value = event.value)
 			}
 		</script>
@@ -45,7 +48,7 @@
 
 	<body>
 		<header>
-			<h1><span><a href="">Mod Statistics</a> // </span><wbr><span>Mod stats</span></h1>
+			<h1><span><a href=".">Mod Statistics</a> // </span><wbr><span>Mod stats</span></h1>
 			<div class="input-container">
 				<form action="stats" method="get">
 					<select onchange="changeTarget(this)">
@@ -55,8 +58,8 @@
 					<input name="mod" class="mod-search" type="text" placeholder="Search" list="modlist" />
 					<datalist id="modlist">
 						{{range .modlist}}
-						<option value="{{ .InternalName }}">
-							{{end}}
+							<option value="{{ .InternalName }}">
+						{{end}}
 					</datalist>
 				</form>
 			</div>

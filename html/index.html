@@ -27,7 +27,10 @@
 
         <script>
             function changeTarget(event) {
-                document.querySelectorAll('.mod-search[type=text]').forEach(x => x.setAttribute('name', event.value))
+                document.querySelectorAll('.mod-search[type=text]').forEach(x => {
+                    x.setAttribute('name', event.value)
+                    x.setAttribute('list', event.value === "mod" ? modlist : "")
+                })
                 document.querySelectorAll('.input-container select').forEach(x => x.value = event.value)
             }
 

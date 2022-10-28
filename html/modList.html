@@ -24,10 +24,20 @@
 		<meta name="msapplication-TileColor" content="#ffffff">
 		<meta name="msapplication-TileImage" content="favicon.ico/ms-icon-144x144.png">
 		<meta name="theme-color" content="#ffffff">
+
+		<script>
+			function changeTarget(event) {
+				document.querySelectorAll('.mod-search[type=text]').forEach(x => {
+					x.setAttribute('name', event.value)
+					x.setAttribute('list', event.value === "mod" ? modlist : "")
+				})
+				document.querySelectorAll('.input-container select').forEach(x => x.value = event.value)
+			}
+		</script>
 	</head>
 	<body>
 		<header>
-			<h1><span><a href="">Mod Statistics</a> // </span><wbr><span>Mod List</span></h1>
+			<h1><span><a href=".">Mod Statistics</a> // </span><wbr><span>Mod List</span></h1>
 			<div class="input-container">
 				<form action="stats" method="get">
 					<select onchange="changeTarget(this)">
