@@ -44,7 +44,7 @@ func indexPage(c *gin.Context) {
 		return hotMods
 	}
 
-	c.HTML(http.StatusOK, "index.html", gin.H{
+	c.HTML(http.StatusOK, "index.gohtml", gin.H{
 		"modlist":   ModList,
 		"modcount":  len(ModList),
 		"combined":  combinedDownloads(ModList),
@@ -61,7 +61,7 @@ func modListPage(c *gin.Context) {
 	dataMutex.Lock()
 	defer dataMutex.Unlock()
 
-	c.HTML(http.StatusOK, "modList.html", gin.H{
+	c.HTML(http.StatusOK, "modList.gohtml", gin.H{
 		"modlist": ModList,
 	})
 }
@@ -87,7 +87,7 @@ func authorStatsPage(c *gin.Context, steamid64 string) {
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return
 	}
-	c.HTML(http.StatusOK, "author.html", gin.H{
+	c.HTML(http.StatusOK, "author.gohtml", gin.H{
 		"modlist":    ModList,
 		"author":     steamid64,
 		"authorInfo": authorInfo,
@@ -166,7 +166,7 @@ func modStatsPage(c *gin.Context, modName string) {
 
 	dataMutex.Lock()
 	defer dataMutex.Unlock()
-	c.HTML(http.StatusOK, "stats.html", gin.H{
+	c.HTML(http.StatusOK, "stats.gohtml", gin.H{
 		"modlist":            ModList,
 		"modData":            modData,
 		"iconDisplay":        iconDisplay,
