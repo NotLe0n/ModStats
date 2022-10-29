@@ -55,56 +55,60 @@
             </div>
         </header>
         <main onclick="closeNav()">
-            <h1><u>Welcome to Mod Statistics</u></h1>
-            <p>Search and find out more about your mod</p>
+            <div id="upper">
+                <h1><u>Welcome to Mod Statistics</u></h1>
+                <p>Search and find out more about your mod</p>
 
-            <div class="input-container">
-                <form action="stats" method="get">
-                    <select onchange="changeTarget(this)">
-                        <option>mod</option>
-                        <option>author</option>
-                    </select>
-                    <input name="mod" class="mod-search" id="big-mod-search" type="text" placeholder="Search" list="modlist"/>
-                </form>
+                <div class="input-container">
+                    <form action="stats" method="get">
+                        <select onchange="changeTarget(this)">
+                            <option>mod</option>
+                            <option>author</option>
+                        </select>
+                        <input name="mod" class="mod-search" id="big-mod-search" type="text" placeholder="Search" list="modlist"/>
+                    </form>
+                </div>
             </div>
-            <div id="tml-stats">
-                <h1>tModloader Statistics:</h1>
-                <p>- There are <span>{{ .modcount }}</span> mods on the Mod Browser</p>
-                <p>- All downloads combined are <span>{{ .combined }}</span></p>
-                <p>- There are <span>{{ .deadmods }}</span> dead mods (daily download count < 5)</p>
-                <p>- The Top 10 mods make up <span>{{ .percent }}</span>% of all downloads</p>
-                <p>- The median download count is <span>{{ .median }}</span></p>
-                <p>- Over <span>{{ .contribs }}</span> people have contributed to tML</p>
-            </div>
-
-            <div id="blocks">
-                <div class="blockDiv">
-                    <div class="blockhead">
-                        <h1>Top 10 Mods</h1>
-                    </div>
-                    <div class="blockbody">
-                        <ol>
-                            {{range .top10mods}}
-                            <li>
-                                <a href="stats?mod={{ .InternalName }}">{{ .DisplayName }}</a>
-                            </li>
-                            {{end}}
-                        </ol>
-                    </div>
+            <div id="middle">
+                <div id="tml-stats">
+                    <h1>tModloader Statistics:</h1>
+                    <p>- There are <span>{{ .modcount }}</span> mods on the Mod Browser</p>
+                    <p>- All downloads combined are <span>{{ .combined }}</span></p>
+                    <p>- There are <span>{{ .deadmods }}</span> dead mods (daily download count < 5)</p>
+                    <p>- The Top 10 mods make up <span>{{ .percent }}</span>% of all downloads</p>
+                    <p>- The median download count is <span>{{ .median }}</span></p>
+                    <p>- Over <span>{{ .contribs }}</span> people have contributed to tML</p>
                 </div>
 
-                <div class="blockDiv">
-                    <div class="blockhead">
-                        <h1>Popular Mods</h1>
+                <div id="blocks">
+                    <div class="block">
+                        <div class="block-head">
+                            <h1>Top 10 Mods</h1>
+                        </div>
+                        <div class="block-body">
+                            <ol>
+                                {{range .top10mods}}
+                                <li>
+                                    <a href="stats?mod={{ .InternalName }}">{{ .DisplayName }}</a>
+                                </li>
+                                {{end}}
+                            </ol>
+                        </div>
                     </div>
-                    <div class="blockbody">
-                        <ol>
-                            {{range .hotmods}}
-                            <li>
-                                <a href="stats?mod={{ .InternalName }}">{{ .DisplayName }}</a>
-                            </li>
-                            {{end}}
-                        </ol>
+
+                    <div class="block">
+                        <div class="block-head">
+                            <h1>Popular Mods</h1>
+                        </div>
+                        <div class="block-body">
+                            <ol>
+                                {{range .hotmods}}
+                                <li>
+                                    <a href="stats?mod={{ .InternalName }}">{{ .DisplayName }}</a>
+                                </li>
+                                {{end}}
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 	font-family: monospace;
 	font-size: 1.25em;
 	--bg-color: #333;
-	--searchbar-size: 15rem;
+	--searchbar-size: calc(10rem + 1vw);
 	--form-bg-color: #414141;
 	--form-border-color: rgb(0 0 0 / 60%);
 	--form-hover-color: #c0c0c0;
@@ -53,7 +53,7 @@ header {
 	}
 }
 
-@media screen and (max-width: 410px) {
+@media screen and (max-width: 450px) {
 	header {
 		height: 8.5rem;
 	}
