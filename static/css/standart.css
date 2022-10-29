@@ -12,16 +12,66 @@
 	--table-fill-light: #3f4043;
 }
 
-h1 {
-	font-size: 2rem;
-}
-
 html, body {
 	width: 100%;
 	height: 100%;
 	background-color: var(--bg-color);
 	margin: 0;
 	color: white;
+}
+
+a {
+	text-decoration: none;
+	color: var(--link-color)
+}
+
+span {
+	color: #fcd581
+}
+
+h1 {
+	font-size: 2rem;
+}
+
+table {
+	border-spacing: 0;
+	border-collapse: collapse;
+	width: max-content;
+	overflow: auto;
+	max-width: 100%;
+	display: block;
+}
+
+th {
+	font-weight: 600;
+	padding: 6px 13px;
+	background: #2f2f2f;
+	border: 1px solid var(--table-border-color);
+}
+
+tr {
+	background-color: var(--table-fill-dark);
+	border-top: 1px solid var(--table-fill-dark);
+	display: table-row;
+	vertical-align: inherit;
+	border-color: inherit;
+}
+
+table tr:nth-child(2n) {
+	background-color: var(--table-fill-light);
+}
+
+tbody {
+	display: table-row-group;
+	vertical-align: middle;
+	border-color: inherit;
+}
+
+td {
+	padding: .8rem 1rem;
+	border: 1px solid var(--table-border-color);
+	display: table-cell;
+	vertical-align: inherit;
 }
 
 header {
@@ -112,61 +162,10 @@ header .mod-search {
 	width: var(--searchbar-size);
 }
 
-a {
-	text-decoration: none;
-	color: var(--link-color)
-}
-
 main {
 	position: relative;
 	padding: 10px;
 	overflow: auto;
-}
-
-/*table code taken from github*/
-.markdown-body * {
-	box-sizing: border-box;
-}
-
-.markdown-body table {
-	border-spacing: 0;
-	border-collapse: collapse;
-	width: max-content;
-	overflow: auto;
-	max-width: 100%;
-	display: block;
-}
-
-th {
-	font-weight: 600;
-	padding: 6px 13px;
-	background: #2f2f2f;
-	border: 1px solid var(--table-border-color);
-}
-
-tr {
-	background-color: var(--table-fill-dark);
-	border-top: 1px solid var(--table-fill-dark);
-	display: table-row;
-	vertical-align: inherit;
-	border-color: inherit;
-}
-
-table tr:nth-child(2n) {
-	background-color: var(--table-fill-light);
-}
-
-tbody {
-	display: table-row-group;
-	vertical-align: middle;
-	border-color: inherit;
-}
-
-td {
-	padding: 6px 13px;
-	border: 1px solid var(--table-border-color);
-	display: table-cell;
-	vertical-align: inherit;
 }
 
 /* scrollbar */

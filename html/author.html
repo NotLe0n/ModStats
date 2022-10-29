@@ -3,7 +3,6 @@
     <head>
         <title>{{.author}}</title>
         <link rel="stylesheet" href="/static/css/standart.css" />
-        <link rel="stylesheet" href="/static/css/author.css" />
         <link rel="icon" type="image/png" sizes="any" href="/static/assets/favicon.ico">
 
         <meta charset="UTF-8">
@@ -26,6 +25,11 @@
                 document.querySelectorAll('.input-container select').forEach(x => x.value = event.value)
             }
         </script>
+        <style>
+			table {
+				padding-left: 2rem;
+			}
+        </style>
     </head>
 
     <body>
@@ -46,14 +50,14 @@
                 </form>
             </div>
         </header>
-        <main id="content">
+        <main>
             <p>Steam Name: <span>{{ .authorInfo.SteamName }}</span></p>
             <p>Downloads Total: <span>{{ .authorInfo.DownloadsTotal }}</span></p>
             <p>Downloads Yesterday: <span>{{ .authorInfo.DownloadsYesterday }}</span></p>
             <p>Mods: <span>
                 {{if .authorInfo.Mods}}
                     <table>
-                        <tbody><tr> <td>Rank</td> <td>Display Name</td> <td>Downloads Total</td> <td>Downloads Yesterday</td> </tr></tbody>
+                        <tbody><tr> <th>Rank</th> <th>Display Name</th> <th>Downloads Total</th> <th>Downloads Yesterday</th> </tr></tbody>
                         {{range .authorInfo.Mods}}
                         <tr>
                             <td>{{ .Rank }}</td>
