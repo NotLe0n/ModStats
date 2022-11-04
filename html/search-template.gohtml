@@ -1,24 +1,27 @@
-{{ define "search-template" }}
-<div class="input-container">
-    <form action="stats" method="get">
-        <select onchange="changeTarget(this)">
-            <option>mod</option>
-            <option>author</option>
-        </select>
-        <input name="mod" class="mod-search" type="text" placeholder="Search" list="modlist" />
-        <datalist id="modlist">
-            {{range . }}
-                <option value="{{ .InternalName }}">
-            {{end}}
-        </datalist>
-    </form>
-
-</div>
+{{ define "search-element" }}
+<form action="javascript: submit()">
+    <select id="header-select" onchange="changeTarget(this)">
+        <option>mod</option>
+        <option>author</option>
+    </select>
+    <input id="header-input" class="mod-search" type="text" placeholder="Search" list="modlist" />
+    <datalist id="modlist">
+        {{range . }}
+            <option value="{{ .InternalName }}">
+        {{end}}
+    </datalist>
+</form>
+{{ end }}
+{{ define "search-script" }}
 <script>
+    function submit() {
+        const url = `/${document.getElementById('header-select').value}/${document.getElementById('header-input').value}/`;
+        window.location.href = url;
+    }
+
     function changeTarget(event) {
         document.querySelectorAll('.mod-search[type=text]').forEach(x => {
-            x.setAttribute('name', event.value)
-            x.setAttribute('list', event.value === "mod" ? modlist : "")
+            x.setAttribute('list', event.value === "mod" ? "modlist" : "")
         })
         document.querySelectorAll('.input-container select').forEach(x => x.value = event.value)
     }

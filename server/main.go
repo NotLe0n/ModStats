@@ -38,7 +38,8 @@ func main() {
 
 	r.GET("/", indexPage)
 	r.GET("/modList", modListPage)
-	r.GET("/stats", statsPage)
+	r.GET("/mod/:modID", modStatsPage)
+	r.GET("/author/:authorID", authorStatsPage)
 	api := r.Group("/api")
 	{
 		api.GET("/getRandomMod", getRandomMod)

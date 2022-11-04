@@ -72,7 +72,7 @@ main {
 	margin-right: .5rem;
 }
 
-#big-mod-search {
+.input-container.big-search form input.mod-search {
 	width: calc(var(--searchbar-size) * 2);
 	background-size: cover;
 	image-rendering: crisp-edges;

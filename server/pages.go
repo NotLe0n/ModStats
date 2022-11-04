@@ -66,22 +66,13 @@ func modListPage(c *gin.Context) {
 	})
 }
 
-func statsPage(c *gin.Context) {
-	if steamid64 := c.Query("author"); steamid64 != "" {
-		authorStatsPage(c, steamid64)
-		return
+func authorStatsPage(c *gin.Context) {
+	authorID := c.Param("authorID")
+	if authorID == "" {
+		c.AbortWithStatus(http.StatusBadRequest)
 	}
 
-	if modName := c.Query("mod"); modName != "" {
-		modStatsPage(c, modName)
-		return
-	}
-
-	c.AbortWithStatus(http.StatusBadRequest)
-}
-
-func authorStatsPage(c *gin.Context, steamid64 string) {
-	authorInfo, err := getAuthorInfo(steamid64)
+	authorInfo, err := getAuthorInfo(authorID)
 	if err != nil {
 		logf("Error getting authorInfo: %s", err.Error())
 		c.AbortWithStatus(http.StatusInternalServerError)
@@ -89,12 +80,17 @@ func authorStatsPage(c *gin.Context, steamid64 string) {
 	}
 	c.HTML(http.StatusOK, "author.gohtml", gin.H{
 		"modlist":    ModList,
-		"author":     steamid64,
+		"author":     authorID,
 		"authorInfo": authorInfo,
 	})
 }
 
-func modStatsPage(c *gin.Context, modName string) {
+func modStatsPage(c *gin.Context) {
+	modName := c.Param("modID")
+	if modName == "" {
+		c.AbortWithStatus(http.StatusBadRequest)
+	}
+
 	dataMutex.Lock()
 	if name, ok := ModNameMap[url.QueryEscape(modName)]; ok {
 		modName = name
@@ -166,7 +162,7 @@ func modStatsPage(c *gin.Context, modName string) {
 
 	dataMutex.Lock()
 	defer dataMutex.Unlock()
-	c.HTML(http.StatusOK, "stats.gohtml", gin.H{
+	c.HTML(http.StatusOK, "mod.gohtml", gin.H{
 		"modlist":            ModList,
 		"modData":            modData,
 		"iconDisplay":        iconDisplay,

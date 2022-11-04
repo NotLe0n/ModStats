@@ -25,8 +25,11 @@
 
     <body>
         <header>
-            <h1><span><a href=".">Mod Statistics</a> // </span><wbr><span>Author stats</span></h1>
-            {{ template "search-template" .modlist }}
+            <h1><span><a href="../">Mod Statistics</a> // </span><wbr><span>Author stats</span></h1>
+            <div class="input-container">
+                {{ template "search-element" .modlist }}
+            </div>
+            {{ template "search-script" }}
         </header>
         <main>
             <p>Steam Name: <span>{{ .authorInfo.SteamName }}</span></p>
@@ -39,7 +42,7 @@
                         {{range .authorInfo.Mods}}
                         <tr>
                             <td>{{ .Rank }}</td>
-                            <td><a href="/stats?mod={{ .InternalName }}">{{ .DisplayName }}</a></td>
+                            <td><a href="/mod/{{ .InternalName }}">{{ .DisplayName }}</a></td>
                             <td>{{ .DownloadsTotal }}</td>
                             <td>{{ .DownloadsYesterday }}</td>
                         </tr>
@@ -56,7 +59,7 @@
                         {{range .authorInfo.MaintainedMods}}
                         <tr>
                             <td>?</td>
-                            <td><a href="/stats?mod={{ .InternalName }}">{{ .EscapedModName }}</a></td>
+                            <td><a href="/mod/{{ .InternalName }}">{{ .EscapedModName }}</a></td>
                             <td>{{ .DownloadsTotal }}</td>
                             <td>{{ .DownloadsYesterday }}</td>
                         </tr>
