@@ -61,7 +61,7 @@ func modListPage(c *gin.Context) {
 	dataMutex.Lock()
 	defer dataMutex.Unlock()
 
-	c.HTML(http.StatusOK, "modList.gohtml", gin.H{
+	c.HTML(http.StatusOK, "list.gohtml", gin.H{
 		"modlist": ModList,
 	})
 }

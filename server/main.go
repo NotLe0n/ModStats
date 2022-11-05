@@ -37,7 +37,7 @@ func main() {
 	r.Static("/favicon.ico", "./favicon.ico")
 
 	r.GET("/", indexPage)
-	r.GET("/modList", modListPage)
+	r.GET("/list", modListPage)
 	r.GET("/mod/:modID", modStatsPage)
 	r.GET("/author/:authorID", authorStatsPage)
 	api := r.Group("/api")
