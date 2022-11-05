@@ -64,7 +64,7 @@
                             <ol>
                                 {{range .top10mods}}
                                 <li>
-                                    <a href="stats?mod={{ .InternalName }}">{{ .DisplayName }}</a>
+                                    <a href="/mod/{{ .InternalName }}">{{ .DisplayName }}</a>
                                 </li>
                                 {{end}}
                             </ol>
@@ -79,7 +79,7 @@
                             <ol>
                                 {{range .hotmods}}
                                 <li>
-                                    <a href="stats?mod={{ .InternalName }}">{{ .DisplayName }}</a>
+                                    <a href="/mod/{{ .InternalName }}">{{ .DisplayName }}</a>
                                 </li>
                                 {{end}}
                             </ol>

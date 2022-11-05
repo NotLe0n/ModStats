@@ -32,8 +32,8 @@
 				{{range .modlist}}
 				<tr>
 					<td>{{ .Rank }}</td>
-					<td><a href="/stats?mod={{ .InternalName }}">{{ .DisplayName }}</a></td>
-					<td><a href="/stats?mod={{ .InternalName }}">{{ .InternalName }}</a></td>
+					<td><a href="/mod/{{ .InternalName }}">{{ .DisplayName }}</a></td>
+					<td><a href="/mod/{{ .InternalName }}">{{ .InternalName }}</a></td>
 					<td>{{ .DownloadsTotal }}</td>
 					<td>{{ .DownloadsToday }}</td>
 					<td>{{ .DownloadsYesterday }}</td>
