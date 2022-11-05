@@ -110,6 +110,9 @@ func modStatsPage(c *gin.Context) {
 	}
 
 	modDependencies := strings.Split(modData.ModDependencies, ", ")
+	if modDependencies[0] == "" {
+		modDependencies = make([]string, 0)
+	}
 
 	modVersions, err := getModVersionHistory(modName)
 	if err != nil {

@@ -31,7 +31,7 @@ type ModInfo struct {
 	Version            string `json:"version"`
 	TModLoaderVersion  string `json:"tmodloader_version"`
 	LastUpdated        string `json:"last_updated"`
-	ModDependencies    string // added later
+	ModDependencies    string `json:"modreferences"`
 	ModSide            string `json:"modside"`
 	DownloadLink       string `json:"download_link"`
 	DownloadsTotal     int    `json:"downloads_total"`
