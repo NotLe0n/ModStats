@@ -1,12 +1,12 @@
 {{ define "mod-1.3" }}
 <div>
     <div id="mod-info">
-        <img src="https://mirror.sgkoi.dev/direct/{{ .modData.InternalName }}.png" id="icon" width="160px" height="160px" style="display:{{ .iconDisplay }}"></img>
+        {{ if .modData.Icon }} <img src="{{ .modData.Icon }}" id="icon" width="160px" height="160px" alt="mod icon"> {{ end }}
         <p>Display name: <span id="displayName">{{ .escapedDisplayName }}</span></p>
         <p>Internal name: <span id="internalName">{{ .modData.InternalName }}</span></p>
         <p>Version: <span id="version">{{ .modData.Version }} ({{ .modData.TModLoaderVersion }})</span></p>
         <p>Author: <span id="author">{{ .modData.Author }}</span></p>
-        <p>Homepage: <span id="homepage">{{if .hasHomepage }} <a href="{{ .modData.Homepage }}" target="_blank">{{ .modData.Homepage }}</a> {{else}} no homepage {{end}}</span></p>
+        <p>Homepage: <span id="homepage">{{if .modData.Homepage }} <a href="{{ .modData.Homepage }}" target="_blank">{{ .modData.Homepage }}</a> {{ else }} no homepage {{ end }}</span></p>
         <p>Last updated: <span id="updated">{{ .modData.LastUpdated }}</span></p>
         <p>Widget url: <span id="widget"><a href="https://bettermodwidget.javidpack.repl.co/?mod={{ .modData.InternalName }}" target="_blank">https://bettermodwidget.javidpack.repl.co/?mod={{ .modData.InternalName }}</a></span></p>
         <p>Mod dependencies: <span>{{ range .modDependencies }}<a href="/mod/{{ . }}">{{ . }}</a> {{ else }} None {{ end }}</span>
@@ -33,11 +33,11 @@
             <tr>
                 <th>Version</th><th>Downloads</th><th>TModLoaderVersion</th><th>PublishDate</th>
             </tr>
-            {{range .versionHistory}}
+            {{ range .versionHistory }}
                 <tr>
                     <td>{{ .Version }}</td><td>{{ .DownloadsTotal }}</td><td>{{ .TModLoaderVersion }}</td><td>{{ .PublishDate }}</td>
                 </tr>
-            {{end}}
+            {{ end }}
             </tbody>
         </table>
     </div>

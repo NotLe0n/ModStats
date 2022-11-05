@@ -104,9 +104,8 @@ func modStatsPage(c *gin.Context) {
 		return
 	}
 
-	iconDisplay := "block"
-	if modData.Icon == "" {
-		iconDisplay = "none"
+	if resp, err := http.Get(modData.Icon); resp.StatusCode == 404 || err != nil {
+		modData.Icon = ""
 	}
 
 	modDependencies := strings.Split(modData.ModDependencies, ", ")
@@ -168,8 +167,6 @@ func modStatsPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "mod.gohtml", gin.H{
 		"modlist":            ModList,
 		"modData":            modData,
-		"iconDisplay":        iconDisplay,
-		"hasHomepage":        modData.Homepage != "",
 		"modDependencies":    modDependencies,
 		"versionHistory":     modVersions,
 		"escapedDisplayName": template.HTML(parseChatTags(modData.DisplayName)),
