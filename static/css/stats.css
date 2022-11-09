@@ -14,10 +14,6 @@ main div {
 	image-rendering: pixelated;
 }
 
-#item-icon {
-	height: 1em;
-}
-
 #mod-info {
 	overflow-wrap: normal;
 	width: 60rem;

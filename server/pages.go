@@ -4,7 +4,6 @@ import (
 	"html/template"
 	"net/http"
 	"net/url"
-	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -78,6 +77,7 @@ func authorStatsPage(c *gin.Context) {
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return
 	}
+
 	c.HTML(http.StatusOK, "author.gohtml", gin.H{
 		"modlist":    ModList,
 		"author":     authorID,
@@ -120,56 +120,15 @@ func modStatsPage(c *gin.Context) {
 		return
 	}
 
-	parseChatTags := func(str string) string {
-		rpa := strings.ReplaceAll
-		str = rpa(
-			rpa(
-				rpa(
-					rpa(
-						rpa(
-							rpa(
-								rpa(
-									rpa(
-										str,
-										"<",
-										"&lt;",
-									),
-									">",
-									"&gt;",
-								),
-								"\r\n",
-								"<br>",
-							),
-							"\n",
-							"<br>",
-						),
-						"\t",
-						"    ",
-					),
-					"\\'",
-					"'",
-				),
-				"\\\\",
-				"\\",
-			),
-			"\\\"",
-			"&quot",
-		)
-		itemTagRegex := regexp.MustCompile("\\[i(.*?):(\\w+)\\]")
-		str = itemTagRegex.ReplaceAllString(str, "<img src=\"https://tmlapis.repl.co/img/Item_$2.png\" id=\"item-icon\">")
-		colorTagRegex := regexp.MustCompile("\\[c\\/(\\w+):([\\s\\S]+?)\\]")
-		str = colorTagRegex.ReplaceAllString(str, "<span style=\"color: #$1;\">$2</span>")
-		return str
-	}
-
 	dataMutex.Lock()
 	defer dataMutex.Unlock()
+
 	c.HTML(http.StatusOK, "mod.gohtml", gin.H{
 		"modlist":            ModList,
 		"modData":            modData,
 		"modDependencies":    modDependencies,
 		"versionHistory":     modVersions,
-		"escapedDisplayName": template.HTML(parseChatTags(modData.DisplayName)),
-		"escapedDescription": template.HTML(parseChatTags(strings.Trim(modData.Description, "\""))),
+		"escapedDisplayName": template.HTML(ParseChatTags(modData.DisplayName)),
+		"escapedDescription": template.HTML(ParseChatTags(strings.Trim(modData.Description, "\""))),
 	})
 }

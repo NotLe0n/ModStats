@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"html/template"
 	"net/http"
 	"net/url"
 	"sort"
@@ -10,13 +11,14 @@ import (
 
 // ModListItem holds a single item when fetching the whole modList
 type ModListItem struct {
-	DisplayName        string `json:"display_name"`
-	Rank               int    `json:"rank"`
-	DownloadsTotal     int    `json:"downloads_total"`
-	DownloadsToday     int    `json:"downloads_today"`
-	DownloadsYesterday int    `json:"downloads_yesterday"`
-	TModLoaderVersion  string `json:"tmodloader_version"`
-	InternalName       string `json:"internal_name"`
+	DisplayName        string        `json:"display_name"`
+	InternalName       string        `json:"internal_name"`
+	DisplayNameHTML    template.HTML // added later
+	Rank               int           `json:"rank"`
+	DownloadsTotal     int           `json:"downloads_total"`
+	DownloadsToday     int           `json:"downloads_today"`
+	DownloadsYesterday int           `json:"downloads_yesterday"`
+	TModLoaderVersion  string        `json:"tmodloader_version"`
 }
 
 // ModInfo holds mod info that is fetched from tmlapis.repl.co/modInfo?mod=
@@ -62,9 +64,9 @@ type Author struct {
 	MaintainedMods     []AuthorMaintainedModInfo `json:"maintained_mods"`
 }
 
-var ModNameMap map[string]string = make(map[string]string)             //maps Display names to Internal names
-var ModInfoMap map[string]*ModListItem = make(map[string]*ModListItem) //maps Internal names to ModListItem (for Rank and DownloadsToday)
-var ModList []ModListItem = make([]ModListItem, 0)
+var ModNameMap = make(map[string]string)       //maps Display names to Internal names
+var ModInfoMap = make(map[string]*ModListItem) //maps Internal names to ModListItem (for Rank and DownloadsToday)
+var ModList = make([]ModListItem, 0)
 
 /*!!!IMPORTANT always lock the mutex below before working with the data above, and close it afterwards!!!*/
 var dataMutex *sync.Mutex = &sync.Mutex{} //while the maps and slices are being updated or used this mutex will be locked
@@ -72,20 +74,25 @@ var dataMutex *sync.Mutex = &sync.Mutex{} //while the maps and slices are being 
 func updateModMaps() error {
 	dataMutex.Lock()
 	defer dataMutex.Unlock()
+
 	resp, err := http.Get("https://tmlapis.tomat.dev/1.3/list")
 	if err != nil {
 		return err
 	}
+
 	defer resp.Body.Close()
-	var TempModList []ModListItem = make([]ModListItem, len(ModList)) //if the fetching fails, it is not a fatal error as we still have the old modlist
-	err = json.NewDecoder(resp.Body).Decode(&TempModList)             //decode the modlist
+
+	var TempModList = make([]ModListItem, len(ModList))   //if the fetching fails, it is not a fatal error as we still have the old modlist
+	err = json.NewDecoder(resp.Body).Decode(&TempModList) //decode the modlist
 	if err != nil {
 		return err
 	}
+
 	ModList = TempModList
 
 	ModNameMap = make(map[string]string)
 	for i := range ModList {
+		ModList[i].DisplayNameHTML = template.HTML(ParseChatTags(ModList[i].DisplayName))
 		ModNameMap[url.QueryEscape(ModList[i].DisplayName)] = ModList[i].InternalName //map all Display names to Internal names
 		ModInfoMap[ModList[i].InternalName] = &ModList[i]                             //map all Internal names to ModInfo data
 	}

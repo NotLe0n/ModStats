@@ -168,6 +168,10 @@ main {
 	overflow: auto;
 }
 
+#item-icon {
+	height: 1rem;
+}
+
 /* scrollbar */
 
 /* width */
@@ -190,5 +194,5 @@ main {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: #555;
+	background: #a2a2a2;
 }
