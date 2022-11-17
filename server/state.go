@@ -21,7 +21,7 @@ type ModListItem struct {
 	TModLoaderVersion  string        `json:"tmodloader_version"`
 }
 
-// ModInfo holds mod info that is fetched from tmlapis.repl.co/modInfo?mod=
+// ModInfo holds mod info that is fetched from tmlapis.tomat.dev/1.3/mod
 type ModInfo struct {
 	DisplayName        string `json:"display_name"`
 	Rank               int    `json:"rank"`

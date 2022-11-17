@@ -91,6 +91,8 @@ func modStatsPage(c *gin.Context) {
 		c.AbortWithStatus(http.StatusBadRequest)
 	}
 
+	isLegacy := c.Request.URL.Query().Has("legacy")
+
 	dataMutex.Lock()
 	if name, ok := ModNameMap[url.QueryEscape(modName)]; ok {
 		modName = name
@@ -124,6 +126,7 @@ func modStatsPage(c *gin.Context) {
 	defer dataMutex.Unlock()
 
 	c.HTML(http.StatusOK, "mod.gohtml", gin.H{
+		"isLegacy":           isLegacy,
 		"modlist":            ModList,
 		"modData":            modData,
 		"modDependencies":    modDependencies,

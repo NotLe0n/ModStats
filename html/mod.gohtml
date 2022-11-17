@@ -27,7 +27,11 @@
 			{{ template "search-script" }}
 		</header>
 		<main>
-			{{ template "mod-1.3" . }}
+			{{ if .isLegacy }}
+				{{ template "mod-1.3" . }}
+			{{ else }}
+				{{ template "mod-1.4" . }}
+			{{ end}}
 		</main>
 	</body>
 </html>
