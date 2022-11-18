@@ -8,14 +8,15 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/NotLe0n/ModStats/server/helper"
+	"github.com/NotLe0n/ModStats/server/tmlapi13"
 	"github.com/gin-gonic/gin"
 )
 
 func indexPage(c *gin.Context) {
-	dataMutex.Lock()
-	defer dataMutex.Unlock()
+	ModList := tmlapi13.GetModList()
 
-	combinedDownloads := func(modList []ModListItem) (combined int) {
+	combinedDownloads := func(modList []tmlapi13.ModListItem) (combined int) {
 		for i := range modList {
 			combined += modList[i].DownloadsTotal
 		}
@@ -31,8 +32,8 @@ func indexPage(c *gin.Context) {
 		return deadmods
 	}
 
-	hotMods := func() []ModListItem {
-		hotMods := make([]ModListItem, 10)
+	hotMods := func() []tmlapi13.ModListItem {
+		hotMods := make([]tmlapi13.ModListItem, 10)
 		sort.Slice(ModList, func(i, j int) bool {
 			return ModList[i].DownloadsYesterday > ModList[j].DownloadsYesterday
 		})
@@ -57,11 +58,8 @@ func indexPage(c *gin.Context) {
 }
 
 func modListPage(c *gin.Context) {
-	dataMutex.Lock()
-	defer dataMutex.Unlock()
-
 	c.HTML(http.StatusOK, "list.gohtml", gin.H{
-		"modlist": ModList,
+		"modlist": tmlapi13.GetModList(),
 	})
 }
 
@@ -71,7 +69,7 @@ func authorStatsPage(c *gin.Context) {
 		c.AbortWithStatus(http.StatusBadRequest)
 	}
 
-	authorInfo, err := getAuthorInfo(authorID)
+	authorInfo, err := tmlapi13.GetAuthorInfo(authorID)
 	if err != nil {
 		logf("Error getting authorInfo: %s", err.Error())
 		c.AbortWithStatus(http.StatusInternalServerError)
@@ -79,7 +77,7 @@ func authorStatsPage(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusOK, "author.gohtml", gin.H{
-		"modlist":    ModList,
+		"modlist":    tmlapi13.GetModList(),
 		"author":     authorID,
 		"authorInfo": authorInfo,
 	})
@@ -93,20 +91,18 @@ func modStatsPage(c *gin.Context) {
 
 	isLegacy := c.Request.URL.Query().Has("legacy")
 
-	dataMutex.Lock()
-	if name, ok := ModNameMap[url.QueryEscape(modName)]; ok {
-		modName = name
+	if internal_name, ok := tmlapi13.GetInternalName(url.QueryEscape(modName)); ok {
+		modName = internal_name
 	}
-	dataMutex.Unlock()
 
-	modData, err := getModInfo(modName)
+	modData, err := tmlapi13.GetModInfo(modName)
 	if err != nil {
 		logf("Error getting modInfo for %s: %s", modName, err.Error())
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return
 	}
 
-	if resp, err := http.Get(modData.Icon); resp.StatusCode == 404 || err != nil {
+	if resp, err := http.Get(modData.Icon); resp.StatusCode == http.StatusNotFound || err != nil {
 		modData.Icon = ""
 	}
 
@@ -115,23 +111,20 @@ func modStatsPage(c *gin.Context) {
 		modDependencies = make([]string, 0)
 	}
 
-	modVersions, err := getModVersionHistory(modName)
+	modVersions, err := tmlapi13.GetModVersionHistory(modName)
 	if err != nil {
 		logf("Error getting modVersionHistory: %s", err.Error())
 		c.AbortWithStatus(http.StatusInternalServerError)
 		return
 	}
 
-	dataMutex.Lock()
-	defer dataMutex.Unlock()
-
 	c.HTML(http.StatusOK, "mod.gohtml", gin.H{
 		"isLegacy":           isLegacy,
-		"modlist":            ModList,
+		"modlist":            tmlapi13.GetModList(),
 		"modData":            modData,
 		"modDependencies":    modDependencies,
 		"versionHistory":     modVersions,
-		"escapedDisplayName": template.HTML(ParseChatTags(modData.DisplayName)),
-		"escapedDescription": template.HTML(ParseChatTags(strings.Trim(modData.Description, "\""))),
+		"escapedDisplayName": template.HTML(helper.ParseChatTags(modData.DisplayName)),
+		"escapedDescription": template.HTML(helper.ParseChatTags(strings.Trim(modData.Description, "\""))),
 	})
 }
