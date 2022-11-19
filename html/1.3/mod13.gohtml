@@ -8,7 +8,7 @@
         <p>Author: <span id="author">{{ .modData.Author }}</span></p>
         <p>Homepage: <span id="homepage">{{if .modData.Homepage }} <a href="{{ .modData.Homepage }}" target="_blank">{{ .modData.Homepage }}</a> {{ else }} no homepage {{ end }}</span></p>
         <p>Last updated: <span id="updated">{{ .modData.LastUpdated }}</span></p>
-        <p>Widget url: <span id="widget"><a href="https://bettermodwidget.javidpack.repl.co/?mod={{ .modData.InternalName }}" target="_blank">https://bettermodwidget.javidpack.repl.co/?mod={{ .modData.InternalName }}</a></span></p>
+        <p>Widget url: <span id="widget"><a href="https://tml-readme-card.repl.co/?modname={{ .modData.InternalName }}" target="_blank">https://tml-readme-card.repl.co/?modname={{ .modData.InternalName }}</a></span></p>
         <p>Mod dependencies: <span>{{ range .modDependencies }}<a href="/mod/{{ . }}">{{ . }}</a> {{ else }} None {{ end }}</span>
         <p>Mod Side: <span>{{ .modData.ModSide }}</span></p>
     </div>

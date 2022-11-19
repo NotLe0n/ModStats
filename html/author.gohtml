@@ -8,10 +8,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- embed metadata -->
-        <meta property="og:title" content="Mod Statistics // {{ .authorInfo.SteamName }} ({{ .author }})" />
+        <meta property="og:title" content="Mod Statistics // {{ .authorInfo.SteamName }} ({{ .authorID }})" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://modstats.repl.co/author/{{.author}}" />
-        <meta property="og:image" content="https://tml-readme-card.repl.co/?steamid64={{.author}}" />
+        <meta property="og:url" content="https://modstats.repl.co/author/{{ .authorID }}" />
+        <meta property="og:image" content="https://tml-readme-card.repl.co/?steamid64={{ .authorID }}" />
         <meta name="theme-color" content="#2f3136">
         <meta content="#43B581" data-react-helmet="true" name="theme-color">
         <meta name="twitter:card" content="summary_large_image">
@@ -32,43 +32,11 @@
             {{ template "search-script" }}
         </header>
         <main>
-            <p>Steam Name: <span>{{ .authorInfo.SteamName }}</span></p>
-            <p>Downloads Total: <span>{{ .authorInfo.DownloadsTotal }}</span></p>
-            <p>Downloads Yesterday: <span>{{ .authorInfo.DownloadsYesterday }}</span></p>
-            <p>Mods: <span>
-                {{if .authorInfo.Mods}}
-                    <table>
-                        <tbody><tr> <th>Rank</th> <th>Display Name</th> <th>Downloads Total</th> <th>Downloads Yesterday</th> </tr></tbody>
-                        {{range .authorInfo.Mods}}
-                        <tr>
-                            <td>{{ .Rank }}</td>
-                            <td><a href="/mod/{{ .InternalName }}">{{ .DisplayName }}</a></td>
-                            <td>{{ .DownloadsTotal }}</td>
-                            <td>{{ .DownloadsYesterday }}</td>
-                        </tr>
-                        {{end}}
-                    </table>
-                {{else}}
-                    no mods
-                {{end}}
-            </span></p>
-            <p>Maintained Mods: <span>
-                {{if .authorInfo.MaintainedMods}}
-                    <table>
-                        <tbody><tr> <td>Rank</td> <td>Display Name</td> <td>Downloads Total</td> <td>Downloads Yesterday</td> </tr></tbody>
-                        {{range .authorInfo.MaintainedMods}}
-                        <tr>
-                            <td>?</td>
-                            <td><a href="/mod/{{ .InternalName }}">{{ .EscapedModName }}</a></td>
-                            <td>{{ .DownloadsTotal }}</td>
-                            <td>{{ .DownloadsYesterday }}</td>
-                        </tr>
-                    </table>
-                {{end}}
-                {{else}}
-                    no mods
-                {{end}}
-            </span></p>
+            {{ if .isLegacy }}
+                {{ template "author-1.3" . }}
+            {{ else }}
+                {{ template "author-1.4" . }}
+            {{ end}}
         </main>
     </body>
 </html>

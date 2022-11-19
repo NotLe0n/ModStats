@@ -18,30 +18,11 @@
 			{{ template "search-script" }}
 		</header>
 		<main id="content">
-			<table>
-				<tbody>
-				<tr>
-					<th>Rank</th>
-					<th>Display Name</th>
-					<th>Internal Name</th>
-					<th>Downloads Total</th>
-					<th>Downloads Today</th>
-					<th>Downloads Yesterday</th>
-					<th>tModloader Version</th>
-				</tr>
-				{{range .modlist}}
-				<tr>
-					<td>{{ .Rank }}</td>
-					<td><a href="/mod/{{ .InternalName }}">{{ .DisplayNameHTML }}</a></td>
-					<td><a href="/mod/{{ .InternalName }}">{{ .InternalName }}</a></td>
-					<td>{{ .DownloadsTotal }}</td>
-					<td>{{ .DownloadsToday }}</td>
-					<td>{{ .DownloadsYesterday }}</td>
-					<td>{{ .TModLoaderVersion }}</td>
-				</tr>
-				{{end}}
-				</tbody>
-			</table>
+			{{ if .isLegacy }}
+				{{ template "list-1.3" . }}
+			{{ else }}
+				{{ template "list-1.4" . }}
+			{{ end}}
 		</main>
 	</body>
 </html>

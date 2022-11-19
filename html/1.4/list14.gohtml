@@ -1,0 +1,24 @@
+{{ define "list-1.4" }}
+<table>
+    <tbody>
+    <tr>
+        <th>Display Name</th>
+        <th>Internal Name</th>
+        <th>Downloads Total</th>
+        <th>Views</th>
+        <th>Favorites</th>
+        <th>Vote ratio</th>
+    </tr>
+    {{range .modlist}}
+        <tr>
+            <td><a href="/mod/{{ .InternalName }}">{{ .DisplayNameHTML }}</a></td>
+            <td><a href="/mod/{{ .InternalName }}">{{ .InternalName }}</a></td>
+            <td>{{ .DownloadsTotal }}</td>
+            <td>{{ .Views }}</td>
+            <td>{{ .Favorited }}</td>
+            <td>{{ .VoteData.Score }}</td>
+        </tr>
+    {{end}}
+    </tbody>
+</table>
+{{ end }}

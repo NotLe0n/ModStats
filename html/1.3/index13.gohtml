@@ -1,0 +1,43 @@
+{{ define "index-1.3" }}
+<div id="tml-stats">
+    <h1>tModloader Statistics:</h1>
+    <p>- There are <span>{{ .modcount }}</span> mods on the Mod Browser</p>
+    <p>- All downloads combined are <span>{{ .combined }}</span></p>
+    <p>- There are <span>{{ .deadmods }}</span> dead mods (daily download count < 5)</p>
+    <p>- The Top 10 mods make up <span>{{ .percent }}%</span> of all downloads</p>
+    <p>- The median download count is <span>{{ .median }}</span></p>
+    <p>- Over <span>{{ .contribs }}</span> people have contributed to tML</p>
+</div>
+
+<div id="blocks">
+    <div class="block">
+        <div class="block-head">
+            <h1>Top 10 Mods</h1>
+        </div>
+        <div class="block-body">
+            <ol>
+                {{range .top10mods}}
+                    <li>
+                        <a href="/mod/{{ .InternalName }}">{{ .DisplayName }}</a>
+                    </li>
+                {{end}}
+            </ol>
+        </div>
+    </div>
+
+    <div class="block">
+        <div class="block-head">
+            <h1>Popular Mods</h1>
+        </div>
+        <div class="block-body">
+            <ol>
+                {{range .hotmods}}
+                    <li>
+                        <a href="/mod/{{ .InternalName }}">{{ .DisplayName }}</a>
+                    </li>
+                {{end}}
+            </ol>
+        </div>
+    </div>
+</div>
+{{ end }}
