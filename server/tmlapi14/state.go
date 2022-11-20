@@ -76,7 +76,7 @@ func GetModList() []ModInfo {
 
 func updateModMaps() error {
 	// get the data
-	resp, err := http.Get("https://tmlapis.tomat.dev/1.3/list")
+	resp, err := http.Get("https://tmlapis.tomat.dev/1.4/list")
 	if err != nil {
 		return err
 	}
@@ -89,19 +89,19 @@ func updateModMaps() error {
 		return err
 	}
 
+	for i := range TempmodList {
+		TempmodList[i].DisplayNameHTML = template.HTML(helper.ParseChatTags(TempmodList[i].DisplayName))
+	}
+
+	sort.Slice(TempmodList, func(i, j int) bool {
+		return TempmodList[i].DownloadsTotal > TempmodList[j].DownloadsTotal
+	})
+
 	// lock the mutex for writing
 	dataMutex.Lock()
 	defer dataMutex.Unlock()
 
 	modList = TempmodList
-
-	for i := range modList {
-		modList[i].DisplayNameHTML = template.HTML(helper.ParseChatTags(modList[i].DisplayName))
-	}
-
-	sort.Slice(modList, func(i, j int) bool {
-		return modList[i].DownloadsTotal < modList[j].DownloadsTotal
-	})
 
 	return nil
 }

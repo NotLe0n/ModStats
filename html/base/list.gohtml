@@ -1,3 +1,4 @@
+{{define "base/list.gohtml"}}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -13,16 +14,17 @@
 		<header>
 			<h1><span><a href=".">Mod Statistics</a> // </span><wbr><span>Mod List</span></h1>
 			<div class="input-container">
-				{{ template "search-element" .modlist }}
+				{{ template "base/search_element.gohtml" .modlist }}
 			</div>
-			{{ template "search-script" }}
+			{{ template "base/search_script.gohtml" }}
 		</header>
 		<main id="content">
 			{{ if .isLegacy }}
-				{{ template "list-1.3" . }}
+				{{ template "1.3/list.gohtml" . }}
 			{{ else }}
-				{{ template "list-1.4" . }}
+				{{ template "1.4/list.gohtml" . }}
 			{{ end}}
 		</main>
 	</body>
 </html>
+{{end}}

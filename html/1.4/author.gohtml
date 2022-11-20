@@ -1,4 +1,4 @@
-{{ define "author-1.4" }}
+{{ define "1.4/author.gohtml" }}
 <p>Steam Name: <span>{{ .authorInfo.SteamName }}</span></p>
 <p>Total Downloads: <span>{{ .authorInfo.TotalDownloads }}</span></p>
 <p>Total Favorites: <span>{{ .authorInfo.TotalFavorites }}</span></p>
@@ -16,7 +16,6 @@
         </tbody>
         {{range .authorInfo.Mods}}
             <tr>
-                <td>{{ .Rank }}</td>
                 <td><a href="/mod/{{ .InternalName }}">{{ .DisplayName }}</a></td>
                 <td><a href="/mod/{{ .InternalName }}">{{ .InternalName }}</a></td>
                 <td>{{ .DownloadsTotal }}</td>

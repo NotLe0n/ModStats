@@ -15,15 +15,27 @@ func main() {
 
 	r := gin.Default()
 
-	r.LoadHTMLGlob("./html/*")
+	r.LoadHTMLGlob("./html/**/*.gohtml")
 
 	r.Static("/static", "./static")
-	r.Static("/favicon.ico", "./favicon.ico")
+	r.Static("/favicon.ico", "./static/assets/favicon.ico")
 
-	r.GET("/", indexPage)
-	r.GET("/list", modListPage)
-	r.GET("/mod/:modID", modStatsPage)
-	r.GET("/author/:authorID", authorStatsPage)
+	legacy := r.Group("/legacy")
+	{
+		legacy.GET("/", indexPage13)
+		legacy.GET("/list", modListPage13)
+		legacy.GET("/mod/:modID", modStatsPage13)
+		legacy.GET("/author/:authorID", authorPage13)
+		api := legacy.Group("/api")
+		{
+			api.GET("/getRandomMod", getRandomMod)
+		}
+	}
+
+	r.GET("/", indexPage14)
+	r.GET("/list", modListPage14)
+	r.GET("/mod/:modID", modStatsPage14)
+	r.GET("/author/:authorID", authorPage14)
 	api := r.Group("/api")
 	{
 		api.GET("/getRandomMod", getRandomMod)

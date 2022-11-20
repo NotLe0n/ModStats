@@ -1,18 +1,4 @@
-{{ define "search-element" }}
-<form action="javascript: submit()">
-    <select id="header-select" onchange="changeTarget(this)">
-        <option>mod</option>
-        <option>author</option>
-    </select>
-    <input id="header-input" class="mod-search" type="text" placeholder="Search" list="modlist" />
-    <datalist id="modlist">
-        {{range . }}
-            <option value="{{ .InternalName }}">
-        {{end}}
-    </datalist>
-</form>
-{{ end }}
-{{ define "search-script" }}
+{{ define "base/search_script.gohtml" }}
 <script>
     function submit() {
         const url = `/${document.getElementById('header-select').value}/${document.getElementById('header-input').value}/`;

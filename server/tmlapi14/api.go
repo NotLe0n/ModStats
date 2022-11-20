@@ -11,7 +11,7 @@ import (
 
 // requires a internal modName
 func GetModInfo(modName string) (ModInfo, error) {
-	resp, err := http.Get("https://tmlapis.tomat.dev/1.3/mod/" + url.QueryEscape(modName))
+	resp, err := http.Get("https://tmlapis.tomat.dev/1.4/mod/" + url.QueryEscape(modName))
 	if err != nil {
 		return ModInfo{}, err
 	}
@@ -31,7 +31,7 @@ func GetModInfo(modName string) (ModInfo, error) {
 }
 
 func GetAuthorInfo(steamid64 string) (Author, error) {
-	resp, err := http.Get("https://tmlapis.tomat.dev/1.3/author/" + steamid64) //fetch data
+	resp, err := http.Get("https://tmlapis.tomat.dev/1.4/author/" + steamid64) //fetch data
 	if err != nil {
 		return Author{}, err
 	}

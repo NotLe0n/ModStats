@@ -13,7 +13,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func indexPage(c *gin.Context) {
+func indexPage13(c *gin.Context) {
 	ModList := tmlapi13.GetModList()
 
 	combinedDownloads := func(modList []tmlapi13.ModListItem) (combined int) {
@@ -44,7 +44,7 @@ func indexPage(c *gin.Context) {
 		return hotMods
 	}
 
-	c.HTML(http.StatusOK, "index.gohtml", gin.H{
+	c.HTML(http.StatusOK, "base/index.gohtml", gin.H{
 		"modlist":   ModList,
 		"modcount":  len(ModList),
 		"combined":  combinedDownloads(ModList),
@@ -57,13 +57,14 @@ func indexPage(c *gin.Context) {
 	})
 }
 
-func modListPage(c *gin.Context) {
-	c.HTML(http.StatusOK, "list.gohtml", gin.H{
-		"modlist": tmlapi13.GetModList(),
+func modListPage13(c *gin.Context) {
+	c.HTML(http.StatusOK, "base/list.gohtml", gin.H{
+		"modlist":  tmlapi13.GetModList(),
+		"isLegacy": true,
 	})
 }
 
-func authorStatsPage(c *gin.Context) {
+func authorPage13(c *gin.Context) {
 	authorID := c.Param("authorID")
 	if authorID == "" {
 		c.AbortWithStatus(http.StatusBadRequest)
@@ -76,20 +77,19 @@ func authorStatsPage(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "author.gohtml", gin.H{
+	c.HTML(http.StatusOK, "base/author.gohtml", gin.H{
 		"modlist":    tmlapi13.GetModList(),
 		"author":     authorID,
 		"authorInfo": authorInfo,
+		"isLegacy":   true,
 	})
 }
 
-func modStatsPage(c *gin.Context) {
+func modStatsPage13(c *gin.Context) {
 	modName := c.Param("modID")
 	if modName == "" {
 		c.AbortWithStatus(http.StatusBadRequest)
 	}
-
-	isLegacy := c.Request.URL.Query().Has("legacy")
 
 	if internal_name, ok := tmlapi13.GetInternalName(url.QueryEscape(modName)); ok {
 		modName = internal_name
@@ -118,8 +118,7 @@ func modStatsPage(c *gin.Context) {
 		return
 	}
 
-	c.HTML(http.StatusOK, "mod.gohtml", gin.H{
-		"isLegacy":           isLegacy,
+	c.HTML(http.StatusOK, "base/mod.gohtml", gin.H{
 		"modlist":            tmlapi13.GetModList(),
 		"modData":            modData,
 		"modDependencies":    modDependencies,

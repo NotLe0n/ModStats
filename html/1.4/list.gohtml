@@ -1,4 +1,4 @@
-{{ define "list-1.4" }}
+{{ define "1.4/list.gohtml" }}
 <table>
     <tbody>
     <tr>
@@ -16,7 +16,7 @@
             <td>{{ .DownloadsTotal }}</td>
             <td>{{ .Views }}</td>
             <td>{{ .Favorited }}</td>
-            <td>{{ .VoteData.Score }}</td>
+            <td>{{if .VoteData }}{{ .VoteData.Score }}{{else}}0{{end}}</td>
         </tr>
     {{end}}
     </tbody>

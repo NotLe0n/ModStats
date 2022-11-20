@@ -1,3 +1,4 @@
+{{define "base/index.gohtml"}}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -31,9 +32,9 @@
             <h1 id="hamburger" onclick="openNav()">☰</h1>
             <h1><span><a href=".">Mod Statistics</a> // </span><wbr><span>Main Page</span></h1>
             <div class="input-container">
-                {{ template "search-element" .modlist }}
+                {{ template "base/search_element.gohtml" .modlist }}
             </div>
-            {{ template "search-script" }}
+            {{ template "base/search_script.gohtml" }}
         </header>
         <main onclick="closeNav()">
             <div id="upper">
@@ -41,16 +42,17 @@
                 <p>Search and find out more about your mod</p>
 
                 <div class="input-container big-search">
-                    {{ template "search-element" .modlist }}
+                    {{ template "base/search_element.gohtml" .modlist }}
                 </div>
             </div>
             <div id="middle">
                 {{ if .isLegacy }}
-                    {{ template "index-1.3" . }}
+                    {{ template "1.3/index.gohtml" . }}
                 {{ else }}
-                    {{ template "index-1.4" . }}
+                    {{ template "1.4/index.gohtml" . }}
                 {{ end}}
             </div>
         </main>
     </body>
 </html>
+{{end}}
