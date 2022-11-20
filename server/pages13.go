@@ -54,6 +54,7 @@ func indexPage13(c *gin.Context) {
 		"contribs":  80,
 		"top10mods": ModList[:10],
 		"hotmods":   hotMods(),
+		"isLegacy":  true,
 	})
 }
 

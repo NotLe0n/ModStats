@@ -29,6 +29,7 @@ func indexPage14(c *gin.Context) {
 		"median":    ModList[len(ModList)/2].DownloadsTotal,
 		"contribs":  80,
 		"top10mods": ModList[:10],
+		"isLegacy":  false,
 	})
 }
 
