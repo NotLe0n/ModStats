@@ -82,5 +82,6 @@ func modStatsPage14(c *gin.Context) {
 		"modlist":            tmlapi13.GetModList(),
 		"modData":            modData,
 		"escapedDisplayName": template.HTML(helper.ParseChatTags(modData.DisplayName)),
+		"isLegacy":           false,
 	})
 }
