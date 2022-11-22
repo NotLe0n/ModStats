@@ -1,10 +1,10 @@
 {{ define "base/search_element.gohtml" }}
 <form action="javascript: submit()">
-    <select id="header-select" onchange="changeTarget(this)">
+    <select class="header-select" onchange="changeTarget(this)">
         <option>mod</option>
         <option>author</option>
     </select>
-    <input id="header-input" class="mod-search" type="text" placeholder="Search" list="modlist" />
+    <input class="mod-search header-input" type="text" placeholder="Search" list="modlist" />
     <datalist id="modlist">
         {{range . }}
             <option value="{{ .InternalName }}">
