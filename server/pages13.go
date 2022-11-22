@@ -124,8 +124,8 @@ func modStatsPage13(c *gin.Context) {
 		"modData":            modData,
 		"modDependencies":    modDependencies,
 		"versionHistory":     modVersions,
-		"escapedDisplayName": template.HTML(helper.ParseChatTags(modData.DisplayName)),
-		"escapedDescription": template.HTML(helper.ParseChatTags(strings.Trim(modData.Description, "\""))),
+		"escapedDisplayName": template.HTML(helper.ParseChatTags(helper.Unescape(modData.DisplayName))),
+		"escapedDescription": template.HTML(helper.ParseChatTags(helper.Unescape(modData.Description))),
 		"isLegacy":           true,
 	})
 }

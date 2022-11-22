@@ -148,7 +148,7 @@ func modStatsPage14(c *gin.Context) {
 		"modlist":            tmlapi13.GetModList(),
 		"modData":            modData,
 		"escapedDisplayName": template.HTML(helper.ParseChatTags(modData.DisplayName)),
-		"escapedDescription": template.HTML(bbcodeCompiler.Compile(modData.Description)),
+		"escapedDescription": template.HTML(helper.ParseChatTags(bbcodeCompiler.Compile(modData.Description))),
 		"stars":              stars,
 		"isLegacy":           false,
 	})
