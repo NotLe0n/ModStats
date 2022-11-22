@@ -1,27 +1,96 @@
 {{ define "1.4/mod.gohtml" }}
-<div>
-    <div id="mod-info">
-        {{ if .modData.IconUrl }} <img src="{{ .modData.IconUrl }}" id="icon" width="160px" height="160px" alt="mod icon"> {{ end }}
-        <p>Display name: <span id="displayName">{{ .modData.DisplayNameHTML }}</span></p>
-        <p>Internal name: <span id="internalName">{{ .modData.InternalName }}</span></p>
-        <p>Mod ID: <span id="mod-id">{{ .modData.ModID }}</span></p>
-        <p>Mod steam page: <span id="mod-steam-page"><a href="https://steamcommunity.com/sharedfiles/filedetails/?id={{ .modData.ModID }}">https://steamcommunity.com/sharedfiles/filedetails/?id={{ .modData.ModID }}</a></span></p>
-        <p>Author: <span id="author">{{ .modData.Author }}</span></p>
-        <p>Author ID: <span id="author-id">{{ .modData.AuthorID }}</span></p>
-        <p>Author steam page: <span id="author-steam-page"><a href="https://steamcommunity.com/profiles/{{ .modData.AuthorID }}">https://steamcommunity.com/profiles/{{ .modData.AuthorID }}</a></span></p>
-        <p>Version: <span id="version">{{ .modData.Version }} ({{ .modData.TModLoaderVersion }})</span></p>
+<div id="mod-info" class="block">
+    <div id="mod-title">
+        <h1 class="inline">{{ .modData.DisplayNameHTML }}</h1>
+        <h3 class="inline">{{ .modData.Version }}</h3>
+        <h3 class="inline"><span id="rating">{{ .stars }}</span></h3>
+        <a class="inline" href="https://steamcommunity.com/sharedfiles/filedetails/?id={{ .modData.ModID }}" title="steam page">
+            <img src="https://img.icons8.com/fluency/512/steam.png"  alt="steam-icon" width="24px" height="24px">
+        </a>
+    </div>
+    <div id="top-stat">
+        {{ if .modData.IconUrl }}
+            <img src="{{ .modData.IconUrl }}" id="icon" width="190px" height="190px" alt="mod icon">
+        {{ end }}
+        <div>
+            <div>
+                {{ $side := .modData.ModSide}}
+                {{ range .modData.Tags }}
+                    {{ if ne $side .DisplayName }}
+                        <div class="tag-chip">{{.DisplayName}}</div>
+                    {{ end }}
+                {{ end }}
+            </div>
 
-        <p>Homepage: <span id="homepage">{{if .modData.Homepage }} <a href="{{ .modData.Homepage }}" target="_blank">{{ .modData.Homepage }}</a> {{ else }} no homepage {{ end }}</span></p>
-        <p>Last updated: <span id="updated">{{ .modData.TimeUpdated }}</span></p>
-        <p>Creation date: <span id="created">{{ .modData.TimeCreated }}</span></p>
-        <p>Mod dependencies: <span>{{ range .modDependencies }}<a href="/mod/{{ . }}">{{ . }}</a> {{ else }} None {{ end }}</span>
-        <p>Mod Side: <span>{{ .modData.ModSide }}</span></p>
-        <p>Widget url: <span id="widget"><a href="https://bettermodwidget.javidpack.repl.co/?mod={{ .modData.InternalName }}" target="_blank">https://bettermodwidget.javidpack.repl.co/?mod={{ .modData.InternalName }}</a></span></p>
+            <div>
+                <p class="labeled-data">
+                    <span class="label">Internal name</span>
+                    <span class="data">{{ .modData.InternalName }} (ID: {{ .modData.ModID }})</span>
+                </p>
+                <p class="inline labeled-data">
+                    <span class="label">Downloads</span>
+                    <span class="data">{{ .modData.DownloadsTotal }}</span>
+                </p>
+                <p class="inline labeled-data">
+                    <span class="label">Favorites</span>
+                    <span class="data">{{ .modData.Favorited }}</span>
+                </p>
+                <p class="inline labeled-data">
+                    <span class="label">Views</span>
+                    <span class="data">{{ .modData.Views }}</span>
+                </p>
+                <br>
+                <p class="inline labeled-data">
+                    <span class="label">Last updated</span>
+                    <span class="data"><date-time>{{ .modData.TimeUpdated }}</date-time></span>
+                </p>
+                <p class="inline labeled-data">
+                    <span class="label">Creation date</span>
+                    <span class="data"><date-time>{{ .modData.TimeCreated }}</date-time></span>
+                </p>
+
+                <p class="labeled-data">
+                    <span class="label">Author</span>
+                    <span class="data">{{ .modData.Author }} <a href="https://steamcommunity.com/profiles/{{ .modData.AuthorID }}" title="author steam page">({{ .modData.AuthorID }})</a></span>
+                </p>
+            </div>
+        </div>
     </div>
-    <div id="download-info">
-        <p>Downloads: <span id="downloads">{{ .modData.DownloadsTotal }}</span></p>
-        <p>Favorites: <span id="favorites">{{ .modData.Favorited }}</span></p>
-        <p>Views: <span id="favorites">{{ .modData.Views }}</span></p>
-    </div>
+
+    <p class="inline labeled-data">
+        <span class="label">tModLoader version</span>
+        <a class="data" href="https://github.com/tModLoader/tModLoader/releases/tag/{{ .modData.TModLoaderVersion }}" title="release page">{{ .modData.TModLoaderVersion }}</a>
+    </p>
+    <p class="labeled-data">
+        <span class="label">Homepage</span>
+        <span class="data">
+            {{if .modData.Homepage }}
+                <a href="{{ .modData.Homepage }}" target="_blank">{{ .modData.Homepage }}</a>
+            {{ else }}
+                no homepage
+            {{ end }}
+        </span>
+    </p>
+
+    <p class="labeled-data">
+        <span class="label">Mod dependencies</span>
+        <span class="data">
+            {{ range .modData.Children }}
+                <a href="/mod/{{ .Publishedfileid }}">{{ .Publishedfileid }}</a>
+            {{ else }}
+                None
+            {{ end }}
+        </span>
+    </p>
+    <p class="labeled-data">
+        <span class="label">Mod Side</span>
+        <span class="data">{{ .modData.ModSide }}</span>
+    </p>
 </div>
+<div id="description-container" class="block">
+    <h1>Description</h1>
+    <div id="description">{{ .escapedDescription }}</div>
+    <script>document.querySelectorAll('#description img').forEach(x => x.classList.add('description-img'))</script>
+</div>
+
 {{ end }}

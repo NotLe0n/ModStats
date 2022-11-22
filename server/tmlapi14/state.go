@@ -14,6 +14,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type ModChild struct {
+	File_type       uint32 `json:"file_type"`
+	Publishedfileid string `json:"publishedfileid"`
+	Sortorder       uint32 `json:"sortorder"`
+}
+
 type ModTag struct {
 	Tag         string `json:"tag"`
 	DisplayName string `json:"display_name"`
@@ -49,6 +55,8 @@ type ModInfo struct {
 	VoteData          *ModVoteData  `json:"vote_data"`
 	Playtime          string        `json:"playtime"`
 	DisplayNameHTML   template.HTML // added later
+	Description       string        `json:"description"`
+	Children          []ModChild    `json:"children"`
 }
 
 type Author struct {

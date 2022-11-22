@@ -1,14 +1,16 @@
 package main
 
 import (
-	"html/template"
-	"net/http"
-	"strconv"
-
+	"fmt"
 	"github.com/NotLe0n/ModStats/server/helper"
 	"github.com/NotLe0n/ModStats/server/tmlapi13"
 	"github.com/NotLe0n/ModStats/server/tmlapi14"
+	"github.com/frustra/bbcode"
 	"github.com/gin-gonic/gin"
+	"html/template"
+	"net/http"
+	"strconv"
+	"strings"
 )
 
 func indexPage14(c *gin.Context) {
@@ -78,10 +80,84 @@ func modStatsPage14(c *gin.Context) {
 		modData.IconUrl = ""
 	}
 
+	var a, b, cc, d int
+	_, _ = fmt.Sscanf(strings.ReplaceAll(modData.TModLoaderVersion, "tModLoader v", ""), "%d.%d.%d.%d", &a, &b, &cc, &d)
+	modData.TModLoaderVersion = fmt.Sprintf("v%d.%02d.%d.%d", a, b, cc, d)
+	modData.DisplayNameHTML = template.HTML(helper.ParseChatTags(modData.DisplayName))
+
+	for i, tag := range modData.Tags {
+		modData.Tags[i].DisplayName = strings.Title(tag.DisplayName)
+	}
+
+	// set up compiler
+	bbcodeCompiler := bbcode.NewCompiler(true, true)
+	bbcodeCompiler.SetTag("size", nil)
+	bbcodeCompiler.SetTag("color", nil)
+	bbcodeCompiler.SetTag("center", nil)
+
+	for i := 1; i <= 6; i++ {
+		bbCodeToHTMLSameName(bbcodeCompiler, "h"+strconv.Itoa(i))
+	}
+
+	bbCodeToHTMLSameName(bbcodeCompiler, "u")
+	bbCodeToHTMLSameName(bbcodeCompiler, "i")
+	bbCodeToHTMLSameName(bbcodeCompiler, "hr")
+
+	bbcodeCompiler.SetTag("strike", func(node *bbcode.BBCodeNode) (*bbcode.HTMLTag, bool) {
+		out := bbcode.NewHTMLTag("")
+		out.Name = "s"
+		return out, true
+	})
+	bbcodeCompiler.SetTag("list", func(node *bbcode.BBCodeNode) (*bbcode.HTMLTag, bool) {
+		out := bbcode.NewHTMLTag("")
+		out.Name = "ul"
+		return out, true
+	})
+	bbcodeCompiler.SetTag("olist", func(node *bbcode.BBCodeNode) (*bbcode.HTMLTag, bool) {
+		out := bbcode.NewHTMLTag("")
+		out.Name = "ol"
+		return out, true
+	})
+
+	bbcodeCompiler.SetTag("spoiler", func(node *bbcode.BBCodeNode) (*bbcode.HTMLTag, bool) {
+		out := bbcode.NewHTMLTag("")
+		out.Name = "span"
+		out.Attrs = map[string]string{
+			"style": "background-color: black",
+		}
+		return out, true
+	})
+	bbcodeCompiler.SetTag("*", func(node *bbcode.BBCodeNode) (*bbcode.HTMLTag, bool) {
+		out := bbcode.NewHTMLTag("")
+		out.Name = "li"
+		return out, true
+	})
+
+	numFilledStars := int(5 * modData.VoteData.Score)
+	numEmptyStars := 5 - numFilledStars
+	stars := ""
+
+	for i := 0; i < numFilledStars; i++ {
+		stars += "★"
+	}
+	for i := 0; i < numEmptyStars; i++ {
+		stars += "☆"
+	}
+
 	c.HTML(http.StatusOK, "base/mod.gohtml", gin.H{
 		"modlist":            tmlapi13.GetModList(),
 		"modData":            modData,
 		"escapedDisplayName": template.HTML(helper.ParseChatTags(modData.DisplayName)),
+		"escapedDescription": template.HTML(bbcodeCompiler.Compile(modData.Description)),
+		"stars":              stars,
 		"isLegacy":           false,
+	})
+}
+
+func bbCodeToHTMLSameName(c bbcode.Compiler, name string) {
+	c.SetTag(name, func(node *bbcode.BBCodeNode) (*bbcode.HTMLTag, bool) {
+		out := bbcode.NewHTMLTag("")
+		out.Name = name
+		return out, true
 	})
 }

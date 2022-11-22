@@ -1,39 +1,49 @@
 {{ define "1.3/author.gohtml" }}
-<p>Steam Name: <span>{{ .authorInfo.SteamName }}</span></p>
-<p>Downloads Total: <span>{{ .authorInfo.DownloadsTotal }}</span></p>
-<p>Downloads Yesterday: <span>{{ .authorInfo.DownloadsYesterday }}</span></p>
-<p>Mods: <span>
-{{if .authorInfo.Mods}}
-    <table>
-        <tbody><tr> <th>Rank</th> <th>Display Name</th> <th>Downloads Total</th> <th>Downloads Yesterday</th> </tr></tbody>
-        {{range .authorInfo.Mods}}
+<div>
+    <h1>{{ .authorInfo.SteamName }}</h1>
+    <p class="labeled-data">
+        <span class="label">Downloads Total</span>
+        <span class="data">{{ .authorInfo.DownloadsTotal }}</span>
+    </p>
+    <p class="labeled-data">
+        <span class="label">Downloads Yesterday</span>
+        <span class="data">{{ .authorInfo.DownloadsYesterday }}</span>
+    </p>
+</div>
+<div>
+    <h2>Mods</h2>
+    {{if .authorInfo.Mods}}
+        <table>
+            <tbody><tr> <th>Rank</th> <th>Display Name</th> <th>Downloads Total</th> <th>Downloads Yesterday</th> </tr></tbody>
+            {{range .authorInfo.Mods}}
+                <tr>
+                    <td>{{ .Rank }}</td>
+                    <td><a href="/mod/{{ .InternalName }}">{{ .DisplayName }}</a></td>
+                    <td>{{ .DownloadsTotal }}</td>
+                    <td>{{ .DownloadsYesterday }}</td>
+                </tr>
+            {{end}}
+        </table>
+    {{else}}
+        no mods
+    {{end}}
+</div>
+<div>
+<h2>Maintained Mods</h2>
+    {{if .authorInfo.MaintainedMods}}
+        <table>
+        <tbody><tr> <td>Rank</td> <td>Display Name</td> <td>Downloads Total</td> <td>Downloads Yesterday</td> </tr></tbody>
+        {{range .authorInfo.MaintainedMods}}
             <tr>
-                <td>{{ .Rank }}</td>
-                <td><a href="/mod/{{ .InternalName }}">{{ .DisplayName }}</a></td>
+                <td>?</td>
+                <td><a href="/mod/{{ .InternalName }}">{{ .EscapedModName }}</a></td>
                 <td>{{ .DownloadsTotal }}</td>
                 <td>{{ .DownloadsYesterday }}</td>
             </tr>
+            </table>
         {{end}}
-    </table>
-{{else}}
-    no mods
-{{end}}
-</span></p>
-<p>Maintained Mods: <span>
-{{if .authorInfo.MaintainedMods}}
-    <table>
-    <tbody><tr> <td>Rank</td> <td>Display Name</td> <td>Downloads Total</td> <td>Downloads Yesterday</td> </tr></tbody>
-    {{range .authorInfo.MaintainedMods}}
-        <tr>
-            <td>?</td>
-            <td><a href="/mod/{{ .InternalName }}">{{ .EscapedModName }}</a></td>
-            <td>{{ .DownloadsTotal }}</td>
-            <td>{{ .DownloadsYesterday }}</td>
-        </tr>
-        </table>
+    {{else}}
+        no mods
     {{end}}
-{{else}}
-    no mods
-{{end}}
-</span></p>
+</div>
 {{ end }}

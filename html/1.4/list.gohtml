@@ -1,14 +1,16 @@
 {{ define "1.4/list.gohtml" }}
 <table>
+    <thead>
+        <tr>
+            <th>Display Name</th>
+            <th>Internal Name</th>
+            <th>Downloads Total</th>
+            <th>Views</th>
+            <th>Favorites</th>
+            <th>Vote ratio</th>
+        </tr>
+    </thead>
     <tbody>
-    <tr>
-        <th>Display Name</th>
-        <th>Internal Name</th>
-        <th>Downloads Total</th>
-        <th>Views</th>
-        <th>Favorites</th>
-        <th>Vote ratio</th>
-    </tr>
     {{range .modlist}}
         <tr>
             <td><a href="/mod/{{ .InternalName }}">{{ .DisplayNameHTML }}</a></td>

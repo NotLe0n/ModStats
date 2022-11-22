@@ -4,12 +4,69 @@ main {
 	line-height: .8;
 }
 
-main div {
+main div.block {
 	padding: 5px;
 }
 
+main #mod-title {
+	margin: .5rem 0 .5rem;
+	display: flex;
+	align-items: center;
+}
+
+main #mod-title h1,h3 {
+	margin: .5rem .5rem .5rem 0;
+}
+
+.inline {
+	display: inline-block !important;
+}
+
+main p.inline {
+	display: inline-flex !important;
+}
+
+.tag-chip {
+	display: inline-block;
+	padding: .5rem;
+	font-size: .8rem;
+	background: #2f2f2f;
+	outline: #4a4a4a solid 1px;
+	border-radius: 1rem;
+}
+
+main p.labeled-data {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	width: fit-content;
+	margin: .5rem 0 .5rem;
+}
+
+main p.labeled-data .label {
+	background: #34495e;
+	outline: #4a4a4a solid 1px;
+	padding: .5rem;
+}
+
+main p.labeled-data .data {
+	padding: .5rem;
+	outline: #4a4a4a solid 1px;
+	background: #2f2f2f;
+	min-width: 4rem;
+	text-align: center;
+}
+
+#rating {
+	font-weight: lighter;
+}
+
+#top-stat {
+	display: flex;
+	align-items: center;
+}
+
 #icon {
-	float: left;
 	padding: 10px;
 	image-rendering: pixelated;
 }
@@ -20,13 +77,20 @@ main div {
 }
 
 #description-container {
-	width: 60rem;
+	width: 55rem;
 }
 
 #description {
 	line-height: 1;
-	height: 10rem;
+	max-height: 20rem;
 	overflow: auto;
+	background-color: #2f2f2f;
+	border-radius: 1rem;
+	padding: 1rem;
+}
+
+#description img.description-img {
+	max-width: 100%;
 }
 
 #download-info {
@@ -39,5 +103,16 @@ main div {
 
 #history-table {
 	max-height: 40rem;
+	width: fit-content;
 	overflow: auto;
+}
+
+#download-button {
+	display: block;
+	width: fit-content;
+	margin: 1rem;
+	padding: .5rem 2rem;
+	background-color: lightgreen;
+	border-radius: 2rem;
+	color: black;
 }

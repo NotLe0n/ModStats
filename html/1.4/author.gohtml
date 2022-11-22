@@ -1,9 +1,20 @@
 {{ define "1.4/author.gohtml" }}
-<p>Steam Name: <span>{{ .authorInfo.SteamName }}</span></p>
-<p>Total Downloads: <span>{{ .authorInfo.TotalDownloads }}</span></p>
-<p>Total Favorites: <span>{{ .authorInfo.TotalFavorites }}</span></p>
-<p>Total Views: <span>{{ .authorInfo.TotalViews }}</span></p>
-<p>Mods: <span>
+<h1>{{ .authorInfo.SteamName }}</h1>
+<div>
+    <p class="labeled-data">
+        <span class="label">Total Downloads</span>
+        <span class="data">{{ .authorInfo.TotalDownloads }}</span>
+    </p>
+    <p class="labeled-data">
+        <span class="label">Total Favorites</span>
+        <span class="data">{{ .authorInfo.TotalFavorites }}</span>
+    </p>
+    <p class="labeled-data">
+        <span class="label">Total Views</span>
+        <span class="data">{{ .authorInfo.TotalViews }}</span>
+    </p>
+</div>
+<h2>Mods</h2>
 {{if .authorInfo.Mods}}
     <table>
         <tbody>
@@ -26,5 +37,4 @@
 {{else}}
     no mods
 {{end}}
-</span></p>
 {{ end }}

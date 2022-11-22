@@ -1,6 +1,6 @@
 :root {
-	font-family: monospace;
-	font-size: 1.25em;
+	font-family: "Roboto Light", sans-serif;
+	font-size: 1em;
 	--bg-color: #333;
 	--searchbar-size: calc(10rem + 1vw);
 	--form-bg-color: #414141;
@@ -52,26 +52,15 @@ th {
 tr {
 	background-color: var(--table-fill-dark);
 	border-top: 1px solid var(--table-fill-dark);
-	display: table-row;
-	vertical-align: inherit;
-	border-color: inherit;
 }
 
 table tr:nth-child(2n) {
 	background-color: var(--table-fill-light);
 }
 
-tbody {
-	display: table-row-group;
-	vertical-align: middle;
-	border-color: inherit;
-}
-
 td {
 	padding: .8rem 1rem;
 	border: 1px solid var(--table-border-color);
-	display: table-cell;
-	vertical-align: inherit;
 }
 
 header {

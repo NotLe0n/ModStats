@@ -1,15 +1,17 @@
 {{ define "1.3/list.gohtml" }}
 <table>
+    <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Display Name</th>
+            <th>Internal Name</th>
+            <th>Downloads Total</th>
+            <th>Downloads Today</th>
+            <th>Downloads Yesterday</th>
+            <th>tModLoader Version</th>
+        </tr>
+    </thead>
     <tbody>
-    <tr>
-        <th>Rank</th>
-        <th>Display Name</th>
-        <th>Internal Name</th>
-        <th>Downloads Total</th>
-        <th>Downloads Today</th>
-        <th>Downloads Yesterday</th>
-        <th>tModLoader Version</th>
-    </tr>
     {{range .modlist}}
         <tr>
             <td>{{ .Rank }}</td>

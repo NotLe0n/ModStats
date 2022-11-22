@@ -32,6 +32,7 @@ func GetModInfo(modName string) (ModInfo, error) {
 
 	modInfo.Rank = modInfoMap[modInfo.InternalName].Rank                     //add the rank from the map
 	modInfo.DownloadsToday = modInfoMap[modInfo.InternalName].DownloadsToday //add DownloadsToday from the map
+	modInfo.TModLoaderVersion = modInfo.TModLoaderVersion[11:]
 
 	return modInfo, nil
 }
