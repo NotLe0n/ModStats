@@ -10,19 +10,19 @@
                 <img src="{{ .modData.Icon }}" id="icon" width="190px" height="190px" alt="mod icon">
             {{ end }}
             <div>
-                <p class="labeled-data">
+                <div class="labeled-data">
                     <span class="label">Internal name</span>
                     <span class="data">{{ .modData.InternalName }}</span>
-                </p>
-                <p class="labeled-data">
+                </div>
+                <div class="labeled-data">
                     <span class="label">tModLoader Version</span>
                     <a class="data" href="https://github.com/tModLoader/tModLoader/releases/tag/{{ .modData.TModLoaderVersion }}">{{ .modData.TModLoaderVersion }}</a>
-                </p>
-                <p class="labeled-data">
+                </div>
+                <div class="labeled-data">
                     <span class="label">Author</span>
                     <span class="data">{{ .modData.Author }}</span>
-                </p>
-                <p class="labeled-data">
+                </div>
+                <div class="labeled-data">
                     <span class="label">Homepage</span>
                     <span class="data">
                         {{if .modData.Homepage }}
@@ -31,22 +31,22 @@
                             no homepage
                         {{ end }}
                     </span>
-                </p>
-                <p class="labeled-data">
+                </div>
+                <div class="labeled-data">
                     <span class="label">Mod Side</span>
                     <span class="data">{{ .modData.ModSide }}</span>
-                </p>
+                </div>
             </div>
         </div>
 
-        <p class="labeled-data">
+        <div class="labeled-data">
             <span class="label">Last updated</span>
             <span class="data">{{ .modData.LastUpdated }}</span>
-        </p>
-        <p class="labeled-data">
+        </div>
+        <div class="labeled-data">
             <span class="label">Mod dependencies</span>
             <span class="data">{{ range .modDependencies }}<a href="/mod/{{ . }}">{{ . }}</a> {{ else }} None {{ end }}</span>
-        </p>
+        </div>
         <a href="{{ .modData.DownloadLink }}" id="download-button">Download</a>
     </div>
     <div id="description-container" class="block">
@@ -55,22 +55,22 @@
     </div>
     <div id="download-info" class="block">
         <h1>Downloads: </h1>
-        <p class="labeled-data">
+        <div class="labeled-data">
             <span class="label">Rank</span>
             <span class="data">{{ .modData.Rank }}</span>
-        </p>
-        <p class="labeled-data">
+        </div>
+        <div class="labeled-data">
             <span class="label">Downloads total</span>
             <span class="data">{{ .modData.DownloadsTotal }}</span>
-        </p>
-        <p class="labeled-data">
+        </div>
+        <div class="labeled-data">
             <span class="label">Downloads today</span>
             <span class="data">{{ .modData.DownloadsToday }}</span>
-        </p>
-        <p class="labeled-data">
+        </div>
+        <div class="labeled-data">
             <span class="label">Downloads yesterday</span>
             <span class="data">{{ .modData.DownloadsYesterday }}</span>
-        </p>
+        </div>
     </div>
 </div>
 <div id="dl-history" class="block">

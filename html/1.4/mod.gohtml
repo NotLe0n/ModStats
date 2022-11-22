@@ -23,45 +23,45 @@
             </div>
 
             <div>
-                <p class="labeled-data">
+                <div class="labeled-data">
                     <span class="label">Internal name</span>
                     <span class="data">{{ .modData.InternalName }} (ID: {{ .modData.ModID }})</span>
-                </p>
-                <p class="inline labeled-data">
+                </div>
+                <div class="inline labeled-data">
                     <span class="label">Downloads</span>
                     <span class="data">{{ .modData.DownloadsTotal }}</span>
-                </p>
-                <p class="inline labeled-data">
+                </div>
+                <div class="inline labeled-data">
                     <span class="label">Favorites</span>
                     <span class="data">{{ .modData.Favorited }}</span>
-                </p>
-                <p class="inline labeled-data">
+                </div>
+                <div class="inline labeled-data">
                     <span class="label">Views</span>
                     <span class="data">{{ .modData.Views }}</span>
-                </p>
+                </div>
                 <br>
-                <p class="inline labeled-data">
+                <div class="inline labeled-data">
                     <span class="label">Last updated</span>
                     <span class="data"><date-time>{{ .modData.TimeUpdated }}</date-time></span>
-                </p>
-                <p class="inline labeled-data">
+                </div>
+                <div class="inline labeled-data">
                     <span class="label">Creation date</span>
                     <span class="data"><date-time>{{ .modData.TimeCreated }}</date-time></span>
-                </p>
+                </div>
 
-                <p class="labeled-data">
+                <div class="labeled-data">
                     <span class="label">Author</span>
                     <span class="data">{{ .modData.Author }} <a href="https://steamcommunity.com/profiles/{{ .modData.AuthorID }}" title="author steam page">({{ .modData.AuthorID }})</a></span>
-                </p>
+                </div>
             </div>
         </div>
     </div>
 
-    <p class="inline labeled-data">
+    <div class="inline labeled-data">
         <span class="label">tModLoader version</span>
         <a class="data" href="https://github.com/tModLoader/tModLoader/releases/tag/{{ .modData.TModLoaderVersion }}" title="release page">{{ .modData.TModLoaderVersion }}</a>
-    </p>
-    <p class="labeled-data">
+    </div>
+    <div class="labeled-data">
         <span class="label">Homepage</span>
         <span class="data">
             {{if .modData.Homepage }}
@@ -70,9 +70,9 @@
                 no homepage
             {{ end }}
         </span>
-    </p>
+    </div>
 
-    <p class="labeled-data">
+    <div class="labeled-data">
         <span class="label">Mod dependencies</span>
         <span class="data">
             {{ range .modData.Children }}
@@ -81,16 +81,15 @@
                 None
             {{ end }}
         </span>
-    </p>
-    <p class="labeled-data">
+    </div>
+    <div class="labeled-data">
         <span class="label">Mod Side</span>
         <span class="data">{{ .modData.ModSide }}</span>
-    </p>
+    </div>
 </div>
 <div id="description-container" class="block">
     <h1>Description</h1>
     <div id="description">{{ .escapedDescription }}</div>
     <script>document.querySelectorAll('#description img').forEach(x => x.classList.add('description-img'))</script>
 </div>
-
 {{ end }}

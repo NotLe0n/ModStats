@@ -1,14 +1,14 @@
 {{ define "1.3/author.gohtml" }}
 <div>
     <h1>{{ .authorInfo.SteamName }}</h1>
-    <p class="labeled-data">
+    <div class="labeled-data">
         <span class="label">Downloads Total</span>
         <span class="data">{{ .authorInfo.DownloadsTotal }}</span>
-    </p>
-    <p class="labeled-data">
+    </div>
+    <div class="labeled-data">
         <span class="label">Downloads Yesterday</span>
         <span class="data">{{ .authorInfo.DownloadsYesterday }}</span>
-    </p>
+    </div>
 </div>
 <div>
     <h2>Mods</h2>

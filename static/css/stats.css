@@ -22,7 +22,7 @@ main #mod-title h1,h3 {
 	display: inline-block !important;
 }
 
-main p.inline {
+.inline.labeled-data  {
 	display: inline-flex !important;
 }
 
@@ -35,7 +35,7 @@ main p.inline {
 	border-radius: 1rem;
 }
 
-main p.labeled-data {
+main div.labeled-data {
 	display: flex;
 	align-items: center;
 	justify-content: space-evenly;
@@ -43,18 +43,25 @@ main p.labeled-data {
 	margin: .5rem 0 .5rem;
 }
 
-main p.labeled-data .label {
+main div.labeled-data .label {
 	background: #34495e;
-	outline: #4a4a4a solid 1px;
+	border-left: #4a4a4a solid 1px;
+	border-top: #4a4a4a solid 1px;
+	border-bottom: #4a4a4a solid 1px;
 	padding: .5rem;
 }
 
-main p.labeled-data .data {
+main div.labeled-data .data {
 	padding: .5rem;
-	outline: #4a4a4a solid 1px;
+	border: #4a4a4a solid 1px;
 	background: #2f2f2f;
 	min-width: 4rem;
 	text-align: center;
+
+	display: inline-block;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
 }
 
 #rating {
