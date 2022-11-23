@@ -1,27 +1,30 @@
 {{ define "1.4/mod.gohtml" }}
 <div id="mod-info" class="block">
     <div id="mod-title">
-        <h1 class="inline">{{ .modData.DisplayNameHTML }}</h1>
-        <h3 class="inline">{{ .modData.Version }}</h3>
-        <h3 class="inline"><span id="rating">{{ .stars }}</span></h3>
-        <a class="inline" href="https://steamcommunity.com/sharedfiles/filedetails/?id={{ .modData.ModID }}" title="steam page">
-            <img src="https://img.icons8.com/fluency/512/steam.png"  alt="steam-icon" width="24px" height="24px">
-        </a>
-    </div>
-    <div id="top-stat">
-        {{ if .modData.IconUrl }}
-            <img src="{{ .modData.IconUrl }}" id="icon" width="190px" height="190px" alt="mod icon">
-        {{ end }}
         <div>
-            <div>
-                {{ $side := .modData.ModSide}}
-                {{ range .modData.Tags }}
-                    {{ if ne $side .DisplayName }}
-                        <div class="tag-chip">{{.DisplayName}}</div>
-                    {{ end }}
-                {{ end }}
-            </div>
-
+            <h1>{{ .modData.DisplayNameHTML }}</h1>
+            <h3>{{ .modData.Version }}</h3>
+        </div>
+        <div>
+            <h3><span id="rating">{{ .stars }}</span></h3>
+            <a class="inline" href="https://steamcommunity.com/sharedfiles/filedetails/?id={{ .modData.ModID }}" title="steam page">
+                <img src="https://img.icons8.com/fluency/512/steam.png"  alt="steam-icon" width="24px" height="24px">
+            </a>
+        </div>
+    </div>
+    <div id="tags">
+        {{ $side := .modData.ModSide}}
+        {{ range .modData.Tags }}
+            {{ if ne $side .DisplayName }}
+                <div class="tag-chip">{{.DisplayName}}</div>
+            {{ end }}
+        {{ end }}
+    </div>
+    <div>
+        <div id="top-stat">
+            {{ if .modData.IconUrl }}
+                <img src="{{ .modData.IconUrl }}" id="icon" width="190px" height="190px" alt="mod icon">
+            {{ end }}
             <div>
                 <div class="labeled-data">
                     <span class="label">Internal name</span>
@@ -48,43 +51,44 @@
                     <span class="label">Creation date</span>
                     <span class="data"><date-time>{{ .modData.TimeCreated }}</date-time></span>
                 </div>
-
                 <div class="labeled-data">
                     <span class="label">Author</span>
                     <span class="data">{{ .modData.Author }} <a href="https://steamcommunity.com/profiles/{{ .modData.AuthorID }}" title="author steam page">({{ .modData.AuthorID }})</a></span>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="inline labeled-data">
-        <span class="label">tModLoader version</span>
-        <a class="data" href="https://github.com/tModLoader/tModLoader/releases/tag/{{ .modData.TModLoaderVersion }}" title="release page">{{ .modData.TModLoaderVersion }}</a>
-    </div>
-    <div class="labeled-data">
-        <span class="label">Homepage</span>
-        <span class="data">
-            {{if .modData.Homepage }}
-                <a href="{{ .modData.Homepage }}" target="_blank">{{ .modData.Homepage }}</a>
-            {{ else }}
-                no homepage
-            {{ end }}
-        </span>
-    </div>
+        <div>
+            <div class="inline labeled-data">
+                <span class="label">tModLoader version</span>
+                <a class="data" href="https://github.com/tModLoader/tModLoader/releases/tag/{{ .modData.TModLoaderVersion }}" title="release page">{{ .modData.TModLoaderVersion }}</a>
+            </div>
+            <div class="labeled-data">
+                <span class="label">Homepage</span>
+                <span class="data">
+                    {{if .modData.Homepage }}
+                        <a href="{{ .modData.Homepage }}" target="_blank">{{ .modData.Homepage }}</a>
+                    {{ else }}
+                        no homepage
+                    {{ end }}
+                </span>
+            </div>
 
-    <div class="labeled-data">
-        <span class="label">Mod dependencies</span>
-        <span class="data">
-            {{ range .modData.Children }}
-                <a href="/mod/{{ .Publishedfileid }}">{{ .Publishedfileid }}</a>
-            {{ else }}
-                None
-            {{ end }}
-        </span>
-    </div>
-    <div class="labeled-data">
-        <span class="label">Mod Side</span>
-        <span class="data">{{ .modData.ModSide }}</span>
+            <div class="labeled-data">
+                <span class="label">Mod dependencies</span>
+                <span class="data">
+                    {{ range .modData.Children }}
+                        <a href="/mod/{{ .Publishedfileid }}">{{ .Publishedfileid }}</a>
+                    {{ else }}
+                        None
+                    {{ end }}
+                </span>
+            </div>
+            <div class="labeled-data">
+                <span class="label">Mod Side</span>
+                <span class="data">{{ .modData.ModSide }}</span>
+            </div>
+        </div>
     </div>
 </div>
 <div id="description-container" class="block">
