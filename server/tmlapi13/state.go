@@ -130,14 +130,25 @@ func updateModMaps() error {
 
 // start the ticker to update the state
 func init() {
-	//this goroutine updates the mod list every 15 minutes so that the loading time is not too long on every reload
+	// adds logging
+	intitUpdate := func() {
+		logf("updating ModNameMap13")
+		if err := updateModMaps(); err != nil {
+			logf("Unable to update ModNameMap13, using the last valid state: %s", err.Error())
+		} else {
+			logf("done updating ModNameMap13")
+		}
+	}
 
+	// update once at the beginning
+	intitUpdate()
+
+	//this goroutine updates the mod list every 15 minutes so that the loading time is not too long on every reload
 	go func() {
-		for ticker := time.NewTicker(15 * time.Minute); true; <-ticker.C {
-			logf("updating ModNameMap")
-			if err := updateModMaps(); err != nil {
-				logf("Unable to update ModNameMap, using the last valid state: %s", err.Error())
-			}
+		ticker := time.NewTicker(15 * time.Minute)
+		defer ticker.Stop()
+		for range ticker.C {
+			intitUpdate()
 		}
 	}()
 }

@@ -12,7 +12,6 @@ func logf(format string, args ...interface{}) {
 }
 
 func main() {
-
 	r := gin.Default()
 
 	r.LoadHTMLGlob("./html/**/*.gohtml")
