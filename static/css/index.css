@@ -73,7 +73,7 @@ main {
 }
 
 .input-container.big-search form input.mod-search {
-	width: calc(var(--searchbar-size) * 3);
+	width: calc(var(--searchbar-size) * 2.5);
 }
 
 #middle {
@@ -136,6 +136,9 @@ main {
 @media screen and (max-width: 555px) {
 	.mod-card .mod-card-inner:not(.no-remove) {
 		display: none !important;
+	}
+	.big-search input {
+		width: var(--searchbar-size) !important;
 	}
 }
 
