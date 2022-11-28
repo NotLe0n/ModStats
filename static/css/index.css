@@ -132,8 +132,9 @@ main {
 		display: none !important;
 	}
 	.mod-card {
+		border-radius: 1rem !important;
 		padding: .8rem !important;
-		margin: .5rem !important;
+		margin: .8rem !important;
 	}
 	.mod-card img {
 		width: 80px;
@@ -150,7 +151,6 @@ main {
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: center;
-	max-width: 90%;
 
 	counter-reset: cnt;
 }
