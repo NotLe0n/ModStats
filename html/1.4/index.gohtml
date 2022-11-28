@@ -1,28 +1,23 @@
 {{ define "1.4/index.gohtml"}}
     <div id="tml-stats">
-        <h1>tModloader Statistics:</h1>
-        <p>- There are <span>{{ .modcount }}</span> mods on the Mod Browser</p>
+        <h1>tModloader Statistics</h1>
+        <p>- There are <span>{{ .modcount }}</span> mods on the Steam Workshop</p>
         <p>- All downloads combined are <span>{{ .combined }}</span></p>
-        <p>- There are <span>{{ .deadmods }}</span> dead mods (daily download count < 5)</p>
-        <p>- The Top 10 mods make up <span>{{ .percent }}%</span> of all downloads</p>
+        <p>- The top 10 mods make up <span>{{ .percent }}%</span> of all downloads</p>
         <p>- The median download count is <span>{{ .median }}</span></p>
         <p>- Over <span>{{ .contribs }}</span> people have contributed to tML</p>
     </div>
 
-    <div id="blocks">
-        <div class="block">
-            <div class="block-head">
-                <h1>Top 10 Mods</h1>
-            </div>
-            <div class="block-body">
-                <ol>
-                    {{range .top10mods}}
-                        <li>
-                            <a href="/mod/{{ .InternalName }}">{{ .DisplayName }}</a>
-                        </li>
-                    {{end}}
-                </ol>
-            </div>
-        </div>
+    <h1>Top 10 Mods</h1>
+    <div class="card-container">
+        {{range .top10mods}}
+            <a href="/mod/{{ .InternalName }}" class="mod-card">
+                <img src="{{ .IconUrl }}" width="120" height="120" alt="'{{ .DisplayName }}' mod card" title="{{ .DisplayName }}">
+                <div class="mod-card-inner">
+                    <h3>{{ .DisplayNameHTML }}</h3>
+                    <p>{{ .Description }}</p>
+                </div>
+            </a>
+        {{end}}
     </div>
 {{ end }}

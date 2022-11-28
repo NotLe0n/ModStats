@@ -2,7 +2,7 @@
 	font-family: "Roboto Light", sans-serif;
 	font-size: 1em;
 	--bg-color: #333;
-	--searchbar-size: calc(10rem + 1vw);
+	--searchbar-size: calc(10rem);
 	--form-bg-color: #414141;
 	--form-border-color: rgb(0 0 0 / 60%);
 	--form-hover-color: #c0c0c0;
@@ -139,9 +139,8 @@ header h1 span {
 
 .mod-search {
 	color: white;
-	background: var(--form-bg-color) url("../assets/line.png") no-repeat left;
-	background-size: contain;
-	background-position-y: bottom;
+	background: linear-gradient(#fff, #fff) center bottom 5px /calc(100% - 10px) 1px no-repeat;
+	background-color: var(--form-bg-color);
 	border: var(--form-border-color) solid 1px;
 	padding: .5rem;
 	border-radius: .33rem;
