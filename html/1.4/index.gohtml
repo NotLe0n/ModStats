@@ -1,11 +1,29 @@
 {{ define "1.4/index.gohtml"}}
     <div id="tml-stats">
-        <h1>tModloader Statistics</h1>
-        <p>- There are <span>{{ .modcount }}</span> mods on the Steam Workshop</p>
-        <p>- All downloads combined are <span>{{ .combined }}</span></p>
-        <p>- The top 10 mods make up <span>{{ .percent }}%</span> of all downloads</p>
-        <p>- The median download count is <span>{{ .median }}</span></p>
-        <p>- Over <span>{{ .contribs }}</span> people have contributed to tML</p>
+        <div class="stat-card">
+            <h1>{{ .modcount }}</h1>
+            <p>Total mods</p>
+        </div>
+        <div class="vl"></div>
+        <div class="stat-card">
+            <h1>{{ .combined }}M</h1>
+            <p>Combined downloads</p>
+        </div>
+        <div class="vl"></div>
+        <div class="stat-card">
+            <h1>{{ .median }}</h1>
+            <p>Median download count</p>
+        </div>
+        <div class="vl"></div>
+        <div class="stat-card">
+            <h1>{{ .percent }}%</h1>
+            <p>of Downloads are in the top 10</p>
+        </div>
+        <div class="vl"></div>
+        <div class="stat-card">
+            <h1>{{ .contribs }}</h1>
+            <p>tML Contributors</p>
+        </div>
     </div>
 
     <h1>Top 10 Mods</h1>

@@ -84,9 +84,36 @@ main {
 }
 
 #tml-stats {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	width: 100%;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+	box-shadow: 0 0 0 100vmax #1f1f1f;
+	background-color: #1f1f1f;
+	clip-path: inset(0 -100vmax);
+}
+
+#tml-stats .vl {
+	border-left: 2px solid #4a4a4a;
+	height: 5rem;
+}
+
+.stat-card {
 	padding: 2rem;
-	display: inline-block;
-	vertical-align: middle;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+}
+
+.stat-card h1 {
+	margin: 0;
+}
+
+.stat-card p {
+	margin: 0;
+	color: #818181;
 }
 
 .card-container {
