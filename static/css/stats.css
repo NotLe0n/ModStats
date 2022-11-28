@@ -1,22 +1,121 @@
+@media screen and (max-width: 1000px){
+	#container { display: contents; }
+	#mod-info { align-items: center; }
+	#top-stat { flex-direction: column; }
+	#tags { justify-content: center; }
+	#description { max-height: 40rem !important; }
+}
+
+@media screen and (max-width: 655px) {
+	#dl-history h1 { text-align: center; }
+	#dl-history tbody { overflow: auto; }
+	#mod-title { justify-content: center }
+	main { font-size: .8rem}
+}
+
+div.labeled-data {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+	width: fit-content;
+	margin: .5rem 0 .5rem;
+}
+
+div.labeled-data .label {
+	background: #34495e;
+	border-left: #4a4a4a solid 1px;
+	border-top: #4a4a4a solid 1px;
+	border-bottom: #4a4a4a solid 1px;
+	padding: .5rem;
+}
+
+div.labeled-data .data {
+	padding: .5rem;
+	border: #4a4a4a solid 1px;
+	background: #2f2f2f;
+	min-width: 4rem;
+	text-align: center;
+
+	display: inline-block;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.inline {
+	display: inline-block !important;
+}
+
+.inline.labeled-data  {
+	display: inline-flex !important;
+}
+
 main {
 	display: flex;
 	flex-wrap: wrap;
 	line-height: .8;
+	justify-content: space-evenly;
 }
 
-main div {
+main div.block {
 	padding: 5px;
 }
 
-#icon {
-	float: left;
-	padding: 10px;
-	image-rendering: pixelated;
+main #mod-title {
+	margin: .5rem 0 .5rem;
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+main #mod-title h1,h3 {
+	display: inline-block;
+	margin: .5rem .5rem .5rem 0;
+}
+
+main #tags {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.tag-chip {
+	display: inline-block;
+	padding: .5rem;
+	font-size: .8rem;
+	background: #2f2f2f;
+	outline: #4a4a4a solid 1px;
+	border-radius: 1rem;
+}
+
+#rating {
+	font-weight: lighter;
 }
 
 #mod-info {
 	overflow-wrap: normal;
-	width: 60rem;
+	max-width: 60rem;
+	display: flex;
+	flex-direction: column;
+}
+
+#top-stat {
+	display: flex;
+	align-items: center;
+}
+
+#icon {
+	padding: 10px;
+	image-rendering: pixelated;
+}
+
+#download-button {
+	display: block;
+	width: fit-content;
+	margin: 1rem;
+	padding: .5rem 2rem;
+	background-color: lightgreen;
+	border-radius: 2rem;
+	color: black;
 }
 
 #description-container {
@@ -25,19 +124,27 @@ main div {
 
 #description {
 	line-height: 1;
-	height: 10rem;
+	max-height: 20rem;
 	overflow: auto;
+	background-color: #2f2f2f;
+	border-radius: 1rem;
+	padding: 1rem;
+}
+
+#description img.description-img {
+	max-width: 100%;
 }
 
 #download-info {
-	width: 60rem;
+	max-width: 60rem;
 }
 
 #dl-history {
-	width: 48rem;
+	max-width: 48rem;
 }
 
 #history-table {
 	max-height: 40rem;
+	width: fit-content;
 	overflow: auto;
 }

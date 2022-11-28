@@ -1,0 +1,20 @@
+{{ define "base/search_script.gohtml" }}
+<script>
+    function submit() {
+        const url = `/${document.querySelector('.header-select').value}/${document.querySelector('.header-input:focus').value}/`;
+        if (window.location.href.includes('legacy')) {
+            window.location.href = "/legacy" + url;
+        }
+        else {
+            window.location.href = url;
+        }
+    }
+
+    function changeTarget(event) {
+        document.querySelectorAll('.mod-search[type=text]').forEach(x => {
+            x.setAttribute('list', event.value === "mod" ? "modlist" : "")
+        })
+        document.querySelectorAll('.input-container select').forEach(x => x.value = event.value)
+    }
+</script>
+{{ end }}

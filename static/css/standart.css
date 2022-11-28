@@ -1,8 +1,8 @@
 :root {
-	font-family: monospace;
-	font-size: 1.25em;
+	font-family: "Roboto Light", sans-serif;
+	font-size: 1em;
 	--bg-color: #333;
-	--searchbar-size: calc(10rem + 1vw);
+	--searchbar-size: calc(10rem);
 	--form-bg-color: #414141;
 	--form-border-color: rgb(0 0 0 / 60%);
 	--form-hover-color: #c0c0c0;
@@ -52,26 +52,15 @@ th {
 tr {
 	background-color: var(--table-fill-dark);
 	border-top: 1px solid var(--table-fill-dark);
-	display: table-row;
-	vertical-align: inherit;
-	border-color: inherit;
 }
 
 table tr:nth-child(2n) {
 	background-color: var(--table-fill-light);
 }
 
-tbody {
-	display: table-row-group;
-	vertical-align: middle;
-	border-color: inherit;
-}
-
 td {
 	padding: .8rem 1rem;
 	border: 1px solid var(--table-border-color);
-	display: table-cell;
-	vertical-align: inherit;
 }
 
 header {
@@ -150,9 +139,8 @@ header h1 span {
 
 .mod-search {
 	color: white;
-	background: var(--form-bg-color) url("../assets/line.png") no-repeat left;
-	background-size: contain;
-	background-position-y: bottom;
+	background: linear-gradient(#fff, #fff) center bottom 5px /calc(100% - 10px) 1px no-repeat;
+	background-color: var(--form-bg-color);
 	border: var(--form-border-color) solid 1px;
 	padding: .5rem;
 	border-radius: .33rem;

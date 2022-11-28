@@ -1,0 +1,99 @@
+{{ define "1.3/mod.gohtml" }}
+<div id="container">
+    <div id="mod-info" class="block">
+        <div id="mod-title">
+            <h1 class="inline">{{ .escapedDisplayName }}</h1>
+            <h3 class="inline">{{ .modData.Version }}</h3>
+        </div>
+        <div>
+            <div id="top-stat">
+                {{ if .modData.Icon }}
+                    <img src="{{ .modData.Icon }}" id="icon" width="190px" height="190px" alt="mod icon">
+                {{ end }}
+                <div>
+                    <div class="labeled-data">
+                        <span class="label">Internal name</span>
+                        <span class="data">{{ .modData.InternalName }}</span>
+                    </div>
+                    <div class="labeled-data">
+                        <span class="label">tModLoader Version</span>
+                        <a class="data" href="https://github.com/tModLoader/tModLoader/releases/tag/{{ .modData.TModLoaderVersion }}">{{ .modData.TModLoaderVersion }}</a>
+                    </div>
+                    <div class="labeled-data">
+                        <span class="label">Author</span>
+                        <span class="data">{{ .modData.Author }}</span>
+                    </div>
+                    <div class="labeled-data">
+                        <span class="label">Homepage</span>
+                        <span class="data">
+                            {{if .modData.Homepage }}
+                                <a href="{{ .modData.Homepage }}" target="_blank">{{ .modData.Homepage }}</a>
+                            {{ else }}
+                                no homepage
+                            {{ end }}
+                        </span>
+                    </div>
+                    <div class="labeled-data">
+                        <span class="label">Mod Side</span>
+                        <span class="data">{{ .modData.ModSide }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="labeled-data">
+                    <span class="label">Last updated</span>
+                    <span class="data">{{ .modData.LastUpdated }}</span>
+                </div>
+                <div class="labeled-data">
+                    <span class="label">Mod dependencies</span>
+                    <span class="data">{{ range .modDependencies }}<a href="/legacy/mod/{{ . }}">{{ . }}</a> {{ else }} None {{ end }}</span>
+                </div>
+                <a href="{{ .modData.DownloadLink }}" id="download-button">Download</a>
+            </div>
+        </div>
+    </div>
+    <div id="description-container" class="block">
+        <h1>Description</h1>
+        <div id="description">{{ .escapedDescription }}</div>
+    </div>
+    <div id="download-info" class="block">
+        <h1>Downloads: </h1>
+        <div class="labeled-data">
+            <span class="label">Rank</span>
+            <span class="data">{{ .modData.Rank }}</span>
+        </div>
+        <div class="labeled-data">
+            <span class="label">Downloads total</span>
+            <span class="data">{{ .modData.DownloadsTotal }}</span>
+        </div>
+        <div class="labeled-data">
+            <span class="label">Downloads today</span>
+            <span class="data">{{ .modData.DownloadsToday }}</span>
+        </div>
+        <div class="labeled-data">
+            <span class="label">Downloads yesterday</span>
+            <span class="data">{{ .modData.DownloadsYesterday }}</span>
+        </div>
+    </div>
+</div>
+<div id="dl-history" class="block">
+    <h1>Version history</h1>
+    <div id="history-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Version</th><th>Downloads</th><th>TModLoaderVersion</th><th>PublishDate</th>
+                </tr>
+            </thead>
+            <tbody id="history-tbody">
+            {{ range .versionHistory }}
+                <tr>
+                    <td>{{ .Version }}</td><td>{{ .DownloadsTotal }}</td><td>{{ .TModLoaderVersion }}</td><td>{{ .PublishDate }}</td>
+                </tr>
+            {{ end }}
+            </tbody>
+        </table>
+    </div>
+</div>
+{{ end }}

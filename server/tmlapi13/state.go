@@ -1,12 +1,18 @@
-package main
+package tmlapi13
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"net/http"
 	"net/url"
 	"sort"
 	"sync"
+	"time"
+
+	"github.com/NotLe0n/ModStats/server/helper"
+
+	"github.com/gin-gonic/gin"
 )
 
 // ModListItem holds a single item when fetching the whole modList
@@ -64,40 +70,89 @@ type Author struct {
 	MaintainedMods     []AuthorMaintainedModInfo `json:"maintained_mods"`
 }
 
-var ModNameMap = make(map[string]string)       //maps Display names to Internal names
-var ModInfoMap = make(map[string]*ModListItem) //maps Internal names to ModListItem (for Rank and DownloadsToday)
-var ModList = make([]ModListItem, 0)
+var modNameMap = make(map[string]string)       //maps Display names to Internal names
+var modInfoMap = make(map[string]*ModListItem) //maps Internal names to ModListItem (for Rank and DownloadsToday)
+var modList = make([]ModListItem, 0)
 
 /*!!!IMPORTANT always lock the mutex below before working with the data above, and close it afterwards!!!*/
-var dataMutex *sync.Mutex = &sync.Mutex{} //while the maps and slices are being updated or used this mutex will be locked
+var dataMutex = &sync.RWMutex{} //while the maps and slices are being updated or used this mutex will be locked
+
+func GetInternalName(display_name string) (string, bool) {
+	dataMutex.RLock()
+	defer dataMutex.RUnlock()
+	internal_name, ok := modNameMap[display_name]
+	return internal_name, ok
+}
+
+func GetModList() []ModListItem {
+	dataMutex.RLock()
+	defer dataMutex.RUnlock()
+
+	copyList := make([]ModListItem, len(modList))
+	copy(copyList, modList)
+	return copyList
+}
 
 func updateModMaps() error {
-	dataMutex.Lock()
-	defer dataMutex.Unlock()
-
+	// get the data
 	resp, err := http.Get("https://tmlapis.tomat.dev/1.3/list")
 	if err != nil {
 		return err
 	}
-
 	defer resp.Body.Close()
 
-	var TempModList = make([]ModListItem, len(ModList))   //if the fetching fails, it is not a fatal error as we still have the old modlist
-	err = json.NewDecoder(resp.Body).Decode(&TempModList) //decode the modlist
+	// decode the data into a temp list
+	var TempmodList = make([]ModListItem, len(modList))   //if the fetching fails, it is not a fatal error as we still have the old modList
+	err = json.NewDecoder(resp.Body).Decode(&TempmodList) //decode the modList
 	if err != nil {
 		return err
 	}
 
-	ModList = TempModList
+	// lock the mutex for writing
+	dataMutex.Lock()
+	defer dataMutex.Unlock()
 
-	ModNameMap = make(map[string]string)
-	for i := range ModList {
-		ModList[i].DisplayNameHTML = template.HTML(ParseChatTags(ModList[i].DisplayName))
-		ModNameMap[url.QueryEscape(ModList[i].DisplayName)] = ModList[i].InternalName //map all Display names to Internal names
-		ModInfoMap[ModList[i].InternalName] = &ModList[i]                             //map all Internal names to ModInfo data
+	modList = TempmodList
+
+	modNameMap = make(map[string]string)
+	for i := range modList {
+		modList[i].DisplayNameHTML = template.HTML(helper.ParseChatTags(modList[i].DisplayName))
+		modNameMap[url.QueryEscape(modList[i].DisplayName)] = modList[i].InternalName //map all Display names to Internal names
+		modInfoMap[modList[i].InternalName] = &modList[i]                             //map all Internal names to ModInfo data
 	}
-	sort.Slice(ModList, func(i, j int) bool {
-		return ModList[i].Rank < ModList[j].Rank
+
+	sort.Slice(modList, func(i, j int) bool {
+		return modList[i].Rank < modList[j].Rank
 	})
+
 	return nil
+}
+
+// start the ticker to update the state
+func init() {
+	// adds logging
+	intitUpdate := func() {
+		logf("updating ModNameMap13")
+		if err := updateModMaps(); err != nil {
+			logf("Unable to update ModNameMap13, using the last valid state: %s", err.Error())
+		} else {
+			logf("done updating ModNameMap13")
+		}
+	}
+
+	// update once at the beginning
+	intitUpdate()
+
+	//this goroutine updates the mod list every 15 minutes so that the loading time is not too long on every reload
+	go func() {
+		ticker := time.NewTicker(15 * time.Minute)
+		defer ticker.Stop()
+		for range ticker.C {
+			intitUpdate()
+		}
+	}()
+}
+
+func logf(format string, args ...interface{}) {
+	fmt.Fprintf(gin.DefaultWriter, "[LOG] "+format+"\n", args...)
 }

@@ -1,0 +1,42 @@
+{{ define "1.4/author.gohtml" }}
+<h1>{{ .authorInfo.SteamName }}</h1>
+<div>
+    <div class="labeled-data">
+        <span class="label">Total Downloads</span>
+        <span class="data">{{ .authorInfo.TotalDownloads }}</span>
+    </div>
+    <div class="labeled-data">
+        <span class="label">Total Favorites</span>
+        <span class="data">{{ .authorInfo.TotalFavorites }}</span>
+    </div>
+    <div class="labeled-data">
+        <span class="label">Total Views</span>
+        <span class="data">{{ .authorInfo.TotalViews }}</span>
+    </div>
+</div>
+<h2>Mods</h2>
+{{if .authorInfo.Mods}}
+    <table>
+        <thead>
+            <tr>
+                <th>Display Name</th>
+                <th>Downloads</th>
+                <th>Favorites</th>
+                <th>Views</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .authorInfo.Mods}}
+                <tr>
+                    <td><a href="/mod/{{ .InternalName }}">{{ .DisplayName }}</a></td>
+                    <td>{{ .DownloadsTotal }}</td>
+                    <td>{{ .Favorited }}</td>
+                    <td>{{ .Views}}</td>
+                </tr>
+            {{end}}
+        </tbody>
+    </table>
+{{else}}
+    no mods
+{{end}}
+{{ end }}

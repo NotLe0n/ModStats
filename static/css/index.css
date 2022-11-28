@@ -73,15 +73,13 @@ main {
 }
 
 .input-container.big-search form input.mod-search {
-	width: calc(var(--searchbar-size) * 2);
-	background-size: cover;
-	image-rendering: crisp-edges;
+	width: calc(var(--searchbar-size) * 3);
 }
 
 #middle {
 	display: flex;
+	flex-direction: column;
 	align-items: center;
-	justify-content: center;
 	flex-wrap: wrap;
 }
 
@@ -91,36 +89,67 @@ main {
 	vertical-align: middle;
 }
 
-#blocks {
-	display: inline-flex;
+.card-container {
+	display: flex;
+	flex-direction: row;
 	flex-wrap: wrap;
 	align-items: center;
 	justify-content: center;
+	max-width: 90%;
+
+	counter-reset: cnt;
 }
 
-.block {
-	display: inline-flex;
-	align-items: center;
-	flex-direction: column;
+.mod-card {
+	display: flex;
+	flex-direction: row;
+	height: 7.5rem;
+	background: #2f2f2f;
+	background-size: 250% 150%;
+	background-position-x: -250px;
 
-	height: auto;
+	color: white;
+	padding: 1rem;
+	margin: 1rem;
+	border: #4a4a4a 1px solid;
+	border-radius: 2rem;
+	box-shadow: #111111 .5rem .5rem 10px;
+
+	transition: ease 500ms;
+}
+
+.mod-card h3:before {
+	counter-increment: cnt;
+	content: counter(cnt,decimal) ". ";
+}
+
+.mod-card:hover {
+	padding: 1.5rem;
 	margin: .5rem;
-	padding: 1rem;
+	box-shadow: #111111 1rem 1rem 10px;
 }
 
-.block-head {
-	width: 100%;
-	background-color: #525252;
-	padding: 1rem;
+.card-container:has(.mod-card:hover) .mod-card:not(:hover) {
+	opacity: .5;
+}
+
+@media screen and (max-width: 555px) {
+	.mod-card .mod-card-inner {
+		display: none !important;
+	}
+}
+
+.mod-card .mod-card-inner {
+	display: -webkit-box;
+	max-height: 7rem;
+	padding: .5rem;
+	max-width: 20rem;
+	overflow: hidden;
+	-webkit-line-clamp: 5;
+	-webkit-box-orient: vertical;
+}
+
+.mod-card .mod-card-inner h3 {
 	text-align: center;
-}
-
-.block-head h1 {
 	margin: 0;
-}
-
-.block-body {
-	width: 100%;
-	background-color: #414141;
-	padding: 1rem;
 }

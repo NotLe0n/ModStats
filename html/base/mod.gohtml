@@ -1,3 +1,4 @@
+{{define "base/mod.gohtml"}}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -16,22 +17,25 @@
 		<meta name="theme-color" content="#2f3136">
 		<meta content="#43B581" data-react-helmet="true" name="theme-color">
 		<meta name="twitter:card" content="summary_large_image">
+
+		<script src="../../static/js/DateTime.js"></script>
 	</head>
 
 	<body>
 		<header>
 			<h1><span><a href="../">Mod Statistics</a> // </span><wbr><span>Mod stats</span></h1>
 			<div class="input-container">
-				{{ template "search-element" .modlist }}
+				{{ template "base/search_element.gohtml" .modlist }}
 			</div>
-			{{ template "search-script" }}
+			{{ template "base/search_script.gohtml" }}
 		</header>
 		<main>
 			{{ if .isLegacy }}
-				{{ template "mod-1.3" . }}
+				{{ template "1.3/mod.gohtml" . }}
 			{{ else }}
-				{{ template "mod-1.4" . }}
+				{{ template "1.4/mod.gohtml" . }}
 			{{ end}}
 		</main>
 	</body>
 </html>
+{{end}}
