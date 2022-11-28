@@ -47,7 +47,7 @@
                 </div>
                 <div class="labeled-data">
                     <span class="label">Mod dependencies</span>
-                    <span class="data">{{ range .modDependencies }}<a href="/mod/{{ . }}">{{ . }}</a> {{ else }} None {{ end }}</span>
+                    <span class="data">{{ range .modDependencies }}<a href="/legacy/mod/{{ . }}">{{ . }}</a> {{ else }} None {{ end }}</span>
                 </div>
                 <a href="{{ .modData.DownloadLink }}" id="download-button">Download</a>
             </div>

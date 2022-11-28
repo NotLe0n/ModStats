@@ -78,6 +78,10 @@ func authorPage13(c *gin.Context) {
 		return
 	}
 
+	for i, mod := range authorInfo.Mods {
+		authorInfo.Mods[i].DisplayName = helper.ParseChatTags(helper.Unescape(mod.DisplayName))
+	}
+
 	c.HTML(http.StatusOK, "base/author.gohtml", gin.H{
 		"modlist":    tmlapi13.GetModList(),
 		"author":     authorID,

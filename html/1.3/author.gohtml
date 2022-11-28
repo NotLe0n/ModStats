@@ -14,15 +14,24 @@
     <h2>Mods</h2>
     {{if .authorInfo.Mods}}
         <table>
-            <tbody><tr> <th>Rank</th> <th>Display Name</th> <th>Downloads Total</th> <th>Downloads Yesterday</th> </tr></tbody>
-            {{range .authorInfo.Mods}}
+            <thead>
                 <tr>
-                    <td>{{ .Rank }}</td>
-                    <td><a href="/mod/{{ .InternalName }}">{{ .DisplayName }}</a></td>
-                    <td>{{ .DownloadsTotal }}</td>
-                    <td>{{ .DownloadsYesterday }}</td>
+                    <th>Rank</th>
+                    <th>Display Name</th>
+                    <th>Downloads Total</th>
+                    <th>Downloads Yesterday</th>
                 </tr>
-            {{end}}
+            </thead>
+            <tbody>
+                {{range .authorInfo.Mods}}
+                    <tr>
+                        <td>{{ .Rank }}</td>
+                        <td><a href="/legacy/mod/{{ .InternalName }}">{{ .DisplayName }}</a></td>
+                        <td>{{ .DownloadsTotal }}</td>
+                        <td>{{ .DownloadsYesterday }}</td>
+                    </tr>
+                {{end}}
+            </tbody>
         </table>
     {{else}}
         no mods
@@ -32,16 +41,25 @@
 <h2>Maintained Mods</h2>
     {{if .authorInfo.MaintainedMods}}
         <table>
-        <tbody><tr> <td>Rank</td> <td>Display Name</td> <td>Downloads Total</td> <td>Downloads Yesterday</td> </tr></tbody>
-        {{range .authorInfo.MaintainedMods}}
-            <tr>
-                <td>?</td>
-                <td><a href="/mod/{{ .InternalName }}">{{ .EscapedModName }}</a></td>
-                <td>{{ .DownloadsTotal }}</td>
-                <td>{{ .DownloadsYesterday }}</td>
-            </tr>
-            </table>
-        {{end}}
+            <thead>
+                <tr>
+                    <td>Rank</td>
+                    <td>Display Name</td>
+                    <td>Downloads Total</td>
+                    <td>Downloads Yesterday</td>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .authorInfo.MaintainedMods}}
+                    <tr>
+                        <td>?</td>
+                        <td><a href="/mod/{{ .InternalName }}">{{ .EscapedModName }}</a></td>
+                        <td>{{ .DownloadsTotal }}</td>
+                        <td>{{ .DownloadsYesterday }}</td>
+                    </tr>
+                {{end}}
+            </tbody>
+        </table>
     {{else}}
         no mods
     {{end}}
