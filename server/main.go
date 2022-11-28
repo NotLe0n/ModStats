@@ -27,7 +27,8 @@ func main() {
 		legacy.GET("/author/:authorID", authorPage13)
 		api := legacy.Group("/api")
 		{
-			api.GET("/getRandomMod", getRandomMod)
+			api.GET("/getRandomMod13", getRandomMod13)
+			api.GET("/getRandomMod14", getRandomMod14)
 		}
 	}
 
@@ -37,7 +38,8 @@ func main() {
 	r.GET("/author/:authorID", authorPage14)
 	api := r.Group("/api")
 	{
-		api.GET("/getRandomMod", getRandomMod)
+		api.GET("/getRandomMod13", getRandomMod13)
+		api.GET("/getRandomMod14", getRandomMod14)
 	}
 
 	log.Fatal(r.Run())

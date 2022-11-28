@@ -12,8 +12,14 @@
 
         <script>
             async function randomMod() {
-                let response = await fetch('/api/getRandomMod').then(x => x.text());
-                window.location.href = `/mod/${response}`
+                if (window.location.href.includes('legacy')) {
+                    let response = await fetch('/api/getRandomMod13').then(x => x.text());
+                    window.location.href = "/legacy" + `/mod/${response}`;
+                }
+                else {
+                    let response = await fetch('/api/getRandomMod14').then(x => x.text());
+                    window.location.href = `/mod/${response}`;
+                }
             }
 
             let openNav = () => document.querySelector('nav.sidenav').style.width = "250px";
