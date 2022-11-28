@@ -56,7 +56,7 @@ func authorPage14(c *gin.Context) {
 
 	c.HTML(http.StatusOK, "base/author.gohtml", gin.H{
 		"modlist":    tmlapi14.GetModList(),
-		"authorID":   authorID,
+		"authorID":   authorInfo.SteamID,
 		"authorInfo": authorInfo,
 		"isLegacy":   false,
 	})

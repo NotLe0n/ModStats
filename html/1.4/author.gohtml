@@ -1,5 +1,10 @@
 {{ define "1.4/author.gohtml" }}
-<h1>{{ .authorInfo.SteamName }}</h1>
+<h1>
+    {{ .authorInfo.SteamName }}
+    <a class="inline" href="https://steamcommunity.com/profiles/{{ .authorID }}" title="steam page">
+        <img src="https://img.icons8.com/fluency/512/steam.png"  alt="steam-icon" width="24px" height="24px">
+    </a>
+</h1>
 <div>
     <div class="labeled-data">
         <span class="label">Total Downloads</span>

@@ -60,6 +60,7 @@ type ModInfo struct {
 }
 
 type Author struct {
+	SteamID        uint64    `json:"steam_id"`
 	SteamName      string    `json:"steam_name"`
 	Mods           []ModInfo `json:"mods"`
 	Total          uint32    `json:"total"`
