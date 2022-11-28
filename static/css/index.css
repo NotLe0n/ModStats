@@ -134,7 +134,7 @@ main {
 }
 
 @media screen and (max-width: 555px) {
-	.mod-card .mod-card-inner {
+	.mod-card .mod-card-inner:not(.no-remove) {
 		display: none !important;
 	}
 }

@@ -13,7 +13,7 @@
     <div class="card-container">
         {{range .top10mods}}
             <a href="/legacy/mod/{{ .InternalName }}" class="mod-card">
-                <div class="mod-card-inner">
+                <div class="mod-card-inner no-remove">
                     <h3>{{ .DisplayNameHTML }}</h3>
                     <p>Downloads: {{ .DownloadsTotal }}</p>
                     <p>Downloads Yesterday: {{ .DownloadsYesterday }}</p>
@@ -26,7 +26,7 @@
     <div class="card-container">
         {{range .hotmods}}
             <a href="/legacy/mod/{{ .InternalName }}" class="mod-card">
-                <div class="mod-card-inner">
+                <div class="mod-card-inner no-remove">
                     <h3>{{ .DisplayNameHTML }}</h3>
                     <p>Downloads: {{ .DownloadsTotal }}</p>
                     <p>Downloads Yesterday: {{ .DownloadsYesterday }}</p>
