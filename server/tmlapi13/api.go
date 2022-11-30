@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+var apiUrl = "https://tmlapis.tomat.dev/1.3/"
+
 // requires a internal modName
 func GetModInfo(modName string) (ModInfo, error) {
 	resp, err := http.Get("https://tmlapis.tomat.dev/1.3/mod/" + url.QueryEscape(modName))

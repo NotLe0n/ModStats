@@ -85,7 +85,7 @@ func GetModList() []ModInfo {
 
 func updateModMaps() error {
 	// get the data
-	resp, err := http.Get("https://tmlapis.tomat.dev/1.4/list")
+	resp, err := http.Get(apiUrl + "list")
 	if err != nil {
 		return err
 	}
@@ -117,6 +117,13 @@ func updateModMaps() error {
 
 // start the ticker to update the state
 func init() {
+	// if tomat.dev is down, use secondary mirror
+	logf("checking '%s'...", apiUrl)
+	if _, err := http.Get(apiUrl); err != nil {
+		logf("'%s' can't be reached, switching to secondary mirror.", apiUrl)
+		apiUrl = "https://tmlapis.repl.co/1.4/"
+	}
+
 	// adds logging
 	intitUpdate := func() {
 		logf("updating ModNameMap14")
