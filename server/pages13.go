@@ -43,13 +43,16 @@ func indexPage13(c *gin.Context) {
 		})
 		return hotMods
 	}
-
+	percent := 0.0
+	if len(ModList) >= 10 {
+		percent = float64(combinedDownloads(ModList[:10])) / float64(combinedDownloads(ModList)) * 100
+	}
 	c.HTML(http.StatusOK, "base/index.gohtml", gin.H{
 		"modlist":   ModList,
 		"modcount":  len(ModList),
 		"combined":  strconv.FormatFloat(float64(combinedDownloads(ModList))/1_000_000.0, 'f', 3, 64),
 		"deadmods":  deadMods(),
-		"percent":   strconv.FormatFloat(float64(combinedDownloads(ModList[:10]))/float64(combinedDownloads(ModList))*100, 'f', 2, 64),
+		"percent":   strconv.FormatFloat(percent, 'f', 2, 64),
 		"median":    ModList[len(ModList)/2].DownloadsTotal,
 		"contribs":  80,
 		"top10mods": ModList[:10],

@@ -95,7 +95,7 @@ func GetModList() []ModListItem {
 
 func updateModMaps() error {
 	// get the data
-	resp, err := http.Get("https://tmlapis.tomat.dev/1.3/list")
+	resp, err := http.Get(apiUrl + "list")
 	if err != nil {
 		return err
 	}
