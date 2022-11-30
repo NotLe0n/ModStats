@@ -22,14 +22,16 @@
 	</head>
 
 	<body>
+		{{ template "sidebar" }}
 		<header>
+			<h1 id="hamburger" onclick="openNav()">☰</h1>
 			<h1><span><a href="../">Mod Statistics</a> // </span><wbr><span>Mod stats</span></h1>
 			<div class="input-container">
 				{{ template "base/search_element.gohtml" .modlist }}
 			</div>
 			{{ template "base/search_script.gohtml" }}
 		</header>
-		<main>
+		<main onclick="closeNav()">
 			{{ if .isLegacy }}
 				{{ template "1.3/mod.gohtml" . }}
 			{{ else }}

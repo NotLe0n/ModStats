@@ -9,33 +9,10 @@
         <link rel="stylesheet" href="/static/css/standart.css" />
         <link rel="stylesheet" href="/static/css/index.css" />
         <link rel="icon" type="image/png" sizes="any" href="/static/assets/favicon.ico">
-
-        <script>
-            async function randomMod() {
-                if (window.location.href.includes('legacy')) {
-                    let response = await fetch('/api/getRandomMod13').then(x => x.text());
-                    window.location.href = "/legacy" + `/mod/${response}`;
-                }
-                else {
-                    let response = await fetch('/api/getRandomMod14').then(x => x.text());
-                    window.location.href = `/mod/${response}`;
-                }
-            }
-
-            let openNav = () => document.querySelector('nav.sidenav').style.width = "250px";
-            let closeNav = () => document.querySelector('nav.sidenav').style.width = "0";
-            let toggleVersion = () => window.location.href = window.location.href.includes('legacy') ? window.location.href.replace("legacy", "") : "/legacy"
-        </script>
     </head>
 
     <body>
-        <nav class="sidenav">
-            <a class="closebtn" onclick="closeNav()">&times;</a>
-            <a onclick="toggleVersion()">Toggle version</a>
-            <a onclick="randomMod()">Random Mod</a>
-            <a href="./list">Mod List</a>
-            <a href="https://github.com/NotLe0n/ModStats">Github</a>
-        </nav>
+        {{ template "sidebar" }}
         <header>
             <h1 id="hamburger" onclick="openNav()">☰</h1>
             <h1><span><a href=".">Mod Statistics</a> // </span><wbr><span>Main Page</span></h1>
