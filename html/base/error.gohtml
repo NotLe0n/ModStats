@@ -1,0 +1,33 @@
+{{define "base/error.gohtml"}}
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <title>Mod Statistics // Error</title>
+            <link rel="stylesheet" href="/static/css/standart.css" />
+            <link rel="icon" type="image/png" sizes="any" href="/static/assets/favicon.ico">
+
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta content="#FFFF00" data-react-helmet="true" name="theme-color">
+            <style>
+                main h3 {
+                    text-align: center;
+                }
+            </style>
+        </head>
+        <body>
+            {{ template "sidebar" }}
+            <header>
+                <h1 id="hamburger" onclick="openNav()">☰</h1>
+                <h1><span><a href="..">Mod Statistics</a> // </span><wbr><span>Error</span></h1>
+                <div class="input-container">
+                    {{ template "base/search_element.gohtml" .modlist }}
+                </div>
+                {{ template "base/search_script.gohtml" }}
+            </header>
+            <main id="content" onclick="closeNav()">
+                <h3>{{ .error }}</h3>
+            </main>
+        </body>
+    </html>
+{{end}}

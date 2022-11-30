@@ -71,13 +71,22 @@ func modListPage13(c *gin.Context) {
 func authorPage13(c *gin.Context) {
 	authorID := c.Param("authorID")
 	if authorID == "" {
-		c.AbortWithStatus(http.StatusBadRequest)
+		c.HTML(http.StatusBadRequest, "base/error.gohtml", gin.H{
+			"modlist":  tmlapi13.GetModList(),
+			"error":    "Please search for a author's name or SteamID.",
+			"isLegacy": true,
+		})
+		return
 	}
 
 	authorInfo, err := tmlapi13.GetAuthorInfo(authorID)
 	if err != nil {
 		logf("Error getting authorInfo: %s", err.Error())
-		c.AbortWithStatus(http.StatusInternalServerError)
+		c.HTML(http.StatusInternalServerError, "base/error.gohtml", gin.H{
+			"modlist":  tmlapi13.GetModList(),
+			"error":    "An author with the name or SteamID '" + authorID + "' was not found or a internal error has occurred.",
+			"isLegacy": true,
+		})
 		return
 	}
 
@@ -96,7 +105,12 @@ func authorPage13(c *gin.Context) {
 func modStatsPage13(c *gin.Context) {
 	modName := c.Param("modID")
 	if modName == "" {
-		c.AbortWithStatus(http.StatusBadRequest)
+		c.HTML(http.StatusBadRequest, "base/error.gohtml", gin.H{
+			"modlist":  tmlapi13.GetModList(),
+			"error":    "Please search for a mod's name.",
+			"isLegacy": true,
+		})
+		return
 	}
 
 	if internal_name, ok := tmlapi13.GetInternalName(url.QueryEscape(modName)); ok {
@@ -106,7 +120,11 @@ func modStatsPage13(c *gin.Context) {
 	modData, err := tmlapi13.GetModInfo(modName)
 	if err != nil {
 		logf("Error getting modInfo for %s: %s", modName, err.Error())
-		c.AbortWithStatus(http.StatusInternalServerError)
+		c.HTML(http.StatusInternalServerError, "base/error.gohtml", gin.H{
+			"modlist":  tmlapi13.GetModList(),
+			"error":    "A mod with the name '" + modName + "' was not found or a internal error has occurred.",
+			"isLegacy": true,
+		})
 		return
 	}
 

@@ -23,7 +23,9 @@ func main() {
 	{
 		legacy.GET("/", indexPage13)
 		legacy.GET("/list", modListPage13)
+		legacy.GET("/mod/", modStatsPage13)
 		legacy.GET("/mod/:modID", modStatsPage13)
+		legacy.GET("/author/", authorPage13)
 		legacy.GET("/author/:authorID", authorPage13)
 		api := legacy.Group("/api")
 		{
@@ -34,7 +36,9 @@ func main() {
 
 	r.GET("/", indexPage14)
 	r.GET("/list", modListPage14)
+	r.GET("/mod/", modStatsPage14)
 	r.GET("/mod/:modID", modStatsPage14)
+	r.GET("/author/", authorPage14)
 	r.GET("/author/:authorID", authorPage14)
 	api := r.Group("/api")
 	{
