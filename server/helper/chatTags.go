@@ -11,6 +11,7 @@ func Unescape(str string) string {
 
 	replaceMap := map[string]string{
 		"\r\n": "<br>",
+		"\r":   "<br>",
 		"\n":   "<br>",
 		"\t":   "    ",
 		"\\'":  "'",

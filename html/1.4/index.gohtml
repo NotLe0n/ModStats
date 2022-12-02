@@ -33,7 +33,7 @@
                 <img src="{{ .IconUrl }}" width="120" height="120" alt="'{{ .DisplayName }}' mod card" title="{{ .DisplayName }}">
                 <div class="mod-card-inner">
                     <h3>{{ .DisplayNameHTML }}</h3>
-                    <p>{{ .Description }}</p>
+                    <p>{{ .EscapedDescription }}</p>
                 </div>
             </a>
         {{end}}

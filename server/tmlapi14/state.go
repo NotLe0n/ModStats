@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"net/http"
 	"sort"
+	"strings"
 	"sync"
 	"time"
 
@@ -33,30 +34,31 @@ type ModVoteData struct {
 
 // ModInfo holds mod info that is fetched from tmlapis.tomat.dev/1.4/mod
 type ModInfo struct {
-	DisplayName       string        `json:"display_name"`
-	InternalName      string        `json:"internal_name"`
-	ModID             string        `json:"mod_id"`
-	Author            string        `json:"author"`
-	AuthorID          string        `json:"author_id"`
-	ModSide           string        `json:"modside"`
-	Homepage          string        `json:"homepage"`
-	TModLoaderVersion string        `json:"tmodloader_version"`
-	Version           string        `json:"version"`
-	ModReferences     string        `json:"mod_references"`
-	NumVersions       uint32        `json:"num_versions"`
-	Tags              []ModTag      `json:"tags"`
-	TimeCreated       uint64        `json:"time_created"`
-	TimeUpdated       uint64        `json:"time_updated"`
-	IconUrl           string        `json:"workshop_icon_url"`
-	DownloadsTotal    uint32        `json:"downloads_total"`
-	Favorited         uint32        `json:"favorited"`
-	Followers         uint32        `json:"followers"`
-	Views             uint64        `json:"views"`
-	VoteData          *ModVoteData  `json:"vote_data"`
-	Playtime          string        `json:"playtime"`
-	DisplayNameHTML   template.HTML // added later
-	Description       string        `json:"description"`
-	Children          []ModChild    `json:"children"`
+	DisplayName        string        `json:"display_name"`
+	InternalName       string        `json:"internal_name"`
+	ModID              string        `json:"mod_id"`
+	Author             string        `json:"author"`
+	AuthorID           string        `json:"author_id"`
+	ModSide            string        `json:"modside"`
+	Homepage           string        `json:"homepage"`
+	TModLoaderVersion  string        `json:"tmodloader_version"`
+	Version            string        `json:"version"`
+	ModReferences      string        `json:"mod_references"`
+	NumVersions        uint32        `json:"num_versions"`
+	Tags               []ModTag      `json:"tags"`
+	TimeCreated        uint64        `json:"time_created"`
+	TimeUpdated        uint64        `json:"time_updated"`
+	IconUrl            string        `json:"workshop_icon_url"`
+	DownloadsTotal     uint32        `json:"downloads_total"`
+	Favorited          uint32        `json:"favorited"`
+	Followers          uint32        `json:"followers"`
+	Views              uint64        `json:"views"`
+	VoteData           *ModVoteData  `json:"vote_data"`
+	Playtime           string        `json:"playtime"`
+	DisplayNameHTML    template.HTML // added later
+	Description        string        `json:"description"`
+	EscapedDescription template.HTML // added later
+	Children           []ModChild    `json:"children"`
 }
 
 type Author struct {
@@ -98,8 +100,13 @@ func updateModMaps() error {
 		return err
 	}
 
+	bbcodeCompiler := helper.NewBBCodeToTextCompiler()
 	for i := range TempmodList {
 		TempmodList[i].DisplayNameHTML = template.HTML(helper.ParseChatTags(TempmodList[i].DisplayName))
+
+		parsedBB := bbcodeCompiler.Compile(TempmodList[i].Description)
+		unesc := helper.Unescape(parsedBB)
+		TempmodList[i].EscapedDescription = template.HTML(strings.TrimLeft(unesc, "<br> "))
 	}
 
 	sort.Slice(TempmodList, func(i, j int) bool {

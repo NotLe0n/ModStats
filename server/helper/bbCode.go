@@ -53,10 +53,43 @@ func NewBBCodeCompiler() bbcode.Compiler {
 	return bbcodeCompiler
 }
 
+func NewBBCodeToTextCompiler() bbcode.Compiler {
+	bbcodeCompiler := bbcode.NewCompiler(true, true)
+	bbcodeCompiler.SetTag("size", nil)
+	bbcodeCompiler.SetTag("color", nil)
+	bbcodeCompiler.SetTag("center", nil)
+	removeTagComplete(bbcodeCompiler, "img")
+	removeTagComplete(bbcodeCompiler, "url")
+
+	for i := 1; i <= 6; i++ {
+		removeTagComplete(bbcodeCompiler, "h"+strconv.Itoa(i))
+	}
+
+	removeTag(bbcodeCompiler, "strike")
+	removeTag(bbcodeCompiler, "list")
+	removeTag(bbcodeCompiler, "olist")
+	removeTag(bbcodeCompiler, "spoiler")
+	removeTag(bbcodeCompiler, "*")
+
+	return bbcodeCompiler
+}
+
 func bbCodeToHTMLSameName(c bbcode.Compiler, name string) {
 	c.SetTag(name, func(node *bbcode.BBCodeNode) (*bbcode.HTMLTag, bool) {
 		out := bbcode.NewHTMLTag("")
 		out.Name = name
 		return out, true
+	})
+}
+
+func removeTag(c bbcode.Compiler, name string) {
+	c.SetTag(name, func(node *bbcode.BBCodeNode) (*bbcode.HTMLTag, bool) {
+		return bbcode.NewHTMLTag(""), true
+	})
+}
+
+func removeTagComplete(c bbcode.Compiler, name string) {
+	c.SetTag(name, func(node *bbcode.BBCodeNode) (*bbcode.HTMLTag, bool) {
+		return nil, false
 	})
 }
