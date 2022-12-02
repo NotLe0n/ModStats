@@ -169,6 +169,7 @@ header h1 span {
 
 .input-container form {
 	margin-bottom: 0;
+	text-align: center;
 }
 
 .input-container form *:hover {
@@ -186,6 +187,7 @@ header h1 span {
 	height: 2rem;
 	background: var(--form-bg-color);
 	border-radius: .33rem;
+	margin-bottom: 2px;
 }
 
 .mod-search {

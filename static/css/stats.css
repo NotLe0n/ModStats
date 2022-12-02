@@ -10,7 +10,10 @@
 	#dl-history h1 { text-align: center; }
 	#dl-history tbody { overflow: auto; }
 	#mod-title { justify-content: center }
-	main { font-size: .8rem}
+	main {
+		font-size: .8rem;
+		justify-content: flex-start !important;
+	}
 }
 
 div.labeled-data {

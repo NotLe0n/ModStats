@@ -11,7 +11,7 @@ main {
 	align-items: center;
 }
 
-#upper h1 {
+#upper h1,p {
 	text-align: center;
 }
 
@@ -96,8 +96,8 @@ main {
 		width: 80px;
 		height: 80px;
 	}
-	.big-search input {
-		width: var(--searchbar-size) !important;
+	.big-search {
+		display: none;
 	}
 }
 
