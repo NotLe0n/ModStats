@@ -16,6 +16,14 @@ import (
 func indexPage13(c *gin.Context) {
 	ModList := tmlapi13.GetModList()
 
+	if len(ModList) < 10 {
+		c.HTML(http.StatusInternalServerError, "base/error.gohtml", gin.H{
+			"modlist": tmlapi13.GetModList(),
+			"error":   "unable to fetch valid Mod List",
+		})
+		return
+	}
+
 	combinedDownloads := func(modList []tmlapi13.ModListItem) (combined int) {
 		for i := range modList {
 			combined += modList[i].DownloadsTotal
@@ -43,21 +51,16 @@ func indexPage13(c *gin.Context) {
 		})
 		return hotMods
 	}
-	percent := 0.0
-	var top10mods []tmlapi13.ModListItem = make([]tmlapi13.ModListItem, 0)
-	if len(ModList) >= 10 {
-		percent = float64(combinedDownloads(ModList[:10])) / float64(combinedDownloads(ModList)) * 100
-		top10mods = ModList[:10]
-	}
+
 	c.HTML(http.StatusOK, "base/index.gohtml", gin.H{
 		"modlist":   ModList,
 		"modcount":  len(ModList),
 		"combined":  strconv.FormatFloat(float64(combinedDownloads(ModList))/1_000_000.0, 'f', 3, 64),
 		"deadmods":  deadMods(),
-		"percent":   strconv.FormatFloat(percent, 'f', 2, 64),
+		"percent":   strconv.FormatFloat(float64(combinedDownloads(ModList[:10]))/float64(combinedDownloads(ModList))*100, 'f', 2, 64),
 		"median":    ModList[len(ModList)/2].DownloadsTotal,
 		"contribs":  80,
-		"top10mods": top10mods,
+		"top10mods": ModList[:10],
 		"hotmods":   hotMods(),
 		"isLegacy":  true,
 	})
