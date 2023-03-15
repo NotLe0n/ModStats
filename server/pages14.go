@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
-	"github.com/NotLe0n/ModStats/server/helper"
-	"github.com/NotLe0n/ModStats/server/tmlapi13"
-	"github.com/NotLe0n/ModStats/server/tmlapi14"
-	"github.com/gin-gonic/gin"
 	"html/template"
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/NotLe0n/ModStats/server/helper"
+	"github.com/NotLe0n/ModStats/server/tmlapi13"
+	"github.com/NotLe0n/ModStats/server/tmlapi14"
+	"github.com/gin-gonic/gin"
 )
 
 func indexPage14(c *gin.Context) {
@@ -22,14 +23,23 @@ func indexPage14(c *gin.Context) {
 		return combined
 	}
 
+	percent := "0.0"
+	var top10mods []tmlapi14.ModInfo = make([]tmlapi14.ModInfo, 0)
+	var median uint32 = 0
+	if len(ModList) >= 10 {
+		percent = strconv.FormatFloat(float64(combinedDownloads(ModList[:10]))/float64(combinedDownloads(ModList))*100, 'f', 2, 64)
+		top10mods = ModList[:10]
+		median = ModList[len(ModList)/2].DownloadsTotal
+	}
+
 	c.HTML(http.StatusOK, "base/index.gohtml", gin.H{
 		"modlist":   ModList,
 		"modcount":  len(ModList),
 		"combined":  strconv.FormatFloat(float64(combinedDownloads(ModList))/1_000_000.0, 'f', 3, 64),
-		"percent":   strconv.FormatFloat(float64(combinedDownloads(ModList[:10]))/float64(combinedDownloads(ModList))*100, 'f', 2, 64),
-		"median":    ModList[len(ModList)/2].DownloadsTotal,
+		"percent":   percent,
+		"median":    median,
 		"contribs":  150,
-		"top10mods": ModList[:10],
+		"top10mods": top10mods,
 		"isLegacy":  false,
 	})
 }
