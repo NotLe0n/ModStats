@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-var apiUrl = "https://tmlapis.tomat.dev/1.3/"
+var apiUrl = "https://tmlapis.repl.co/1.3/"
 
 // requires a internal modName
 func GetModInfo(modName string) (ModInfo, error) {

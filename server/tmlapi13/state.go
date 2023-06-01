@@ -134,7 +134,7 @@ func init() {
 	// if tomat.dev is down, use secondary mirror
 	if _, err := http.Get(apiUrl); err != nil {
 		logf("'%s' can't be reached, switching to secondary mirror.", apiUrl)
-		apiUrl = "https://tmlapis.repl.co/1.3/"
+		apiUrl = "https://tmlapis.tomat.dev/1.3/"
 	}
 
 	// adds logging
