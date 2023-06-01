@@ -3,7 +3,7 @@
     <div id="mod-title">
         <div>
             <h1>{{ .modData.DisplayNameHTML }}</h1>
-            <h3>{{ .modData.Version }}</h3>
+            <h3>v{{ (index .modData.Versions 0).ModVersion }}</h3>
         </div>
         <div>
             <h3><span id="rating">{{ .stars }}</span></h3>
@@ -61,7 +61,7 @@
         <div>
             <div class="inline labeled-data">
                 <span class="label">tModLoader version</span>
-                <a class="data" href="https://github.com/tModLoader/tModLoader/releases/tag/{{ .modData.TModLoaderVersion }}" title="release page">{{ .modData.TModLoaderVersion }}</a>
+                <a class="data" href="https://github.com/tModLoader/tModLoader/releases/tag/{{ (index .modData.Versions 0).TmodloaderVersion }}" title="release page">{{ (index .modData.Versions 0).TmodloaderVersion }}</a>
             </div>
             <div class="labeled-data">
                 <span class="label">Homepage</span>

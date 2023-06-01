@@ -107,8 +107,8 @@ func modStatsPage14(c *gin.Context) {
 	}
 
 	var a, b, cc, d int
-	_, _ = fmt.Sscanf(strings.ReplaceAll(modData.TModLoaderVersion, "tModLoader v", ""), "%d.%d.%d.%d", &a, &b, &cc, &d)
-	modData.TModLoaderVersion = fmt.Sprintf("v%d.%02d.%d.%d", a, b, cc, d)
+	_, _ = fmt.Sscanf(strings.ReplaceAll(modData.Versions[0].TmodloaderVersion, "tModLoader v", ""), "%d.%d.%d.%d", &a, &b, &cc, &d)
+	modData.Versions[0].TmodloaderVersion = fmt.Sprintf("v%d.%02d.%d.%d", a, b, cc, d)
 	modData.DisplayNameHTML = template.HTML(helper.ParseChatTags(modData.DisplayName))
 
 	for i, tag := range modData.Tags {
