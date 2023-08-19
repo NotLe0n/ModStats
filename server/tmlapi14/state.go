@@ -1,7 +1,6 @@
 package tmlapi14
 
 import (
-	"encoding/json"
 	"fmt"
 	"html/template"
 	"net/http"
@@ -98,9 +97,8 @@ func updateModMaps() error {
 	defer resp.Body.Close()
 
 	// decode the data into a temp list
-	var TempmodList = make([]ModInfo, len(modList))       //if the fetching fails, it is not a fatal error as we still have the old modList
-	err = json.NewDecoder(resp.Body).Decode(&TempmodList) //decode the modList
-	if err != nil {
+	var TempmodList = make([]ModInfo, len(modList)) //if the fetching fails, it is not a fatal error as we still have the old modList
+	if err := helper.UnmarshalResp(resp.Body, &TempmodList); err != nil {
 		return err
 	}
 
