@@ -164,7 +164,7 @@ func init() {
 
 	//this goroutine updates the mod list every 15 minutes so that the loading time is not too long on every reload
 	go func() {
-		ticker := time.NewTicker(15 * time.Minute)
+		ticker := time.NewTicker(1 * time.Hour)
 		defer ticker.Stop()
 		for range ticker.C {
 			intitUpdate()
