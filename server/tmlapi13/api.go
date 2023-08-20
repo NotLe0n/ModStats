@@ -1,13 +1,12 @@
 package tmlapi13
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/rand"
 	"net/http"
 	"net/url"
 	"time"
-
-	"github.com/NotLe0n/ModStats/server/helper"
 )
 
 var apiUrl = "https://tmlapis.repl.co/1.3/"
@@ -25,7 +24,7 @@ func GetModInfo(modName string) (ModInfo, error) {
 	}
 
 	var modInfo ModInfo
-	if err := helper.UnmarshalResp(resp.Body, &modInfo); err != nil { //encode the data (without rank and DownloadsToday)
+	if err := json.NewDecoder(resp.Body).Decode(&modInfo); err != nil {
 		return ModInfo{}, err
 	}
 
@@ -59,7 +58,7 @@ func GetModVersionHistory(modName string) ([]ModVersion, error) {
 	}
 
 	var modVersion []ModVersion
-	if err := helper.UnmarshalResp(resp.Body, &modVersion); err != nil {
+	if err := json.NewDecoder(resp.Body).Decode(&modVersion); err != nil {
 		return nil, err
 	}
 
@@ -78,7 +77,7 @@ func GetAuthorInfo(steamid64 string) (Author, error) {
 	}
 
 	var authorInfo Author
-	if err := helper.UnmarshalResp(resp.Body, &authorInfo); err != nil {
+	if err := json.NewDecoder(resp.Body).Decode(&authorInfo); err != nil {
 		return Author{}, err
 	}
 
