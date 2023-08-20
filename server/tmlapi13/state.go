@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
-	"net/http"
 	"net/url"
+	"os"
 	"sort"
 	"sync"
 	"time"
@@ -95,7 +95,7 @@ func GetModList() []ModListItem {
 
 func updateModMaps() error {
 	// get the data
-	resp, err := http.Get(apiUrl + "list")
+	resp, err := helper.GetWithTimeout(apiUrl + "list")
 	if err != nil {
 		return err
 	}
@@ -104,7 +104,22 @@ func updateModMaps() error {
 	// decode the data into a temp list
 	var TempmodList = make([]ModListItem, len(modList)) //if the fetching fails, it is not a fatal error as we still have the old modList
 	if err := json.NewDecoder(resp.Body).Decode(&TempmodList); err != nil {
-		return err
+		if len(modList) == 0 {
+			logf("error loading mod list: %s\nno state available, loading data/modlist_1_3.json", err.Error())
+			// load data/modlist_1_3.json without using helper
+			file, err := os.Open("data/modlist_1_3.json")
+			if err != nil {
+				return err
+			}
+			defer file.Close()
+
+			// decode the data into a temp list
+			if err := json.NewDecoder(file).Decode(&TempmodList); err != nil {
+				return err
+			}
+		} else {
+			return err
+		}
 	}
 
 	// lock the mutex for writing
@@ -131,7 +146,7 @@ func updateModMaps() error {
 func init() {
 	logf("checking '%s'...", apiUrl)
 	// if tomat.dev is down, use secondary mirror
-	if _, err := http.Get(apiUrl); err != nil {
+	if _, err := helper.GetWithTimeout(apiUrl); err != nil {
 		logf("'%s' can't be reached, switching to secondary mirror.", apiUrl)
 		apiUrl = "https://tmlapis.tomat.dev/1.3/"
 	}

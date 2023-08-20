@@ -102,7 +102,7 @@ func modStatsPage14(c *gin.Context) {
 		return
 	}
 
-	if resp, err := http.Get(modData.IconUrl); resp.StatusCode == http.StatusNotFound || err != nil {
+	if resp, err := helper.GetWithTimeout(modData.IconUrl); resp.StatusCode == http.StatusNotFound || err != nil {
 		modData.IconUrl = ""
 	}
 

@@ -7,13 +7,15 @@ import (
 	"net/http"
 	"net/url"
 	"time"
+
+	"github.com/NotLe0n/ModStats/server/helper"
 )
 
 var apiUrl = "https://tmlapis.repl.co/1.3/"
 
 // requires a internal modName
 func GetModInfo(modName string) (ModInfo, error) {
-	resp, err := http.Get(apiUrl + "mod/" + url.QueryEscape(modName))
+	resp, err := helper.GetWithTimeout(apiUrl + "mod/" + url.QueryEscape(modName))
 	if err != nil {
 		return ModInfo{}, err
 	}
@@ -47,7 +49,7 @@ type ModVersion struct {
 
 // requires a internal modName
 func GetModVersionHistory(modName string) ([]ModVersion, error) {
-	resp, err := http.Get(apiUrl + "history/" + url.QueryEscape(modName)) //fetch most of the data
+	resp, err := helper.GetWithTimeout(apiUrl + "history/" + url.QueryEscape(modName)) //fetch most of the data
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +68,7 @@ func GetModVersionHistory(modName string) ([]ModVersion, error) {
 }
 
 func GetAuthorInfo(steamid64 string) (Author, error) {
-	resp, err := http.Get(apiUrl + "author/" + steamid64) //fetch data
+	resp, err := helper.GetWithTimeout(apiUrl + "author/" + steamid64) //fetch data
 	if err != nil {
 		return Author{}, err
 	}
