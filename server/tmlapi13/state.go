@@ -94,16 +94,10 @@ func GetModList() []ModListItem {
 }
 
 func updateModMaps() error {
-	// get the data
-	resp, err := helper.GetWithTimeout(apiUrl + "list")
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-
-	// decode the data into a temp list
 	var TempmodList = make([]ModListItem, len(modList)) //if the fetching fails, it is not a fatal error as we still have the old modList
-	if err := json.NewDecoder(resp.Body).Decode(&TempmodList); err != nil {
+
+	used_data := false
+	use_data := func(err error) error {
 		if len(modList) == 0 {
 			logf("error loading mod list: %s\nno state available, loading data/modlist_1_3.json", err.Error())
 			// load data/modlist_1_3.json without using helper
@@ -113,12 +107,28 @@ func updateModMaps() error {
 			}
 			defer file.Close()
 
+			used_data = true
 			// decode the data into a temp list
-			if err := json.NewDecoder(file).Decode(&TempmodList); err != nil {
+			return json.NewDecoder(file).Decode(&TempmodList)
+		}
+		return err
+	}
+
+	// get the data
+	resp, err := helper.GetWithTimeout(apiUrl + "list")
+	if err != nil {
+		if err := use_data(err); err != nil {
+			return err
+		}
+	}
+	defer resp.Body.Close()
+
+	if !used_data {
+		// decode the data into a temp list
+		if err := json.NewDecoder(resp.Body).Decode(&TempmodList); err != nil {
+			if err := use_data(err); err != nil {
 				return err
 			}
-		} else {
-			return err
 		}
 	}
 
