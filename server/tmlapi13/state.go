@@ -120,8 +120,9 @@ func updateModMaps() error {
 		if err := use_data(err); err != nil {
 			return err
 		}
+	} else {
+		defer resp.Body.Close()
 	}
-	defer resp.Body.Close()
 
 	if !used_data {
 		// decode the data into a temp list
