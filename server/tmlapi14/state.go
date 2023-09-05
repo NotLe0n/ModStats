@@ -83,10 +83,7 @@ var dataMutex = &sync.RWMutex{} //while the maps and slices are being updated or
 func GetModList() []ModInfo {
 	dataMutex.RLock()
 	defer dataMutex.RUnlock()
-
-	copyList := make([]ModInfo, len(modList))
-	copy(copyList, modList)
-	return copyList
+	return modList
 }
 
 func updateModMaps() error {

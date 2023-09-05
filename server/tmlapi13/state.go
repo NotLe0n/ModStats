@@ -87,10 +87,7 @@ func GetInternalName(display_name string) (string, bool) {
 func GetModList() []ModListItem {
 	dataMutex.RLock()
 	defer dataMutex.RUnlock()
-
-	copyList := make([]ModListItem, len(modList))
-	copy(copyList, modList)
-	return copyList
+	return modList
 }
 
 func updateModMaps() error {
