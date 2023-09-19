@@ -10,6 +10,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/NotLe0n/ModStats/server/config"
 	"github.com/NotLe0n/ModStats/server/helper"
 
 	"github.com/gin-gonic/gin"
@@ -112,7 +113,7 @@ func updateModMaps() error {
 	}
 
 	// get the data
-	resp, err := helper.GetWithTimeout(apiUrl + "list")
+	resp, err := helper.GetWithTimeout(config.C.GetString("API-URL") + "/1.3/list")
 	if err != nil {
 		if err := use_data(err); err != nil {
 			return err
@@ -152,11 +153,9 @@ func updateModMaps() error {
 
 // start the ticker to update the state
 func init() {
-	logf("checking '%s'...", apiUrl)
-	// if tomat.dev is down, use secondary mirror
-	if _, err := helper.GetWithTimeout(apiUrl); err != nil {
-		logf("'%s' can't be reached, switching to secondary mirror.", apiUrl)
-		apiUrl = "https://tmlapis.tomat.dev/1.3/"
+	logf("checking '%s/1.3/'...", config.C.GetString("API-URL"))
+	if _, err := helper.GetWithTimeout(config.C.GetString("API-URL") + "/1.3/"); err != nil {
+		logf("'%s/1.3/' can't be reached", config.C.GetString("API-URL"))
 	}
 
 	// adds logging

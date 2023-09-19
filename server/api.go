@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/NotLe0n/ModStats/server/tmlapi14"
 	"net/http"
+
+	"github.com/NotLe0n/ModStats/server/tmlapi14"
 
 	"github.com/NotLe0n/ModStats/server/tmlapi13"
 	"github.com/gin-gonic/gin"

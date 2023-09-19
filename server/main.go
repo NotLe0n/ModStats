@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/viper"
 )
 
 func logf(format string, args ...interface{}) {
@@ -46,5 +47,13 @@ func main() {
 		api.GET("/getRandomMod14", getRandomMod14)
 	}
 
-	log.Fatal(r.Run())
+	// run the server
+	if viper.GetBool("useHTTPS") {
+		if viper.GetString("certPath") == "" || viper.GetString("keyPath") == "" {
+			log.Fatal("certPath and keyPath can not be empty!")
+		}
+		log.Fatal(r.RunTLS(":"+viper.GetString("port"), viper.GetString("certPath"), viper.GetString("keyPath")))
+	} else {
+		log.Fatal(r.Run(":" + viper.GetString("port")))
+	}
 }
