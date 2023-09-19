@@ -14,7 +14,7 @@ import (
 
 // requires a internal modName
 func GetModInfo(modName string) (ModInfo, error) {
-	resp, err := helper.GetWithTimeout(config.C.GetString("API-URL") + "mod/" + url.QueryEscape(modName))
+	resp, err := helper.GetWithTimeout(config.C.GetString("API-URL") + "/1.3/mod/" + url.QueryEscape(modName))
 	if err != nil {
 		return ModInfo{}, err
 	}

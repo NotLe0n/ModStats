@@ -19,5 +19,18 @@ Requirements:
 
  1. Clone the repo `git clone https://github.com/NotLe0n/ModStats.git`
  2. Navigate to it `cd ModStats`
- 3. Run `go run ./server`
- 4. Browse `http://localhost:8080`
+ 3. create `config.json`, for the default config write: `{}`
+ 4. Run `go run ./server`
+ 5. Browse `http://localhost:8080`
+
+### Configuration
+This is how the default config looks like:
+```json
+{
+	"API-URL": "https://tmlapis.le0n.dev",
+	"port": 8080,
+	"useHTTPS": false,
+	"certPath": "",
+	"keyPath": ""
+}
+```
