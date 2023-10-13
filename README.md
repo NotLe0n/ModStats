@@ -2,7 +2,7 @@
 This is a website which displays information about tModloader mods.
 ![image](https://user-images.githubusercontent.com/26361108/205339062-78e3a42f-1e96-4abf-b224-2c113f3e71c9.png)
 
-The site can be found under https://modstats.repl.co/
+The site can be found under [https://modstats.repl.co/](https://modstats.le0n.dev/)
 
 ## Features
 - Mod Search (internal- and display name)
