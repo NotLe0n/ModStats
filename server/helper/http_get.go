@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/spf13/viper"
 )
 
-const timeout = time.Second * 20
+var timeout = time.Second * time.Duration(viper.GetInt32("timeout"))
 
 var client = http.Client{
 	Timeout: timeout,

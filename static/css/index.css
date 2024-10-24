@@ -150,7 +150,7 @@ main {
 	padding: .5rem;
 	max-width: 20rem;
 	overflow: hidden;
-	-webkit-line-clamp: 5;
+	line-clamp: 5;
 	-webkit-box-orient: vertical;
 }
 

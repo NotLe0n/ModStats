@@ -15,6 +15,7 @@ func setup_config() *viper.Viper {
 	viper.SetDefault("certPath", "")
 	viper.SetDefault("keyPath", "")
 	viper.SetDefault("API-URL", "https://tmlapis.le0n.dev")
+	viper.SetDefault("timeout", "60")
 
 	viper.SetConfigName("config")
 	viper.SetConfigType("json")
