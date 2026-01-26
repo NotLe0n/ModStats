@@ -50,6 +50,12 @@ func modListPage14(c *gin.Context) {
 	})
 }
 
+func authorListPage14(c *gin.Context) {
+	c.HTML(http.StatusOK, "1.4/author_list.gohtml", gin.H{
+		"authors": tmlapi14.GetAuthorList(),
+	})
+}
+
 func authorPage14(c *gin.Context) {
 	authorID := c.Param("authorID")
 	if authorID == "" {

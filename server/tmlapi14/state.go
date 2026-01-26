@@ -42,9 +42,9 @@ type ModVersionData struct {
 type ModInfo struct {
 	DisplayName        string           `json:"display_name"`
 	InternalName       string           `json:"internal_name"`
-	ModID              string           `json:"mod_id"`
+	ModID              uint64           `json:"mod_id"`
 	Author             string           `json:"author"`
-	AuthorID           string           `json:"author_id"`
+	AuthorID           uint64           `json:"author_id"`
 	ModSide            string           `json:"modside"`
 	Homepage           string           `json:"homepage"`
 	Versions           []ModVersionData `json:"versions"`
@@ -63,7 +63,7 @@ type ModInfo struct {
 	DisplayNameHTML    template.HTML    // added later
 	Description        string           `json:"description"`
 	EscapedDescription template.HTML    // added later
-	Children           []ModChild       `json:"children"`
+	Children           []uint64         `json:"children"`
 }
 
 type Author struct {
@@ -76,7 +76,23 @@ type Author struct {
 	TotalViews     uint64    `json:"total_views"`
 }
 
+type AuthorListItem struct {
+	Author         uint64              `json:"author_id"`
+	Names          []string            `json:"author_names"`
+	Mods           []AuthorListModItem `json:"mods"`
+	TotalDownloads uint64              `json:"total_downloads"`
+	TotalFavorites uint64              `json:"total_favorites"`
+	TotalViews     uint64              `json:"total_views"`
+}
+
+type AuthorListModItem struct {
+	ModID        uint64 `json:"mod_id"`
+	DisplayName  string `json:"display_name"`
+	InternalName string `json:"internal_name"`
+}
+
 var modList = make([]ModInfo, 0)
+var authorList = make([]AuthorListItem, 0)
 
 /*!!!IMPORTANT always lock the mutex below before working with the data above, and close it afterwards!!!*/
 var dataMutex = &sync.RWMutex{} //while the maps and slices are being updated or used this mutex will be locked
@@ -85,6 +101,12 @@ func GetModList() []ModInfo {
 	dataMutex.RLock()
 	defer dataMutex.RUnlock()
 	return modList
+}
+
+func GetAuthorList() []AuthorListItem {
+	dataMutex.RLock()
+	defer dataMutex.RUnlock()
+	return authorList
 }
 
 func updateModMaps() error {
@@ -145,6 +167,19 @@ func updateModMaps() error {
 	defer dataMutex.Unlock()
 
 	modList = TempmodList
+
+	resp, err = helper.GetWithTimeout(config.C.GetString("API-URL") + "/1.4/list_authors")
+	if err != nil {
+		logf("error loading author list: %s", err.Error())
+	} else {
+		defer resp.Body.Close()
+	}
+
+	// decode the data into a temp list
+	err = json.NewDecoder(resp.Body).Decode(&authorList)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

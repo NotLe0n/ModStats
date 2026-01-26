@@ -37,6 +37,7 @@ func main() {
 
 	r.GET("/", indexPage14)
 	r.GET("/list", modListPage14)
+	r.GET("/author_list", authorListPage14)
 	r.GET("/mod/", modStatsPage14)
 	r.GET("/mod/:modID", modStatsPage14)
 	r.GET("/author/", authorPage14)
