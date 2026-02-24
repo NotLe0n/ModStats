@@ -1,3 +1,6 @@
+> [!Note]
+> This project is deprecated. Visit https://github.com/NotLe0n/tMLDB or https://tmldb.le0n.dev to see the new site!
+
 # ModStats
 This is a website which displays information about tModloader mods.
 ![image](https://user-images.githubusercontent.com/26361108/205339062-78e3a42f-1e96-4abf-b224-2c113f3e71c9.png)
